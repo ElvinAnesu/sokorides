@@ -2,16 +2,18 @@
 import { HamburgerMenuIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import MobileNav from "../navbars/mobilenav"
 
 
 export default function MainHeader(){
     const router = useRouter()
     const [searchQuery, setSearchQuery] = useState()
+    const [showMobileNav, setShowMobileNav] = useState(false)
 
     return( 
         <div className="flex w-full h-100 p-2 items-center justify-between">
             <div className="w-full md:hidden">
-                <button className="md:hidden border rounded p-2">
+                <button className="md:hidden border rounded p-2" onClick={()=>setShowMobileNav(true)}>
                     <HamburgerMenuIcon />
                 </button>     
             </div>         
@@ -41,6 +43,8 @@ export default function MainHeader(){
                     call now
                 </button>
             </div>
+
+            {showMobileNav && <MobileNav onClose={()=> setShowMobileNav(false)}/>}
         </div>
     )
 }

@@ -37,15 +37,9 @@ export default function Store() {
                 </div>
            </div>
            <div className="w-full flex flex-col gap-4 md:hidden">
-                <div className="w-full h-full bg-black shadow rounded border border-gray-500 flex items-center justify-center">
-                    <Image src="/images/car1.png" alt="car7" height={300} width={300} />
-                </div>
-                <div className="w-full h-full bg-black shadow rounded border border-gray-500 flex items-center justify-center">
-                    <Image src="/images/car1.png" alt="car8" height={300} width={300} />
-                </div>
-                <div className="w-full h-full bg-black shadow rounded border border-gray-500 flex items-center justify-center">
-                    <Image src="/images/car1.png" alt="car9" height={300} width={300} />
-                </div>
+                <ProductCard1 title={"Honda FIT"} price={"USD8300"} image={"/images/car5.png"}/>
+                <ProductCard1 title={"Honda FIT"} price={"USD8300"} image={"/images/car5.png"}/>
+                <ProductCard1 title={"Honda FIT"} price={"USD8300"} image={"/images/car5.png"}/>
            </div>
            <div className="flex w-full items-center justify-center md:hidden">  
                 <div className="flex">
