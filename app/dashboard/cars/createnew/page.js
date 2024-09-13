@@ -62,7 +62,8 @@ export default function AddNew(){
                 <h1 className="text-xs font-semibold">description</h1>
                 <input className="w-full rounded bg-transparent border p-2"
                     placeholder="description"
-                    onChange={(e)=>setDescription(e.target.value)}/>
+                    onChange={(e)=>setDescription(e.target.value)}
+                    value={description}/>
             </div>
             <div className="flex flex-col w-full gap-1">
                 <h1 className="text-xs font-semibold">price</h1>
@@ -79,7 +80,7 @@ export default function AddNew(){
             <div className="flex flex-col w-full gap-1">
                 <h1 className="text-xs font-semibold">location</h1>
                 <select className="w-full rounded bg-transparent border p-2"
-                    onChange={(e)=> setDrive(e.target.value)}>
+                    onChange={(e)=> setLocation(e.target.value)}>
                         <option value="japan" className="bg-black">Japan</option>
                         <option value="zimbabwe" className="bg-black">Zimbabwe</option>
                     </select>

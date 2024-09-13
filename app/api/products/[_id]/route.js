@@ -27,3 +27,57 @@ export async function GET(request,{params}) {
         })
     }
 }
+
+export async function PUT(request,{params}) {
+    const {_id} = params
+    const {
+        productname,
+        price,
+        currency,
+        milage,
+        year,
+        engine,
+        transmission,
+        description,
+        drive,
+        coverimage,
+        gallery,
+        location,
+        fuel
+    } = await request.json()
+    try{
+        connectdb()
+        const product = await Product.findByIdAndUpdate(_id,{
+            productname,
+            price,
+            currency,
+            milage,
+            year,
+            engine,
+            transmission,
+            description,
+            drive,
+            coverimage,
+            gallery,
+            location,
+            fuel
+        })
+        if(!product){
+            return NextResponse.json({
+                success:false,
+                message:"Error while updating the product"
+            })
+        }
+        return NextResponse.json({
+            success:true,
+            message:"product updated successfully",
+            product
+        })
+    }catch(error){
+        console.log(error)
+        return NextResponse.json({
+            success:false,
+            message:"Error while updating the product"
+        })
+    }
+}
