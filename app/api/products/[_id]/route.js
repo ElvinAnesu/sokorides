@@ -71,13 +71,35 @@ export async function PUT(request,{params}) {
         return NextResponse.json({
             success:true,
             message:"product updated successfully",
-            product
         })
     }catch(error){
         console.log(error)
         return NextResponse.json({
             success:false,
             message:"Error while updating the product"
+        })
+    }
+}
+
+export async function DELETE(request,{params}) {
+    const {_id} = params
+    try{
+        connectdb()
+        const product = await Product.findByIdAndDelete(_id)
+        if(!product){
+            return NextResponse.json({
+                success:false,
+                message:"failed to delete product"
+            })
+        }
+        return NextResponse.json({
+            success:true,
+            message:"Product deleted successfully",
+        })
+    }catch(error){
+        return NextResponse.json({
+            success:false,
+            message:"Error while deleting the product"
         })
     }
 }

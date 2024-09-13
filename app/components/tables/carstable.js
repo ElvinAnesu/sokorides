@@ -29,6 +29,21 @@ export default function CarsTable(){
         }
     }
 
+    const deleteProduct = async(_id) => {
+        const response = await fetch(`/api/products/${_id}`,{
+            method:"DELETE",
+            headers:{"Content-Type":"application/json"}
+        })
+
+        const data = await response.json()
+
+        if(data.success){
+            alert(data.message)
+        }else{
+            alert(data.message)
+        }
+    }
+
     useEffect(()=>{
         getProducts()
     },[])
@@ -56,7 +71,7 @@ export default function CarsTable(){
                                 <td className="text-sm">{`${car.currency} ${car.price}`}</td>
                                 <td className="px-2 flex itemx-center justify-around">
                                     <button onClick={()=> router.push(`/dashboard/cars/${car._id}`)}><EyeOpenIcon /></button>
-                                    <button><TrashIcon /></button>
+                                    <button onClick={()=>deleteProduct(car._id)}><TrashIcon /></button>
                                 </td>
                             </tr>
                         ))}
