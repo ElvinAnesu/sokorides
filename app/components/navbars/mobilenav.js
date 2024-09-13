@@ -8,11 +8,11 @@ export default function MobileNav({onClose}){
                 <button className="border rounded p-2" onClick={onClose}><Cross1Icon /></button>
             </div>
             <ul className="flex flex-col gap-4 text-sm">
-                <li className="hover:underline"><Link href="/store/products">All</Link></li>
-                <li className="hover:underline">< Link href="/store/products/latest">Latest</Link></li>
-                <li className="hover:underline"><Link href="/store/products/hybrid">Hybrid</Link></li>
-                <li className="hover:underline"><Link href="/store/products/suv">SUV</Link></li>
-                <li className="hover:underline"><Link href="/store/products/fuel saver">Fuel Saver</Link></li>
+                <li className="hover:underline"><Link href="#">All</Link></li>
+                <li className="hover:underline">< Link href="#">Latest</Link></li>
+                <li className="hover:underline"><Link href="#">Hybrid</Link></li>
+                <li className="hover:underline"><Link href="#">SUV</Link></li>
+                <li className="hover:underline"><Link href="#">Fuel Saver</Link></li>
             </ul>
             <button className="border rounded p-2 w-full">Rent to buy</button>
             <button className="border rounded p-2 w-full">Track Shipment</button>

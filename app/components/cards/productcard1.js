@@ -5,24 +5,24 @@ import React from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 
 
-export default function ProductCard1({title, price, image,}){
+export default function ProductCard1({title, price, image,_id}){
 
     const router = useRouter()
     const [emblaRef] = useEmblaCarousel()
 
     return(
         <button className=" relative w-full h-full bg-black shadow rounded border border-gray-500 flex items-center justify-center"
-            onClick={() => router.push("/store/products/details")}>
+            onClick={() => router.push(`/store/products/${_id}`)}>
             <div className="embla" ref={emblaRef}>
                 <div className="embla__container">
                         <div className="embla__slide">
-                            <Image src={image} alt="car1" height={300} width={300} />
+                            <Image src={"/images/car1.png"} alt="car1" height={300} width={300} />
                         </div>
                         <div className="embla__slide">
-                            <Image src={image} alt="car1" height={300} width={300} />
+                            <Image src={"/images/car3.png"} alt="car1" height={300} width={300} />
                         </div>
                         <div className="embla__slide">
-                            <Image src={image} alt="car1" height={300} width={300} />
+                            <Image src={"/images/car3.png"} alt="car1" height={300} width={300} />
                         </div>
                 </div>
             </div>
