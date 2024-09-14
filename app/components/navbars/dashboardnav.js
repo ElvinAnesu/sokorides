@@ -10,7 +10,6 @@ export default function DashBoardNav(){
                 <li><Link href="/dashboard">Dashboard</Link></li>
                 <li><Link href="/dashboard/cars">Cars in stock</Link></li>
                 <li><Link href="/dashboard/shipments">Shipments</Link></li>
-                <li><Link href="/dashboard/cars">Rent to buy</Link></li>
                 <li><Link href="/dashboard/customers">Customers</Link></li>
                 <li><Link href="/dashboard/users">Users</Link></li>
                 <li><button onClick={()=> router.push("/auth/login")}>Logout</button></li>

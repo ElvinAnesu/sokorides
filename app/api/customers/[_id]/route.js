@@ -30,14 +30,15 @@ export async function GET(request, {params}) {
 
 export async function PUT(request,{params}) {
     const {_id} = params
-    const {surname,firstname,phonenumber,email} = await request.json()
+    const {surname,firstname,phonenumber,email,address} = await request.json()
     try {
         connectdb()
         const updateCustomer = await Customer.findByIdAndUpdate(_id,{
             surname,
             firstname,
             phonenumber,
-            email
+            email,
+            address
         })
         if(!updateCustomer){
             return NextResponse.json({
@@ -81,3 +82,4 @@ export async function DELETE(request,{params}) {
         })
     }
 }
+

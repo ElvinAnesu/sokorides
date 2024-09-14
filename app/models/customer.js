@@ -15,6 +15,9 @@ const customerSchema = new Schema({
     },
     email:{
         type:String,
+    },
+    address:{
+        type:String,
         required:true
     },
     purchases : {

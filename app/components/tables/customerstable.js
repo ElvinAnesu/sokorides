@@ -1,9 +1,52 @@
 "use client"
 import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
+import { EyeOpenIcon, TrashIcon } from "@radix-ui/react-icons"
 
+const PAGE_SIZE = 10
 
 export default function CustomersTable(){
     const router = useRouter()
+    const [customers, setCustomers] = useState([])
+    const [page, setPage] = useState(1)
+    const [searchQuery, setSearchQuery] = useState(null)
+    const [fetchingfailed, setFetchingFailed] = useState(false)
+    const [errorMessage, setErrormessage] = useState()
+
+    const getCustomers = async() => {
+        const response = await fetch(`/api/customers/?page=${page}&searchQuery=${searchQuery}&pageSize=${PAGE_SIZE}`,{
+            method:"GET",
+            headers:{"Content-Type":"application/json"}
+        })
+
+        const data = await response.json()
+
+        if(data.success){
+            setCustomers(data.customers)
+            console.log(data.customers)
+        }else{
+            setErrormessage(data.message)
+            setFetchingFailed(true)
+        }
+    }
+
+    const deleteCustomer = async(_id)=>{
+        const response = await fetch(`/api/customers/${_id}`,{
+            method:"DELETE",
+            headers:{"Content-Type":"application/json"}
+        })
+
+        const data = await response.json()
+
+        if(data.success){
+            alert(data.message)
+        }else{
+            alert(data.message)
+        }
+    }
+    useEffect(()=>{
+        getCustomers()
+    },[])
 
     return(
         <div className="flex flex-col w-full h-full gap-2">
@@ -11,28 +54,34 @@ export default function CustomersTable(){
                 <button className="border rounded px-4 py-2" onClick={() => router.push("/dashboard/customers/createnew")}>Add New</button>
             </div>
             <div className="w-full h-full bg-[#0a0a0a] rounded p-4">
+                {fetchingfailed? <div className="w-full h-full items-center justify-center">
+                    <h1>{errorMessage}</h1>
+                </div>:
                 <table className="w-full">
-                    <tbody>
-                        <tr className="px-2 bg-black rounded-full">
-                            <td className="px-2 rounded-s-full text-sm font-semibold">Surname</td>
-                            <td className="text-sm font-semibold">Firstname</td>
-                            <td className="text-sm font-semibold">Phonenumber</td>
-                            <td className="text-sm font-semibold">Purchases</td>
-                            <td className="px-2 rounded-e-full text-sm font-semibold">Active Shipments</td>
-                            <td className="px-2 rounded-e-full text-sm font-semibold">Action</td>
+                <tbody>
+                    <tr className="px-2 bg-black rounded-full">
+                        <td className="px-2 rounded-s-full text-sm font-semibold">Surname</td>
+                        <td className="text-sm font-semibold">Firstname</td>
+                        <td className="text-sm font-semibold">Phonenumber</td>
+                        <td className="text-sm font-semibold">Purchases</td>
+                        <td className="text-sm font-semibold">Active Shipments</td>
+                        <td className="px-2 rounded-e-full text-sm font-semibold">Action</td>
+                    </tr>
+                    {customers.map((customer,index)=>(
+                        <tr className="border-b border-gray-500" key={index}>
+                            <td className="px-2 rounded-s-full text-sm">{customer.surname}</td>
+                            <td className="text-sm">{customer.firstname}</td>
+                            <td className="text-sm">{customer.phonenumber}</td>
+                            <td className="text-sm">{customer.purchurses}</td>
+                            <td className="px-2 rounded-e-full">{customer.activeShipments}</td>
+                            <td className="px-2 rounded-e-full flex items-center justify-around">
+                                <button onClick={()=>{}}><EyeOpenIcon /></button>
+                                <button onClick={()=>{deleteCustomer(customer._id)}}><TrashIcon /></button>
+                            </td>
                         </tr>
-                        {[1,2,3,4,5,6,7,8,9,0].map((car,index)=>(
-                            <tr className="border-b border-gray-500" key={index}>
-                                <td className="px-2 rounded-s-full text-sm">Kakomo</td>
-                                <td className="text-sm">Elvin</td>
-                                <td className="text-sm">0775953491</td>
-                                <td className="text-sm">2</td>
-                                <td className="px-2 rounded-e-full">1</td>
-                                <td className="px-2 rounded-e-full">action</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                    ))}
+                </tbody>
+            </table>}
             </div>
         </div>
     )

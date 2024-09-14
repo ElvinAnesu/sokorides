@@ -9,15 +9,18 @@ export async function POST(request) {
         surname,
         firstname,
         phonenumber,
-        email
+        email,
+        address
     } = await request.json()
 
     try{
+        connectdb()
         const customer = await Customer.create({
             surname,
             firstname,
             phonenumber,
-            email
+            email,
+            address
         })
 
         if(!customer){
