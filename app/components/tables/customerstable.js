@@ -75,7 +75,7 @@ export default function CustomersTable(){
                             <td className="text-sm">{customer.purchurses}</td>
                             <td className="px-2 rounded-e-full">{customer.activeShipments}</td>
                             <td className="px-2 rounded-e-full flex items-center justify-around">
-                                <button onClick={()=>{}}><EyeOpenIcon /></button>
+                                <button onClick={()=>{router.push(`/dashboard/customers/${customer._id}`)}}><EyeOpenIcon /></button>
                                 <button onClick={()=>{deleteCustomer(customer._id)}}><TrashIcon /></button>
                             </td>
                         </tr>
