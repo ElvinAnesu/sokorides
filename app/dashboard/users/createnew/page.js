@@ -33,26 +33,26 @@ export default function CreateNew(){
     }
 
     return(
-        <div className="w-full h-full flex flex-col gap-4 p-4 bg-black rounded">
+        <div className="w-full h-full flex flex-col gap-4 p-4 bg-gray-200 rounded">
             <h1 className="text-sm font-semibold">Create New User</h1>
             <form className="flex flex-col md:grid md:grid-cols-2" onSubmit={(e)=>createUser(e)}>
                 <div className="flex flex-col p-2">
                     <h1 className="text-xs ">First Name</h1>
-                    <input className="border rounded bg-transparent w-full p-2 test-sm"
+                    <input className="border border-gray-900 rounded bg-transparent w-full p-2 test-sm"
                         placeholder="first name"
                         required 
                         onChange={(e)=>setFirstname(e.target.value)}/>
                 </div>
                 <div className="flex flex-col p-2">
                     <h1 className="text-xs ">Surname</h1>
-                    <input className="border rounded bg-transparent w-full p-2 test-sm"
+                    <input className="border border-gray-900 rounded bg-transparent w-full p-2 test-sm"
                         placeholder="surname" 
                         required
                         onChange={(e)=>setSurname(e.target.value)}/>
                 </div>
                 <div className="flex flex-col p-2">
                     <h1 className="text-xs ">Phone Number</h1>
-                    <input className="border rounded bg-transparent w-full p-2 test-sm"
+                    <input className="border border-gray-900  rounded bg-transparent w-full p-2 test-sm"
                         placeholder="phone number" 
                         type="text"
                         required
@@ -60,7 +60,7 @@ export default function CreateNew(){
                 </div>
                 <div className="flex flex-col p-2">
                     <h1 className="text-xs ">Role</h1>
-                    <select className="border rounded bg-transparent w-full p-2 test-sm" 
+                    <select className="border border-gray-900 rounded bg-transparent w-full p-2 test-sm" 
                         onChange={(e)=>setRole(e.target.value)}>
                         <option className="bg-black">--select role--</option>
                         <option className="bg-black" value={"owner"}>owner</option>
@@ -69,7 +69,7 @@ export default function CreateNew(){
                 </div>
                 <div className="flex flex-col p-2">
                     <h1 className="text-xs ">Password</h1>
-                    <input className="border rounded bg-transparent w-full p-2 test-sm"
+                    <input className="border border-gray-900 rounded bg-transparent w-full p-2 test-sm"
                         placeholder="password"
                         type="password"
                         required
@@ -77,7 +77,7 @@ export default function CreateNew(){
                 </div>
                 <div></div>
                 <div className="flex flex-col p-2">
-                    <button className="w-full bg-blue-500 rounded p-2">Create</button>
+                    <button className="w-full bg-gray-900 text-white rounded p-2">Create</button>
                 </div>
             </form>
         </div>

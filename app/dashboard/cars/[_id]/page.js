@@ -86,7 +86,7 @@ export default function ViewProduct({params}){
     },[])
 
     return(
-        <div className="flex flex-col w-full h-full bg-black p-4">
+        <div className="flex flex-col w-full h-full p-4">
             <div className="flex flex-col md:grid md:grid-cols-2 gap-4">
                 <div className="w-full h-full flex flex-col gap-4">
                     <div className="w-full flex items-center justify-center h-80">
@@ -95,7 +95,7 @@ export default function ViewProduct({params}){
                     <div className="flex max-w-full px-4 py-2 overflow-y-hidden items-center justify-center gap-4">
                         {
                             gallery.map((image, index)=> (
-                                <button className="border rounded flex flex-col items-center justify-center min-h-24 min-w-24" key={index}
+                                <button className="border border-gray-900 rounded flex flex-col items-center justify-center min-h-24 min-w-24" key={index}
                                     onClick={()=>setDisplayimage(image)}>
                                     <Image src={image} height={100} width={100} alt="thumbnail" />
                                 </button>
@@ -105,43 +105,43 @@ export default function ViewProduct({params}){
                 </div>
                 <div className="w-full h-full flex flex-col gap-4">
                     <div className="flex items-center justify-end">
-                        <button className="flex items-center justify-center border rounded gap-1 p-2" onClick={()=>setShowwEditDialog(true)}>Edit <Pencil1Icon /> </button>
+                        <button className="flex items-center justify-center border border-gray-900 rounded gap-1 p-2" onClick={()=>setShowwEditDialog(true)}>Edit <Pencil1Icon /> </button>
                     </div>
-                    <h1 className="text-3xl font-semibold">{productTitle}</h1>
+                    <h1 className="text-3xl font-semibold text-gray-900">{productTitle}</h1>
                     <div>
-                        <span className="bg-blue-500 p-2 rounded-full text-sm font-semibold">{`${currency} ${price}`}</span>
+                        <span className="bg-gray-900 text-white p-2 rounded-full text-sm font-semibold">{`${currency} ${price}`}</span>
                     </div>
-                    <hr />
+                    <hr className="border-gray-900" />
                     <p className="text-sm">{description}</p>
                     <h1 className="font-semibold">SPECS</h1>
                     <div className="w-full">
                         <table className="w-full">
                             <tbody>
-                                <tr className="bg-[#0a0a0a] border-b border-gray-200">
+                                <tr className="bg-gray-200 border-b border-gray-400">
                                     <td className="text-sm font-semibold px-2">location</td>
                                     <td className="text-sm px-2">{location}</td>
                                 </tr>
-                                <tr className="bg-[#0a0a0a] border-b border-gray-200">
+                                <tr className="bg-gray-200 border-b border-gray-400">
                                     <td className="text-sm font-semibold px-2">milage</td>
                                     <td className="text-sm px-2">{milage}</td>
                                 </tr>
-                                <tr className="bg-[#0a0a0a] border-b border-gray-200">
+                                <tr className="bg-gray-200 border-b border-gray-400">
                                     <td className="text-sm font-semibold px-2">year</td>
                                     <td className="text-sm px-2">{year}</td>
                                 </tr>
-                                <tr className="bg-[#0a0a0a] border-b border-gray-200">
+                                <tr className="bg-gray-200 border-b border-gray-400">
                                     <td className="text-sm font-semibold px-2">engine</td>
                                     <td className="text-sm px-2">{engine}</td>
                                 </tr>
-                                <tr className="bg-[#0a0a0a] border-b border-gray-200">
+                                <tr className="bg-gray-200 border-b border-gray-400">
                                     <td className="text-sm font-semibold px-2">transmission</td>
                                     <td className="text-sm px-2">{transmission}</td>
                                 </tr>
-                                <tr className="bg-[#0a0a0a] ">
+                                <tr className="bg-gray-200 border-b border-gray-400">
                                     <td className="text-sm font-semibold px-2">drive</td>
                                     <td className="text-sm px-2">{drive}</td>
                                 </tr>
-                                <tr className="bg-[#0a0a0a] ">
+                                <tr className="bg-gray-200 ">
                                     <td className="text-sm font-semibold px-2">fuel</td>
                                     <td className="text-sm px-2">{fuel}</td>
                                 </tr>

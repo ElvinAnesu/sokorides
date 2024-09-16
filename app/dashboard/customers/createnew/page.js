@@ -33,47 +33,47 @@ export default function CreateNew(){
     }
 
     return(
-        <form className="w-full h-full flex flex-col gap-4 p-4 bg-black rounded" onSubmit={(e) => createCustomer(e)}>
+        <form className="w-full h-full flex flex-col gap-4 p-4 bg-gray-200 rounded" onSubmit={(e) => createCustomer(e)}>
             <h1 className="text-sm font-semibold">Create New Customer</h1>
             <div className="flex flex-col md:grid md:grid-cols-2">
                 <div className="flex flex-col p-2">
                     <h1 className="text-xs ">First Name</h1>
-                    <input className="border rounded bg-transparent w-full p-2 test-sm"
+                    <input className="border border-gray-900 rounded bg-transparent w-full p-2 test-sm"
                         placeholder="first name"
                         onChange={(e)=>setFirstname(e.target.value)} 
                         required/>
                 </div>
                 <div className="flex flex-col p-2">
                     <h1 className="text-xs ">Surname</h1>
-                    <input className="border rounded bg-transparent w-full p-2 test-sm"
+                    <input className="border border-gray-900 rounded bg-transparent w-full p-2 test-sm"
                         placeholder="surname" 
                         onChange={(e)=>setSurname(e.target.value)}
                         required/>
                 </div>
                 <div className="flex flex-col p-2">
                     <h1 className="text-xs ">Phone Number</h1>
-                    <input className="border rounded bg-transparent w-full p-2 test-sm"
+                    <input className="border border-gray-900 rounded bg-transparent w-full p-2 test-sm"
                         placeholder="phone number" 
                         onChange={(e)=>setPhonenumber(e.target.value)}
                         required/>
                 </div>
                 <div className="flex flex-col p-2">
                     <h1 className="text-xs ">Email</h1>
-                    <input className="border rounded bg-transparent w-full p-2 test-sm"
+                    <input className="border border-gray-900 rounded bg-transparent w-full p-2 test-sm"
                         placeholder="phone number" 
                         onChange={(e)=>setEmail(e.target.value)}
                         />
                 </div>
                 <div className="flex flex-col p-2">
                     <h1 className="text-xs ">Address</h1>
-                    <input className="border rounded bg-transparent w-full p-2 test-sm"
+                    <input className="border border-gray-900 rounded bg-transparent w-full p-2 test-sm"
                         placeholder="address" 
                         onChange={(e)=>setAddress(e.target.value)}
                         required/>
                 </div>
                 <div></div>
                 <div className="flex flex-col p-2">
-                    <button className="w-full bg-blue-500 rounded p-2">Create</button>
+                    <button className="w-full bg-gray-900 text-white rounded p-2">Create</button>
                 </div>
             </div>
         </form>

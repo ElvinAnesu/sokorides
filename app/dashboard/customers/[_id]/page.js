@@ -60,10 +60,10 @@ export default function ViewCustomer({params}){
         getUser()
     },[])
     return(
-        <div className="w-full h-full flex flex-col gap-4 p-4 bg-black rounded">
+        <div className="w-full h-full flex flex-col gap-4 p-4 bg-gray-200 rounded">
             <div className="w-full flex items-center justify-between">
                 <h1 className="text-sm font-semibold">Customer Info</h1>
-                <button  className="rounded items-center jusitfy-center px-4 border rounded py-2"
+                <button  className="rounded border-gray-900 items-center jusitfy-center px-4 border rounded py-2"
                     onClick={()=>setEdit(!edit)}>
                     {edit? "Cancel":"Edit"}
                 </button>
@@ -71,7 +71,7 @@ export default function ViewCustomer({params}){
             <form className="flex flex-col md:grid md:grid-cols-2" onSubmit={(e) => editCustomer(e)}>
                 <div className="flex flex-col p-2">
                     <h1 className="text-xs ">First Name</h1>
-                    <input className="border rounded bg-transparent w-full p-2 test-sm"
+                    <input className="border border-gray-900  rounded bg-transparent w-full p-2 test-sm"
                         placeholder="first name"
                         onChange={(e)=>setFirstname(e.target.value)} 
                         required
@@ -80,7 +80,7 @@ export default function ViewCustomer({params}){
                 </div>
                 <div className="flex flex-col p-2">
                     <h1 className="text-xs ">Surname</h1>
-                    <input className="border rounded bg-transparent w-full p-2 test-sm"
+                    <input className="border border-gray-900  rounded bg-transparent w-full p-2 test-sm"
                         placeholder="surname" 
                         onChange={(e)=>setSurname(e.target.value)}
                         required
@@ -89,7 +89,7 @@ export default function ViewCustomer({params}){
                 </div>
                 <div className="flex flex-col p-2">
                     <h1 className="text-xs ">Phone Number</h1>
-                    <input className="border rounded bg-transparent w-full p-2 test-sm"
+                    <input className="border border-gray-900  rounded bg-transparent w-full p-2 test-sm"
                         placeholder="phone number" 
                         onChange={(e)=>setPhonenumber(e.target.value)}
                         required
@@ -98,7 +98,7 @@ export default function ViewCustomer({params}){
                 </div>
                 <div className="flex flex-col p-2">
                     <h1 className="text-xs ">Email</h1>
-                    <input className="border rounded bg-transparent w-full p-2 test-sm"
+                    <input className="border border-gray-900  rounded bg-transparent w-full p-2 test-sm"
                         placeholder="phone number" 
                         onChange={(e)=>setEmail(e.target.value)}
                         value={email}
@@ -107,7 +107,7 @@ export default function ViewCustomer({params}){
                 </div>
                 <div className="flex flex-col p-2">
                     <h1 className="text-xs ">Address</h1>
-                    <input className="border rounded bg-transparent w-full p-2 test-sm"
+                    <input className="border border-gray-900  rounded bg-transparent w-full p-2 test-sm"
                         placeholder="address" 
                         onChange={(e)=>setAddress(e.target.value)}
                         required
@@ -116,7 +116,7 @@ export default function ViewCustomer({params}){
                 </div>
                 <div></div>
                 <div className="flex flex-col p-2">
-                    {edit && <button className="w-full bg-blue-500 rounded p-2">Create</button>}
+                    {edit && <button className="w-full bg-gray-900 text-white rounded p-2">Create</button>}
                 </div>
             </form>
         </div>

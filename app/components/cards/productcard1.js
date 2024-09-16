@@ -11,7 +11,7 @@ export default function ProductCard1({title, price, image,_id}){
     const [emblaRef] = useEmblaCarousel()
 
     return(
-        <button className=" relative w-full h-full bg-black shadow rounded border border-gray-500 flex items-center justify-center"
+        <button className=" relative w-full h-full bg-gray-200 shadow rounded border border-gray-200 flex items-center justify-center"
             onClick={() => router.push(`/store/products/${_id}`)}>
             <div className="embla" ref={emblaRef}>
                 <div className="embla__container">
@@ -26,9 +26,9 @@ export default function ProductCard1({title, price, image,_id}){
                         </div>
                 </div>
             </div>
-            <div className="flex items-center justify-between absolute left-8 bottom-3 w-1/2 transform -translate-y-1/2 border p-1 rounded-full">
-                <h1 className="text-sm font-semibold">{title}</h1>
-                <span className="bg-blue-600 p-1 text-sm rounded-full font-semibold">
+            <div className="flex items-center justify-between absolute left-8 bottom-3 w-1/2 transform -translate-y-1/2 border border-gray-900 p-1 rounded-full bg-black opacity-90">
+                <h1 className="text-sm font-semibold text-white">{title}</h1>
+                <span className="bg-gray-900 text-white p-1 text-sm rounded-full font-semibold opacity-100">
                     {price}
                 </span>
             </div>
