@@ -39,7 +39,6 @@ export default function MainHeader(){
                 </button>
             </div>
             <div className="w-full flex items-center justify-end px-4 gap-4">
-                <button className="hidden md:flex border rounded-full py-2 px-4 border-gray-400  text-sm">Rent to buy</button>
                 <button className="hidden md:flex border rounded-full py-2 px-4 border-gray-400  text-sm">Track Shipment</button>
                 <button className="flex border rounded-full py-2 px-4 border-gray-400  text-sm" onClick={()=> router.push("tel:+263775953491")}>
                     call now
