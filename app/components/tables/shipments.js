@@ -46,17 +46,17 @@ export default function ShipmentsTable(){
                     <tbody>
                         <tr className="px-2 bg-gray-900 text-white rounded-full">
                             <td className="px-2 rounded-s-full text-sm font-semibold">Customer</td>
-                            <td className="text-sm font-semibold">Phone Number</td>
-                            <td className="text-sm font-semibold">Purchased Vehicle</td>
-                            <td className="text-sm font-semibold">Price</td>
+                            <td className="text-sm font-semibold hidden md:table-cell">Phone Number</td>
+                            <td className="text-sm font-semibold hidden md:table-cell">Purchased Vehicle</td>
+                            <td className="text-sm font-semibold hidden md:table-cell">Price</td>
                             <td className="px-2 rounded-e-full text-sm font-semibold">Action</td>
                         </tr>
                         {shipments.map((shipment,index)=>(
                             <tr className="border-b border-gray-500" key={index}>
                                 <td className="px-2 rounded-s-full text-sm">{shipment.customername}</td>
-                                <td className="text-sm">{shipment.customerphone}</td>
-                                <td className="text-sm">{shipment.purchaseditem}</td>
-                                <td className="text-sm">{shipment.price}</td>
+                                <td className="text-sm hidden md:table-cell">{shipment.customerphone}</td>
+                                <td className="text-sm hidden md:table-cell">{shipment.purchaseditem}</td>
+                                <td className="text-sm hidden md:table-cell">{shipment.price}</td>
                                 <td className="px-2 rounded-e-full flex items-center justify-around">
                                     <button onClick={()=>router.push(`/dashboard/shipments/${shipment._id}`)}><EyeOpenIcon/></button>
                                     <button onClick={()=>deleteShipment(shipment._id)}><TrashIcon/></button>

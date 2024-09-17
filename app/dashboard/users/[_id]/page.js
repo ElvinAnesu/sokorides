@@ -96,13 +96,13 @@ export default function CreateNew({params}){
                     <h1 className="text-xs ">Role</h1>
                     <select className="border border-gray-900  rounded bg-transparent w-full p-2 test-sm" 
                         onChange={(e)=>setRole(e.target.value)}>
-                        <option className="bg-black">--select role--</option>
-                        <option className="bg-black" value={"owner"}>owner</option>
-                        <option className="bg-black" value={"admin"}>admin</option>
+                        <option className="bg-gray-900 text-white">--select role--</option>
+                        <option className="bg-gray-900 text-white" value={"owner"}>owner</option>
+                        <option className="bg-gray-900 text-white" value={"admin"}>admin</option>
                     </select>
                 </div>
                 <div className="flex flex-col p-2">
-                    <button className="w-full bg-gray-900 text-white rounded p-2">Create</button>
+                    <button className="w-full bg-gray-900 text-white rounded p-2">Update</button>
                 </div>
             </form>
         </div>

@@ -70,16 +70,16 @@ export default function CarsTable(){
                         <tr className="px-2 bg-gray-900 text-white  rounded-full">
                         <td className="px-2 rounded-s-full text-sm font-semibold">#</td>
                             <td className="px-2 text-sm font-semibold">Car</td>
-                            <td className="text-sm font-semibold">Description</td>
-                            <td className="text-sm font-semibold">Price</td>
+                            <td className=" hidden md:table-cell text-sm font-semibold">Description</td>
+                            <td className=" hidden md:table-cell text-sm font-semibold">Price</td>
                             <td className="px-2 rounded-e-full text-sm font-semibold">Action</td>
                         </tr>
                         {products.map((car,index)=>(
                             <tr className="border-b border-gray-500" key={index}>
                                 <td className="px-2 rounded-s-full text-sm">{index + 1}</td>
-                                <td className="px-2 rounded-s-full text-sm">{car.productname}</td>
-                                <td className="text-sm">{car.description}</td>
-                                <td className="text-sm">{`${car.currency} ${car.price}`}</td>
+                                <td className="px-2 text-sm">{car.productname}</td>
+                                <td className="text-sm hidden md:table-cell">{car.description}</td>
+                                <td className="text-sm hidden md:table-cell">{`${car.currency} ${car.price}`}</td>
                                 <td className="px-2 flex itemx-center justify-around">
                                     <button onClick={()=> router.push(`/dashboard/cars/${car._id}`)}><EyeOpenIcon /></button>
                                     <button onClick={()=>deleteProduct(car._id)}><TrashIcon /></button>

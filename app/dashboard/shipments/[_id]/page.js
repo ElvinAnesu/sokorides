@@ -67,6 +67,8 @@ export default function ShipmentDetails({params}){
     }
 
     const updateShipment = async(e) => {
+        e.preventDefault()
+        setIsloading(true)
         const response = await fetch(`/api/shipments/${_id}`,{
             method:"PUT",
             headers:{"Content-Type":"application/json"},
@@ -81,6 +83,14 @@ export default function ShipmentDetails({params}){
                 price
             })
         })
+        const data = await response.json()
+        if(data.success){
+            setIsloading(false)
+            alert(data.message)
+        }else{
+            setIsloading(false)
+            alert(data.message)    
+        }
     }
 
     useEffect(()=>{
@@ -90,15 +100,16 @@ export default function ShipmentDetails({params}){
     return(
         <div className="w-full h-full flex flex-col  p-4 gap-4 rounded">
             <h1 className="text-sm font-bold">Shipment Details</h1>
-           <div className="w-full flex md:grid md:grid-cols-5 items-center gap-2">
-            <form className="flex grid grid-cols-2 md:grid-cols-4 gap-2 items-center w-full md:col-span-4">
+           <div className="w-full flex flex-col md:grid md:grid-cols-5 items-center gap-2">
+            <form className="flex grid grid-cols-2 md:grid-cols-4 gap-2 items-center w-full md:col-span-4"
+                onSubmit={(e) => updateShipment(e)}>
                 <div className="flex flex-col">
                         <h1 className="text-xs font-bold">Customer name</h1>
                         <input className="p-2 border border-gray-900 rounded bg-transparent"
                             placeholder="Customer name"
                             value={customername}
                             onChange={(e)=>setCustomername(e.target.value)}
-                            disabled={!update}
+                            disabled
                             />
                 </div>
                     <div className="flex flex-col">
@@ -117,13 +128,32 @@ export default function ShipmentDetails({params}){
                             onChange={(e)=>setPrice(e.target.value)}
                             disabled={!update}/>
                     </div>
-                    {/* <div className="flex flex-col w-full">
+                    <div className="flex flex-col">
+                        <h1 className="text-xs font-bold">Price</h1>
+                        <input className="p-2 border border-gray-900 rounded bg-transparent"
+                            placeholder="Origin"
+                            value={origin}
+                            onChange={(e)=>setOrigin(e.target.value)}
+                            disabled={!update}/>
+                    </div>
+                    <div className="flex flex-col">
+                        <h1 className="text-xs font-bold">Destination</h1>
+                        <input className="p-2 border border-gray-900 rounded bg-transparent"
+                            placeholder="Origin"
+                            value={destination}
+                            onChange={(e)=>setDestination(e.target.value)}
+                            disabled={!update}/>
+                    </div>
+                    {update && <div className="flex flex-col w-full">
                         <button className="bg-gray-900 text-white px-4 py-2 rounded w-full">Update</button>
-                    </div> */}
+                    </div>}
                 </form>
-                {/* <div className="flex flex-col w-full">
-                    <button className="border rounded px-4 py-2 border-gray-900 rounded w-full">Edit</button>
-                </div> */}
+                <div className="flex flex-col w-full bg-gray-900 text-white">
+                    <button className="border rounded px-4 py-2 border-gray-900 rounded w-full"
+                        onClick={(e)=>setUpdate(!update)}>
+                        {update? "Close":"Edit"}
+                    </button>
+                </div>
            </div>
             {isLoading? <div className="w-full flex items-center justify-center md:col-span-4 min-h-96">
                 <div className="flex flex-col items-center justify-center  w-full h-full">

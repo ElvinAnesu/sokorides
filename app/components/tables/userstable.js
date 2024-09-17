@@ -47,7 +47,7 @@ export default function UsersTable(){
                         <tr className="px-2 bg-gray-900 text-white rounded-full">
                             <td className="px-2 rounded-s-full text-sm font-semibold">Surname</td>
                             <td className="text-sm font-semibold">Firstname</td>
-                            <td className="text-sm font-semibold">Phonenumber</td>
+                            <td className="text-sm font-semibold hidden md:table-cell">Phonenumber</td>
                             <td className="text-sm font-semibold">role</td>
                             <td className="px-2 rounded-e-full text-sm font-semibold">Action</td>
                         </tr>
@@ -55,7 +55,7 @@ export default function UsersTable(){
                             <tr className="border-b border-gray-500" key={index}>
                                 <td className="px-2 rounded-s-full text-sm">{user.surname}</td>
                                 <td className="text-sm">{user.firstname}</td>
-                                <td className="text-sm">{user.phonenumber}</td>
+                                <td className="text-sm hidden md:table-cell">{user.phonenumber}</td>
                                 <td className="text-sm">{user.role}</td>
                                 <td className="px-2 rounded-e-full flex items-center justify-around">
                                     <button onClick={()=>router.push(`/dashboard/users/${user._id}`)}><EyeOpenIcon /></button>
