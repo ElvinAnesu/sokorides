@@ -39,12 +39,12 @@ export default function ShipmentsTable(){
     return(
         <div className="flex flex-col w-full h-full gap-2">
             <div className="flex w-full items-center justify-end">
-                <button className="border rounded px-4 py-2" onClick={() => router.push("/dashboard/shipments/createnew")}>Add New</button>
+                <button className="border border-gray-900 rounded px-4 py-2" onClick={() => router.push("/dashboard/shipments/createnew")}>Add New</button>
             </div>
-            <div className="w-full h-full bg-[#0a0a0a] rounded p-4">
+            <div className="w-full h-full bg-gray-200 rounded p-4">
                 <table className="w-full">
                     <tbody>
-                        <tr className="px-2 bg-black rounded-full">
+                        <tr className="px-2 bg-gray-900 text-white rounded-full">
                             <td className="px-2 rounded-s-full text-sm font-semibold">Customer</td>
                             <td className="text-sm font-semibold">Phone Number</td>
                             <td className="text-sm font-semibold">Purchased Vehicle</td>

@@ -22,8 +22,10 @@ export default function ViewProduct({params}){
     const [displayimage, setDisplayimage] = useState()
     const [showeditDialog, setShowwEditDialog] = useState(false)
     const [fuel, setFuel] = useState()
+    const [isLoading, setIsLoading] = useState(false)
 
     const getProduct = async() => {
+        setIsLoading(true)
       const response = await fetch(`/api/products/${_id}`,{
         method:"GET"
       })
@@ -45,13 +47,17 @@ export default function ViewProduct({params}){
         setGallery(data.product.gallery)
         setDisplayimage(data.product.coverimage)
         setFuel(data.product.fuel)
+        setIsLoading(false)
       }else{
+        setIsLoading(false)
         alert(data.message)
       }
     }
 
     const editProduct = async(e) => {
         e.preventDefault()
+        setShowwEditDialog(false)
+        setIsLoading(true)
         const response = await fetch(`/api/products/${_id}`,{
             method:"PUT",
             headers:{"Content-Type":"application/json"},
@@ -75,8 +81,10 @@ export default function ViewProduct({params}){
         const data = await response.json()
 
         if(data.success){
+            setIsLoading(false)
             alert(data.message)
         }else{
+            setIsLoading(false)
             alert(data.message)
         }
     }
@@ -87,6 +95,11 @@ export default function ViewProduct({params}){
 
     return(
         <div className="flex flex-col w-full h-full p-4">
+           {isLoading? <div className="w-full flex items-center justify-center md:col-span-4 min-h-96">
+                <div className="flex flex-col items-center justify-center  w-full h-full">
+                    <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+                </div>
+            </div>:
             <div className="flex flex-col md:grid md:grid-cols-2 gap-4">
                 <div className="w-full h-full flex flex-col gap-4">
                     <div className="w-full flex items-center justify-center h-80">
@@ -149,17 +162,17 @@ export default function ViewProduct({params}){
                         </table>
                     </div>
                 </div>
-            </div>
+            </div>}
             {
-             showeditDialog && <div className="absolute p-8 top-0 left-0 w-full h-full flex flex-col items-center justify-center mt-16">
-                    <form className="flex  flex-col md:grid md:grid-cols-2 bg-black p-4 gap-4"
+             showeditDialog && <div className="absolute p-8 top-0 left-0 w-full h-full flex flex-col items-center justify-center ">
+                    <form className="flex  flex-col md:grid md:grid-cols-2 bg-gray-200 p-4 gap-4 mt-32 mt-40"
                         onSubmit={(e)=> editProduct(e)}>
                         <div className="flex w-full md:col-span-2 items-center justify-end">
-                            <button className="p-2 border rounded" onClick={()=>setShowwEditDialog(false)}><Cross1Icon /></button>
+                            <button className="p-2 border border-gray-900 rounded" onClick={()=>setShowwEditDialog(false)}><Cross1Icon /></button>
                         </div>
                         <div className="flex flex-col w-full gap-1">
                             <h1 className="text-xs font-semibold">title</h1>
-                            <input className="w-full rounded bg-transparent border p-2"
+                            <input className="w-full rounded bg-transparent border border-gray-900 p-2"
                                 placeholder="title"
                                 onChange={(e)=>setProductTitle(e.target.value)}
                                 value={productTitle}
@@ -167,28 +180,28 @@ export default function ViewProduct({params}){
                         </div>
                         <div className="flex flex-col w-full gap-1">
                             <h1 className="text-xs font-semibold">description</h1>
-                            <input className="w-full rounded bg-transparent border p-2"
+                            <input className="w-full rounded bg-transparent border border-gray-900 p-2"
                                 placeholder="description"
                                 onChange={(e)=>setDescription(e.target.value)}
                                 value={description}/>
                         </div>
                         <div className="flex flex-col w-full gap-1">
                             <h1 className="text-xs font-semibold">price</h1>
-                            <input className="w-full rounded bg-transparent border p-2"
+                            <input className="w-full rounded bg-transparent border border-gray-900 p-2"
                                 placeholder="price"
                                 onChange={(e) => setPrice(e.target.value)}
                                 value={price}/>
                         </div>
                         <div className="flex flex-col w-full gap-1">
                             <h1 className="text-xs font-semibold">drive</h1>
-                            <input className="w-full rounded bg-transparent border p-2"
+                            <input className="w-full rounded bg-transparent border border-gray-900 p-2"
                                 placeholder="drive"
                                 onChange={(e)=> setDrive(e.target.value)}
                                 value={drive}/>
                         </div>
                         <div className="flex flex-col w-full gap-1">
                             <h1 className="text-xs font-semibold">location</h1>
-                            <select className="w-full rounded bg-transparent border p-2"
+                            <select className="w-full rounded bg-transparent border border-gray-900 p-2"
                             onChange={(e)=> setLocation(e.target.value)}>
                                 <option value="japan" className="bg-black">Japan</option>
                                 <option value="zimbabwe" className="bg-black">Zimbabwe</option>
@@ -196,54 +209,54 @@ export default function ViewProduct({params}){
                         </div>
                         <div className="flex flex-col w-full gap-1">
                             <h1 className="text-xs font-semibold">milage</h1>
-                            <input className="w-full rounded bg-transparent border p-2"
+                            <input className="w-full rounded bg-transparent border border-gray-900 p-2"
                                 placeholder="milage"
                                 onChange={(e)=> setMilage(e.target.value)}
                                 value={milage}/>
                         </div>
                         <div className="flex flex-col w-full gap-1">
                             <h1 className="text-xs font-semibold">year</h1>
-                            <input className="w-full rounded bg-transparent border p-2"
+                            <input className="w-full rounded bg-transparent border border-gray-900 p-2"
                                 placeholder="year"
                                 onChange={(e)=>setYear(e.target.value)}
                                 value={year}/>
                         </div>
                         <div className="flex flex-col w-full gap-1">
                             <h1 className="text-xs font-semibold">engine</h1>
-                            <input className="w-full rounded bg-transparent border p-2"
+                            <input className="w-full rounded bg-transparent border border-gray-900 p-2"
                                 placeholder="engine"
                                 onChange={(e)=>setEngine(e.target.value)}
                                 value={engine}/>
                         </div>
                         <div className="flex flex-col w-full gap-1">
                             <h1 className="text-xs font-semibold">transmission</h1>
-                            <input className="w-full rounded bg-transparent border p-2"
+                            <input className="w-full rounded bg-transparent border border-gray-900 p-2"
                                 placeholder="transmission"
                                 onChange={(e)=>setTransimission(e.target.value)}
                                 value={transmission}/>
                         </div>
                         <div className="flex flex-col w-full gap-1">
                             <h1 className="text-xs font-semibold">fuel</h1>
-                            <input className="w-full rounded bg-transparent border p-2"
+                            <input className="w-full rounded bg-transparent border border-gray-900 p-2"
                                 placeholder="fuel"
                                 onChange={(e)=>setFuel(e.target.value)}
                                 value={fuel}/>
                         </div>
                         <div className="flex flex-col w-full gap-1">
                             <h1 className="text-xs font-semibold">cover image</h1>
-                            <input className="w-full rounded bg-transparent border p-2"
+                            <input className="w-full rounded bg-transparent border border-gray-900 p-2"
                                 placeholder="cover image"
                                 type="file"
                                 onChange={(e)=>setCoverimage(e.target.value)}/>
                         </div>
                         <div className="flex flex-col w-full gap-1">
                             <h1 className="text-xs font-semibold">gallery</h1>
-                            <input className="w-full rounded bg-transparent border p-2"
+                            <input className="w-full rounded bg-transparent border border-gray-900 p-2"
                                 placeholder="gallery"
                                 type="file"
                                 onChange={(e)=> setGallery(e.target.value)}/>
                         </div>
-                        <button className="bg-blue-500 rounded p-2">Upload</button>
+                        <button className="bg-gray-900 text-white rounded p-2">Upload</button>
                     </form>
                 </div>
             }
