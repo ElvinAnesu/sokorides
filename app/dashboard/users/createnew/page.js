@@ -1,9 +1,11 @@
 "use client"
 import { useState } from "react"
-
+import { ArrowLeftIcon } from "@radix-ui/react-icons"
+import { useRouter } from "next/navigation"
 
 export default function CreateNew(){
 
+    const router = useRouter()
     const [firstname,setFirstname] = useState()
     const [surname, setSurname] = useState()
     const [phonenumber, setPhonenumber] = useState()
@@ -38,7 +40,10 @@ export default function CreateNew(){
 
     return(
         <div className="w-full h-full flex flex-col gap-4 p-4 bg-gray-200 rounded">
-            <h1 className="text-sm font-semibold">Create New User</h1>
+            <div className="flex gap-2">
+                <button onClick={()=> router.back()}><ArrowLeftIcon className="w-6 h-6"/></button>
+                <h1 className="text-sm font-semibold">Create New User</h1>
+            </div>
             {isLoading? <div className="w-full flex items-center justify-center md:col-span-4 min-h-96">
                 <div className="flex flex-col items-center justify-center  w-full h-full">
                     <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>

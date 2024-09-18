@@ -7,28 +7,40 @@ import { EyeOpenIcon, TrashIcon, PlusIcon } from "@radix-ui/react-icons"
 export default function UsersTable(){
     const router = useRouter()
     const [users, setUsers] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
 
     const getUsers = async()=> {
+        setIsLoading(true)
         const response = await fetch("/api/users",{
             method:"GET",
             headers:{"Content-Type":"application/json"}
         })
         const data = await response.json()
         if(data.success){
+            setIsLoading(false)
             setUsers(data.users)
+        }else{
+            setIsLoading(false)
         }
     }
 
     const deleteUser = async(_id) => {
-        const response = await fetch(`/api/users/${_id}`,{
-            method:"DELETE",
-            headers:{"Content-Type":"application/json"}
-        })
-        const data = await response.json()
-        if(data.success){
-            alert(data.message)
-        }else{
-            alert(data.message)
+        let confirmDelete =  confirm("Delete this user")
+        if(confirmDelete){
+            setIsLoading(true)
+            const response = await fetch(`/api/users/${_id}`,{
+                method:"DELETE",
+                headers:{"Content-Type":"application/json"}
+            })
+            const data = await response.json()
+            if(data.success){
+                setIsLoading(false)
+                alert(data.message)
+                window.location.reload()
+            }else{
+                setIsLoading(false)
+                alert(data.message)
+            }
         }
     }
     useEffect(()=>{
@@ -42,6 +54,11 @@ export default function UsersTable(){
                     <PlusIcon />Add New</button>
             </div>
             <div className="w-full h-full bg-gray-200 rounded p-4">
+                {isLoading? <div className="w-full flex items-center justify-center md:col-span-4 min-h-96">
+                    <div className="flex flex-col items-center justify-center  w-full h-full">
+                        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+                    </div>
+                </div>:
                 <table className="w-full">
                     <tbody>
                         <tr className="px-2 bg-gray-900 text-white rounded-full">
@@ -64,7 +81,7 @@ export default function UsersTable(){
                             </tr>
                         ))}
                     </tbody>
-                </table>
+                </table>}
             </div>
         </div>
     )
