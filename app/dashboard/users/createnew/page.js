@@ -9,9 +9,11 @@ export default function CreateNew(){
     const [phonenumber, setPhonenumber] = useState()
     const [role, setRole] = useState()
     const [password, setPassword] = useState()
+    const [isLoading, setIsLoading] = useState(false)
 
     const createUser = async(e) => {
         e.preventDefault()
+        setIsLoading(true)
         const response = await fetch("/api/users",{
             method:"POST",
             headers:{"Content-type":"application/json"},
@@ -25,8 +27,10 @@ export default function CreateNew(){
         })
         const data = await response.json()
         if(data.success){
+            setIsLoading(false)
             alert(data.message)
         }else{
+            setIsLoading(false)
             alert(data.message)
         }
 
@@ -35,6 +39,11 @@ export default function CreateNew(){
     return(
         <div className="w-full h-full flex flex-col gap-4 p-4 bg-gray-200 rounded">
             <h1 className="text-sm font-semibold">Create New User</h1>
+            {isLoading? <div className="w-full flex items-center justify-center md:col-span-4 min-h-96">
+                <div className="flex flex-col items-center justify-center  w-full h-full">
+                    <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+                </div>
+            </div>:
             <form className="flex flex-col md:grid md:grid-cols-2" onSubmit={(e)=>createUser(e)}>
                 <div className="flex flex-col p-2">
                     <h1 className="text-xs ">First Name</h1>
@@ -52,11 +61,10 @@ export default function CreateNew(){
                 </div>
                 <div className="flex flex-col p-2">
                     <h1 className="text-xs ">Phone Number</h1>
-                    <input className="border border-gray-900  rounded bg-transparent w-full p-2 test-sm"
-                        placeholder="phone number" 
-                        type="text"
+                    <input className="border border-gray-900 rounded bg-transparent w-full p-2 test-sm"
+                        placeholder="phonenumber" 
                         required
-                        onClick={(e)=>setPhonenumber(e.target.value)}/>
+                        onChange={(e)=>setPhonenumber(e.target.value)}/>
                 </div>
                 <div className="flex flex-col p-2">
                     <h1 className="text-xs ">Role</h1>
@@ -79,7 +87,7 @@ export default function CreateNew(){
                 <div className="flex flex-col p-2">
                     <button className="w-full bg-gray-900 text-white rounded p-2">Create</button>
                 </div>
-            </form>
+            </form>}
         </div>
     )
 }
