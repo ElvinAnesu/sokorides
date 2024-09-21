@@ -6,14 +6,14 @@ import MobileNav from "../navbars/mobilenav"
 import MobileDashboardNav from "../navbars/mobiledashboardnav"
 
 
-
-export default function MainHeader(){
+export default function MainHeader() {
     const router = useRouter()
     const [searchQuery, setSearchQuery] = useState()
     const [showMobileNav, setShowMobileNav] = useState(false)
 
     const pathname = usePathname()
     const isDashboard = pathname.startsWith("/dashboard")
+    const isAuth = pathname.startsWith("auth")
 
     return( 
         <div className="flex w-full h-100 p-2 items-center justify-between">

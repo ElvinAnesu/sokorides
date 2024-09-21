@@ -12,7 +12,7 @@ export async function POST(request) {
     console.log(from, text)
     try{
 
-        const apiUrl = "https://messages-sandbox.nexmo.com/v1/messages "
+        const apiUrl = "https://messages-sandbox.nexmo.com/v1/messages"
         const apiKey = "bb9a74da"
         const apiSecret = "PrGcjjDDYd2039ri"
 
@@ -35,9 +35,9 @@ export async function POST(request) {
             },
             body: JSON.stringify({
                 from: "14157386102",       // e.g., "14157386102"
-                to: from,           // e.g., "263775953491"
+                to: "263774304759",           // e.g., "263775953491"
                 message_type: "text",
-                text: responseMsg,
+                text: "hello",
                 channel: "whatsapp",
             }),
         })
