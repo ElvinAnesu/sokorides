@@ -1,11 +1,10 @@
 import connectdb from "@/mongodb";
 import { NextResponse } from "next/server";
-import User from "@/app/models/user";
 import Shipment from "@/app/models/shipment";
 import { Twilio } from "twilio";
 import Session from "@/app/models/session";
 
-const greeting = "Hello there, How can i help you today";
+const greeting = "Hello there Welcome to SOKO logidtics, How can i help you today";
 const mainmenu = "1. Track my shipment\n2. View cars for sale";
 const viewcars =
 	"to visit cars for sale please visit our website\n\nhttps://sokorides.vercel.app";
