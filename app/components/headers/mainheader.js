@@ -6,14 +6,14 @@ import MobileNav from "../navbars/mobilenav"
 import MobileDashboardNav from "../navbars/mobiledashboardnav"
 
 
-
-export default function MainHeader(){
+export default function MainHeader() {
     const router = useRouter()
     const [searchQuery, setSearchQuery] = useState()
     const [showMobileNav, setShowMobileNav] = useState(false)
 
     const pathname = usePathname()
     const isDashboard = pathname.startsWith("/dashboard")
+    const isAuth = pathname.startsWith("auth")
 
     return( 
         <div className="flex w-full h-100 p-2 items-center justify-between">
@@ -46,7 +46,7 @@ export default function MainHeader(){
             </div>}
             {!isDashboard && <div className="w-full flex items-center justify-end px-4 gap-4">
                 <button className="hidden md:flex border rounded-full py-2 px-4 border-gray-900  text-sm">Track Shipment</button>
-                <button className="flex border rounded-full py-2 px-4 border-gray-900  text-sm" onClick={()=> router.push("tel:+263775953491")}>
+                <button className="flex border rounded-full py-2 px-4 border-gray-900  text-sm" onClick={()=> router.push("tel:+263774050385")}>
                     call now
                 </button>
             </div>}

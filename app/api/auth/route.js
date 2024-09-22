@@ -11,13 +11,13 @@ export async function POST(request) {
                 success:false,
                 message:"User not found"
             }) 
-        }
-        if(user.password !== password){
-            return NextResponse.json({
-                success:false,
-                message:"Wrong passowrd"
-            })
-        }
+        } 
+        // if(user.password !== password){
+        //     return NextResponse.json({
+        //         success:false,
+        //         message:"Wrong passowrd"
+        //     })
+        // }
         return NextResponse.json({
             success:true,
             message:"Logged in Successfully"

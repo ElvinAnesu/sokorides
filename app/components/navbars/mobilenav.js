@@ -14,7 +14,7 @@ export default function MobileNav({onClose}){
                 <li className="hover:underline"><Link href="#">SUV</Link></li>
                 <li className="hover:underline"><Link href="#">Fuel Saver</Link></li>
             </ul>
-            <button className="border border-gray-900 rounded p-2 w-full">Track Shipment</button>
+            <Link className="border border-gray-900 rounded p-2 w-full" href={"https://wa.me/14157386102"}>Track Shipment</Link>
     </div>
     )
 }
