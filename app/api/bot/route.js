@@ -4,6 +4,8 @@ import Shipment from "@/app/models/shipment";
 import { Twilio } from "twilio";
 import Session from "@/app/models/session";
 
+export const maxDuration = 60;
+
 const greeting =
 	"Hello there 👋.\nWelcome to SOKO WA platform.\n\n👉 Select an option below to get started\n\n";
 const mainmenu =
