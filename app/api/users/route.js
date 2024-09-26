@@ -12,6 +12,8 @@ export async function POST(params) {
         password
     } = await params.json()
 
+    console.log(phonenumber)
+
     try {
         const user = await User.create({
             surname,

@@ -31,8 +31,7 @@ export async function PUT(request,{params}) {
         surname,
         firstname,
         phonenumber,
-        role,
-        password
+        role
     } = await request.json()
     try{
         connectdb()
@@ -40,8 +39,7 @@ export async function PUT(request,{params}) {
             surname,
             firstname,
             phonenumber,
-            role,
-            password 
+            role
         })
         if(!updateuser){
             return NextResponse.json({
