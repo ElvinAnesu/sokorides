@@ -9,7 +9,7 @@ const greeting =
 const mainmenu =
 	"1. 🚖🚘 View cars for sale\n2. 💸 My Purchases\n3. 🚢 Track Shipment";
 const viewcars =
-	"to visit cars for sale please visit our website\n\nhttps://sokorides.vercel.app";
+	"to visit cars for sale please visit our website\n\nhttps://sokocars.com";
 const invalidoption = "Invalid option. Select a valid option to proceed";
 const requestphone =
 	"Please provide your registered phone number in the format 0773XXXXXX";
@@ -18,19 +18,28 @@ const shipmennotfound = "No shipment registerd under this phonenumber found";
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = new Twilio(accountSid, authToken);
+let msgSend = false;
 
 export async function POST(request) {
-
 	const rawBody = await request.text();
 	const formData = new URLSearchParams(rawBody);
 	const body = formData.get("Body");
 	const from = formData.get("From");
-	let msgSend = false;
 
 	try {
 		connectdb();
 		const sessionExists = await Session.findOne({ user: from });
 		if (sessionExists) {
+			switch (sessionExists.currentStep) {
+				case 0:
+					msgSend = sendWhatsappMessage(mainmenu, from);
+					break;
+				case 1:
+					msgSend = stepOne(body, from);
+					break;
+				default:
+					break;
+			}
 		} else {
 			msgSend = sendWhatsappMessage(`${greeting}\n${mainmenu}`, from);
 			await Session.create({
@@ -41,7 +50,7 @@ export async function POST(request) {
 		return NextResponse.json({
 			success: true,
 			message: "transaction completed",
-			msgSend
+			msgSend,
 		});
 	} catch (error) {
 		console.log(error);
@@ -62,5 +71,27 @@ async function sendWhatsappMessage(message, from) {
 		return true;
 	} else {
 		return false;
+	}
+}
+
+async function stepOne(body, from) {
+	switch (body) {
+		case "1":
+			//reply user go to step two
+			msgSend = sendWhatsappMessage(viewcars, from);
+			await Session.findOneAndUpdate(
+				{ user: from },
+				{currentStep: 0}
+			);
+			break;
+		case "2":
+			//get my purchases
+			break;
+		case "3":
+			//ask shipment data
+			break;
+		default:
+			//present main menu and remain there
+			break;
 	}
 }
