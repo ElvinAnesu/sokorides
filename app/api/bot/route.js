@@ -5,9 +5,9 @@ import { Twilio } from "twilio";
 import Session from "@/app/models/session";
 
 const greeting =
-	"Hello there 👋. Welcome to SOKO WA platform.\n👉 Select an option below to get started";
+	"Hello there 👋.\nWelcome to SOKO WA platform.\n\n👉 Select an option below to get started\n\n";
 const mainmenu =
-	"1.🚖🚘View cars for sale\n2.💸My Purchases\n3.🚢Track Shipment";
+	"1. 🚖🚘 View cars for sale\n2. 💸 My Purchases\n3. 🚢 Track Shipment";
 const viewcars =
 	"to visit cars for sale please visit our website\n\nhttps://sokorides.vercel.app";
 const invalidoption = "Invalid option. Select a valid option to proceed";
@@ -20,208 +20,28 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = new Twilio(accountSid, authToken);
 
 export async function POST(request) {
+
 	const rawBody = await request.text();
 	const formData = new URLSearchParams(rawBody);
 	const body = formData.get("Body");
 	const from = formData.get("From");
+	let msgSend = false;
 
-	console.log("the body is:", body);
 	try {
 		connectdb();
-		//check is session exixts
 		const sessionExists = await Session.findOne({ user: from });
 		if (sessionExists) {
-			//check currentStep
-			if (sessionExists.currentStep === 0) {
-				const nextStep = await Session.findOneAndUpdate(
-					{ user: from },
-					{ currentStep: 1 }
-				);
-				if (nextStep) {
-					const reply = sendWhatsappMessage(`${greeting}\n${mainmenu}`, from);
-					if (reply) {
-						console.log("message sent successfully");
-						return NextResponse.json({
-							success: true,
-							message: "message sent succesfully",
-						});
-					} else {
-						console.log("failed to send message");
-						return NextResponse.json({
-							success: false,
-							message: "failed to send message",
-						});
-					}
-				} else {
-					console.log("failed to update session");
-					return NextResponse.json({
-						success: false,
-						message: "failed to update session",
-					});
-				}
-			} else if (sessionExists.currentStep === 1) {
-				if (body === "1") {
-					const nextStep = await Session.findOneAndUpdate(
-						{ user: from },
-						{ currentStep: 2 }
-					);
-					if (nextStep) {
-						const reply = sendWhatsappMessage(requestphone, from);
-						if (reply) {
-							console.log("message sent successfully");
-							return NextResponse.json({
-								success: true,
-								message: "message sent successfully",
-							});
-						} else {
-							console.log("message not sent");
-							return NextResponse.json({
-								success: false,
-								message: "failed to send message",
-							});
-						}
-					} else {
-						console.log("failed to update session");
-						return NextResponse.json({
-							success: false,
-							message: "failed to update session",
-						});
-					}
-				} else if (body === "2") {
-					const session = await Session.findOneAndUpdate(
-						{ user: from },
-						{ currentStep: 0 }
-					);
-					if (session) {
-						const reply = sendWhatsappMessage(viewcars, from);
-						if (reply) {
-							console.log("reply send successfully");
-							return NextResponse.json({
-								success: true,
-								message: "message sent successfully",
-							});
-						} else {
-							console.log("reply send successfully");
-							return NextResponse.json({
-								success: false,
-								message: "failed to send message",
-							});
-						}
-					} else {
-						console.log("failed to update session");
-						return NextResponse.json({
-							success: false,
-							message: "failed to update session",
-						});
-					}
-				} else {
-					const reply = sendWhatsappMessage(invalidoption, from);
-					if (reply) {
-						console.log("reply send successfully");
-						return NextResponse.json({
-							success: true,
-							message: "message sent successfully",
-						});
-					} else {
-						console.log("reply send successfully");
-						return NextResponse.json({
-							success: false,
-							message: "failed to send message",
-						});
-					}
-				}
-			} else if (sessionExists.currentStep === 2) {
-				//give response and return to step 1
-				const shipment = await Shipment.findOne({ customerphone: body });
-				if (shipment) {
-					const session = await Session.findOneAndUpdate(
-						{ user: from },
-						{ currentStep: 0 }
-					);
-                    if (session) {
-                        const updates = shipment.update
-                        const _update = updates.at(-1)? updates.at(-1) :"no updates available for this number"
-						const reply = sendWhatsappMessage(_update , from);
-						if (reply) {
-							console.log("message sent successfully");
-							return NextResponse.json({
-								success: true,
-								message: "message sent successfully",
-							});
-						} else {
-							console.log("message not sent");
-							return NextResponse.json({
-								success: false,
-								message: "message not sent",
-							});
-						}
-					} else {
-						console.log("message not sent");
-						return NextResponse.json({
-							success: false,
-							message: "message not sent",
-						});
-					}
-				} else {
-					const session = await Session.findOneAndUpdate(
-						{ user: from },
-						{ currentStep: 0 }
-					);
-					if (session) {
-						const reply = sendWhatsappMessage(shipmennotfound, from);
-						if (reply) {
-							console.log("message sent successfully");
-							return NextResponse.json({
-								success: true,
-								message: "message sent successfully",
-							});
-						} else {
-							console.log("message not sent");
-							return NextResponse.json({
-								success: false,
-								message: "message not sent",
-							});
-						}
-					} else {
-						console.log("failed to update session");
-						return NextResponse.json({
-							success: false,
-							message: "failed to update session",
-						});
-					}
-				}
-			}
 		} else {
-			//create session
-			const session = await Session.create({
+			msgSend = sendWhatsappMessage(`${greeting}\n${mainmenu}`, from);
+			await Session.create({
 				user: from,
 			});
-			if (!session) {
-				console.log("failed to create session");
-				return NextResponse.json({
-					success: false,
-					message: "failed to create session",
-				});
-			}
-			const reply = sendWhatsappMessage(`${greeting}\n${mainmenu}`, from);
-			if (reply) {
-				console.log("message sent successfully");
-				return NextResponse.json({
-					success: true,
-					message: "message sent succesfully",
-				});
-			} else {
-				console.log("failed to send message");
-				return NextResponse.json({
-					success: false,
-					message: "failed to send message",
-				});
-			}
 		}
 
 		return NextResponse.json({
 			success: true,
-			message: "WhatsApp message sent successfully",
+			message: "transaction completed",
+			msgSend
 		});
 	} catch (error) {
 		console.log(error);
