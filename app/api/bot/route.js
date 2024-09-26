@@ -9,7 +9,7 @@ const greeting =
 const mainmenu =
 	"1. 🚖🚘 View cars for sale\n2. 💸 My Purchases\n3. 🚢 Track Shipment";
 const viewcars =
-	"to visit cars for sale please visit our website\n\nhttps://sokocars.com";
+	"to visit cars for sale please visit our website\n\nhttps://www.sokocars.com/";
 const invalidoption = "Invalid option. Select a valid option to proceed";
 const requestphone =
 	"Please provide your registered phone number in the format 0773XXXXXX";
@@ -32,7 +32,7 @@ export async function POST(request) {
 		if (sessionExists) {
 			switch (sessionExists.currentStep) {
 				case 0:
-					msgSend = sendWhatsappMessage(mainmenu, from);
+					msgSend = sendWhatsappMessage(`${greeting}\n${mainmenu}`, from);
 					break;
 				case 1:
 					msgSend = stepOne(body, from);
