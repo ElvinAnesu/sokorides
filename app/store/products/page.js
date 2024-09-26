@@ -42,7 +42,7 @@ export default function Products() {
 				<div className="w-full h-full">
 					{!fetchFailed ? (
 						<div className="flex flex-col md:grid md:grid-cols-4 gap-4">
-							{products.map((car, index) => (
+							{products && products.map((car, index) => (
 								<ProductCard1
 									title={car.productname}
 									price={`${car.currency}${car.price}`}
