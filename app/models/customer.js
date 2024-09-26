@@ -2,25 +2,25 @@ import mongoose, { Schema } from "mongoose"
 
 const customerSchema = new Schema({
     surname: {
-        type:String,
-        required:true
-    },
-    firstname:{
-        type:String,
-        required:["firstname is required"]
-    },
-    phonenumber:{
         type: String,
         required: true
     },
-    email:{
-        type:String,
+    firstname: {
+        type: String,
+        required: ["firstname is required"]
     },
-    address:{
-        type:String,
-        required:true
+    phonenumber: {
+        type: String,
+        required: true
     },
-    purchases : {
+    email: {
+        type: String,
+    },
+    address: {
+        type: String,
+        required: true
+    },
+    purchases: {
         type: Number,
         default: 0
     },
@@ -28,8 +28,8 @@ const customerSchema = new Schema({
         type: Number,
         default: 0
     }
-},{timestamps:true})
+}, { timestamps: true });
 
-const Customer = mongoose.models.Customer || mongoose.model("Customer", customerSchema)
+const Customer = mongoose.models.Customer || mongoose.model("Customer", customerSchema);
 
-export default Customer
+export default Customer;

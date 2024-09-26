@@ -44,19 +44,19 @@ export default function DashBoard(){
 
     return(
         <div className="w-full h-full p-4 gap-4 flex flex-col">
-            <div className="w-full flex p-2 rounded bg-gray-100">
-                <h1 className="text-gray-900 font-semibold">Dashboard</h1>
+            <div className="w-full flex p-2 rounded bg-purple-900">
+                <h1 className="text-white font-semibold">Dashboard</h1>
             </div>
             {isLoading? <div className="w-full flex items-center justify-center md:col-span-4 min-h-96">
                 <div className="flex flex-col items-center justify-center  w-full h-full">
-                    <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+                    <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-900"></div>
                 </div>
             </div>:
-            <div className="bg-gray-100 flex flex-col md:grid md:grid-cols-3 gap-4 rounded p-2">
+            <div className="bg-gray-200 flex flex-col md:grid md:grid-cols-3 gap-4 rounded p-2">
                 <div className="hidden md:flex flex-col md:col-span-2">
                     <div className="flex flex-col gap-4">
-                        <h1 className="text-gray-900 text-2xl font-semibold">Latest Shipments</h1>
-                        <p className="text-xs text-gray-400"><span className="text-gray-900 font-bold">4 Recently</span> added shipments</p>
+                        <h1 className="text-black text-2xl font-semibold">Latest Shipments</h1>
+                        <p className="text-xs text-purple-900"><span className="text-black font-bold">Recently</span> added shipments</p>
                         <div className="flex flex-col w-full h-full">
                             <table>
                                 <tbody>
@@ -82,11 +82,11 @@ export default function DashBoard(){
                     </div>
                 </div>
                 <div className="flex flex-col gap-4 w-full h-full px-8">
-                    <div className="rounded bg-gray-900 flex flex-col items-center justify-center gap-2 p-4">
+                    <div className="rounded bg-purple-900 flex flex-col items-center justify-center gap-2 p-4">
                         <h1 className="text-white text-4xl">{totalCustomers}</h1>
                         <p className="text-white">total customers</p>
                     </div>
-                    <div className="rounded bg-gray-900 flex flex-col items-center justify-center gap-2 p-4">
+                    <div className="rounded bg-purple-900 flex flex-col items-center justify-center gap-2 p-4">
                         <h1 className="text-white text-4xl">{totalShipment}</h1>
                         <p className="text-white">total shipments</p>
                     </div>
