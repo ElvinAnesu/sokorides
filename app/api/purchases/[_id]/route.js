@@ -34,6 +34,7 @@ export async function PUT(request, { params }) {
 		vehicleStatus,
 		totalPrice,
 		currentPayment,
+		gallery,
 	} = await request.json();
 	try {
 		connectdb();
@@ -44,6 +45,7 @@ export async function PUT(request, { params }) {
 			vehicleStatus,
 			totalPrice,
 			currentPayment,
+			gallery,
 		});
 		if (!updatePurchase) {
 			return NextResponse.json({

@@ -66,21 +66,21 @@ export default function CreateNew({params}){
         <div className="w-full h-full flex flex-col gap-4 p-4 bg-gray-200 rounded">
             <div className="flex w-full items-center justify-between">
                 <div className="flex gap-2 items-center">
-                    <button onClick={()=> router.back()}><ArrowLeftIcon className="w-6 h-6"/></button>
+                    <button className="border border-purple-900 rounded-full p-1 text-purple-900" onClick={()=> router.back()}><ArrowLeftIcon className="w-5 h-5"/></button>
                     <h1 className="text-sm font-semibold">User Information</h1>
                 </div>
-                <button className="px-4 py-2 border border-gray-900 rounded" onClick={()=>setEdit(!edit)}>
+                <button className="px-4 py-2 bg-purple-900 text-sm text-white rounded" onClick={()=>setEdit(!edit)}>
                     {edit? "Cancel":"Edit"}
                 </button>
             </div>
             {isloading?<div className="w-full flex items-center justify-center md:col-span-4 min-h-96">
                 <div className="flex flex-col items-center justify-center  w-full h-full">
-                    <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+                    <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-900"></div>
                 </div>
             </div>:
             <form className="flex flex-col md:grid md:grid-cols-2" onSubmit={(e)=>updateUser(e)}>
                 <div className="flex flex-col p-2">
-                    <h1 className="text-xs ">First Name</h1>
+                    <h1 className="text-xs font-bold">First Name</h1>
                     <input className="border border-gray-900 rounded bg-transparent w-full p-2 test-sm"
                         placeholder="first name"
                         required 
@@ -90,7 +90,7 @@ export default function CreateNew({params}){
                         />
                 </div>
                 <div className="flex flex-col p-2">
-                    <h1 className="text-xs ">Surname</h1>
+                    <h1 className="text-xs font-bold">Surname</h1>
                     <input className="border border-gray-900  rounded bg-transparent w-full p-2 test-sm"
                         placeholder="surname" 
                         required
@@ -99,7 +99,7 @@ export default function CreateNew({params}){
                         value={surname}/>
                 </div>
                 <div className="flex flex-col p-2">
-                    <h1 className="text-xs ">Phone Number</h1>
+                    <h1 className="text-xs font-bold">Phone Number</h1>
                     <input className="border border-gray-900  rounded bg-transparent w-full p-2 test-sm"
                         placeholder="phone number" 
                         type="text"
@@ -109,7 +109,7 @@ export default function CreateNew({params}){
                         value={phonenumber}/>
                 </div>
                 <div className="flex flex-col p-2">
-                    <h1 className="text-xs ">Role</h1>
+                    <h1 className="text-xs font-bold">Role</h1>
                     <select className="border border-gray-900  rounded bg-transparent w-full p-2 test-sm" 
                         onChange={(e)=>setRole(e.target.value)}>
                         <option className="bg-gray-900 text-white">--select role--</option>
@@ -118,7 +118,7 @@ export default function CreateNew({params}){
                     </select>
                 </div>
                 <div className="flex flex-col p-2">
-                    <button className="w-full bg-gray-900 text-white rounded p-2">Update</button>
+                    <button className="w-full bg-purple-900 text-white rounded p-2">Update</button>
                 </div>
             </form>}
         </div>

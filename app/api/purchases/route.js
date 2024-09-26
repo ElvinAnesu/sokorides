@@ -10,6 +10,7 @@ export async function POST(request, { params }) {
 		vehicleStatus,
 		totalPrice,
 		currentPayment,
+		gallery,
 	} = await request.json();
 
 	try {
@@ -21,6 +22,7 @@ export async function POST(request, { params }) {
 			vehicleStatus,
 			totalPrice,
 			currentPayment,
+			gallery,
 		});
 
 		if (!recordPuchase) {

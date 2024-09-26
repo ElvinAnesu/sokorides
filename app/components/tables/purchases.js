@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { EyeOpenIcon, TrashIcon } from "@radix-ui/react-icons";
+import { EyeOpenIcon, TrashIcon, PlusIcon } from "@radix-ui/react-icons";
 
 export default function PurchasesTable() {
 	const router = useRouter();
@@ -51,9 +51,10 @@ export default function PurchasesTable() {
 		<div className="flex flex-col w-full h-full gap-2">
 			<div className="flex w-full items-center justify-end">
 				<button
-					className="border border-gray-900 rounded px-4 py-2"
+					className="bg-purple-900 text-white  text-sm rounded px-2 py-2 flex items-center gap-1"
 					onClick={() => router.push("/dashboard/purchases/createnew")}
 				>
+					<PlusIcon />
 					Add New
 				</button>
 			</div>
@@ -61,16 +62,15 @@ export default function PurchasesTable() {
 				{isLoading ? (
 					<div className="w-full flex items-center justify-center md:col-span-4 min-h-96">
 						<div className="flex flex-col items-center justify-center  w-full h-full">
-							<div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+							<div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-900"></div>
 						</div>
 					</div>
 				) : (
 					<table className="w-full">
 						<tbody>
-							<tr className="px-2 bg-gray-900 text-white rounded-full">
-								<td className="px-2 rounded-s-full text-sm font-semibold">
-									Customer
-								</td>
+							<tr className="px-2 bg-purple-900 text-white rounded-full">
+								<td className="px-2 rounded-s-full text-sm font-semibold">#</td>
+								<td className="px-2 text-sm font-semibold">Customer</td>
 								<td className="text-sm font-semibold hidden md:table-cell">
 									Purchased Vehicle
 								</td>
@@ -92,6 +92,7 @@ export default function PurchasesTable() {
 							</tr>
 							{purchases.map((purchase, index) => (
 								<tr className="border-b border-gray-500" key={index}>
+									<td className="px-2 rounded-s-full text-sm">{index + 1}</td>
 									<td className="px-2 rounded-s-full text-sm">
 										{purchase.customerName}
 									</td>
@@ -102,13 +103,13 @@ export default function PurchasesTable() {
 										{purchase.vehicleStatus}
 									</td>
 									<td className="text-sm hidden md:table-cell">
-										{purchase.totalPrice}
+										${purchase.totalPrice.toFixed(2)}
 									</td>
 									<td className="text-sm hidden md:table-cell">
-										{purchase.currentPayment}
+										${purchase.currentPayment.toFixed(2)}
 									</td>
 									<td className="text-sm hidden md:table-cell">
-										{purchase.totalPrice - purchase.currentPayment}
+										${(purchase.totalPrice - purchase.currentPayment).toFixed(2)}
 									</td>
 									<td className="px-2 rounded-e-full text-sm flex gap-2">
 										<button

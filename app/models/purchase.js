@@ -26,6 +26,11 @@ const purchaseSchema = new Schema(
 			type: Number,
 			required: true,
 		},
+		gallery: [
+			{
+				type: String,
+			},
+		],
 	},
 	{ timestamps: true }
 );

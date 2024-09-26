@@ -13,12 +13,11 @@ export default function MainHeader() {
 
     const pathname = usePathname()
     const isDashboard = pathname.startsWith("/dashboard")
-    const isAuth = pathname.startsWith("auth")
 
     return( 
-        <div className="flex w-full h-100 p-2 items-center justify-between">
+        <div className="flex w-full h-100 p-2 items-center justify-between bg-purple-900">
             <div className="w-full md:hidden">
-                <button className="md:hidden border border-gray-900 rounded p-2" onClick={()=>setShowMobileNav(true)}>
+                <button className="md:hidden border border-white text-white rounded p-2" onClick={()=>setShowMobileNav(true)}>
                     <HamburgerMenuIcon />
                 </button>     
             </div>   
@@ -26,7 +25,7 @@ export default function MainHeader() {
             {!isDashboard &&       
             <div className="md:w-full md:flex gap-4 px-4">
                 <button onClick={()=> router.push("/")}>
-                    <h1 className="font-semibold text-xl">SOKORIDES</h1>
+                    <h1 className="font-semibold text-2xl">SOKO</h1>
                 </button><ul className="hidden md:flex gap-2 items-center">
                     <li><button className="text-sm" onClick={()=> router.push("/store/products")}>All</button></li>
                     <li><button className="text-sm" onClick={()=> router.push("/store/products/latest")}>latest</button></li>

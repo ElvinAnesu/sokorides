@@ -29,8 +29,11 @@ export default function CreateNew() {
     }
 	return (
 		<div className="flex flex-col w-full h-full gap-4">
-			<div className="flex  w-full items-center gap-2">
-				<button onClick={() => router.back()}>
+			<div className="flex   w-full items-center gap-2">
+				<button
+					className="border border-purple-900 text-purple-900 rounded-full flex items-center justify-centr p-1"
+					onClick={() => router.back()}
+				>
 					<ArrowLeftIcon className="h-4 w-4" />
 				</button>
 				<h1 className="text-sm font-bold">Add New Payment</h1>
@@ -43,7 +46,7 @@ export default function CreateNew() {
 					</div>
 				</div>
 			) : (
-				<form className="flex flex-col md:grid md:grid-cols-2 gap-4">
+				<form className="flex flex-col md:grid md:grid-cols-3 gap-4">
 					<div className="flex flex-col">
 						<h1 className="text-xs font-semibold">Full Name</h1>
 						<input
@@ -81,7 +84,7 @@ export default function CreateNew() {
 						/>
 					</div>
 					<div></div>
-					<button className="bg-gray-900 p-2 rounded text-white">Submit</button>
+					<button className="bg-purple-900 p-2 rounded text-white">Submit</button>
 				</form>
 			)}
 		</div>
