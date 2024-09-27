@@ -3,24 +3,22 @@ import { NextResponse } from "next/server";
 import Shipment from "@/app/models/shipment";
 import { Twilio } from "twilio";
 import Session from "@/app/models/session";
+import Purchase from "@/app/models/purchase";
 
 export const maxDuration = 60;
 
-const greeting =
-	"Hello there 👋.\nWelcome to SOKO WA platform.\n\n👉 Select an option below to get started\n\n";
+const greeting = "Hello there 👋.\nWelcome to SOKO WA platform.\n\n";
 const mainmenu =
-	"1. 🚖🚘 View cars for sale\n2. 💸 My Purchases\n3. 🚢 Track Shipment";
+	"👉 Select an option below to get started\n\n1. 🚖🚘 View cars for sale\n2. 💸 My Purchases\n3. 🚢 Track Shipment";
 const viewcars =
 	"to visit cars for sale please visit our website\n\nhttps://www.sokocars.com/";
-const invalidoption = "Invalid option. Select a valid option to proceed";
 const requestphone =
 	"Please provide your registered phone number in the format 0773XXXXXX";
-const shipmennotfound = "No shipment registerd under this phonenumber found";
+const purchasesmenu = "My Purchases\n1. View my purchases\n2. Back to main menu"
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = new Twilio(accountSid, authToken);
-let msgSend = false;
 
 export async function POST(request) {
 	const rawBody = await request.text();
@@ -32,18 +30,22 @@ export async function POST(request) {
 		connectdb();
 		const sessionExists = await Session.findOne({ user: from });
 		if (sessionExists) {
-			switch (sessionExists.currentStep) {
-				case 0:
-					msgSend = sendWhatsappMessage(`${greeting}\n${mainmenu}`, from);
+			switch (sessionExists.flow) {
+				case "mainmenu":
+					mainMenuFlow(body, from);
 					break;
-				case 1:
-					msgSend = stepOne(body, from);
+				case "shipment":
+					trackShipmentFlow(body, from);
+					break;
+				case "purchases":
+					myPurchasesFlow(body, from, sessionExists.currentStep);
 					break;
 				default:
+					mainMenuFlow(body, from);
 					break;
 			}
 		} else {
-			msgSend = sendWhatsappMessage(`${greeting}\n${mainmenu}`, from);
+			sendWhatsappMessage(`${greeting}\n${mainmenu}`, from);
 			await Session.create({
 				user: from,
 			});
@@ -52,7 +54,6 @@ export async function POST(request) {
 		return NextResponse.json({
 			success: true,
 			message: "transaction completed",
-			msgSend,
 		});
 	} catch (error) {
 		console.log(error);
@@ -60,6 +61,81 @@ export async function POST(request) {
 			success: false,
 			message: "Error sending whatsapp message",
 		});
+	}
+}
+
+async function mainMenuFlow(body, from) {
+	switch (body) {
+		case "1":
+			sendWhatsappMessage(
+				`${viewcars}\n\nHow else can i help you?\n${mainmenu}`,
+				from
+			);
+			break;
+		case "2":
+			await Session.findOneAndUpdate(
+				{ user: from },
+				{ currentStep: 1, flow: "purchases" }
+			);
+			sendWhatsappMessage(purchasesmenu, from);
+			break;
+		case "3":
+			await Session.findOneAndUpdate(
+				{ user: from },
+				{ currentStep: 1, flow: "shipment" }
+			);
+			sendWhatsappMessage(requestphone, from);
+			break;
+		default:
+			sendWhatsappMessage(
+				`You've selected an invalid option\n\n${mainmenu}`,
+				from
+			);
+			break;
+	}
+}
+async function trackShipmentFlow(body, from) {
+	const shipment = await Shipment.findOne({ customerphone: body });
+	if (shipment) {
+		let updates = shipment.update;
+		let update = updates.at(-1)
+			? updates.at(-1)
+			: "no updates available for shipments under";
+		sendWhatsappMessage(
+			`Updates for ${body}:\n${update} \n\n\nHow else can i help you?\n${mainmenu}`,
+			from
+		);
+		await Session.findOneAndUpdate(
+			{ user: from },
+			{
+				flow: "mainmenu",
+				currentStep: 1,
+			}
+		);
+	} else {
+		sendWhatsappMessage(
+			`No shipments registered  under ${body} found\n\nHow else can i help you?\n${mainmenu}`,
+			from
+		);
+		await Session.findOneAndUpdate(
+			{ user: from },
+			{
+				flow: "mainmenu",
+				currentStep: 1,
+			}
+		);
+	}
+}
+async function myPurchasesFlow(body, from, currentStep) {
+	switch (currentStep) {
+		case 1:
+			purchasesStepOne(body,from)
+			break;
+		case 2:
+			purchasesStepTwo(body,from)
+			break;
+		default:
+			break;
 	}
 }
 
@@ -76,24 +152,33 @@ async function sendWhatsappMessage(message, from) {
 	}
 }
 
-async function stepOne(body, from) {
-	switch (body) {
-		case "1":
-			//reply user go to step two
-			msgSend = sendWhatsappMessage(viewcars, from);
-			await Session.findOneAndUpdate(
-				{ user: from },
-				{currentStep: 0}
-			);
-			break;
-		case "2":
-			//get my purchases
-			break;
-		case "3":
-			//ask shipment data
-			break;
-		default:
-			//present main menu and remain there
-			break;
+async function purchasesStepOne(body,from) {
+	if (body === "1") {
+		sendWhatsappMessage(requestphone, from);
+		await Session.findOneAndUpdate({ user: from }, {
+			currentStep:2
+		})
+	} else if (body === "2"){
+		await Session.findOneAndUpdate(
+			{ user: from },
+			{
+				flow: "mainmenu",
+				currentStep: 1,
+			}
+		);
+		sendWhatsappMessage(mainmenu, from);
+	}else {
+		sendWhatsappMessage(`You've selected an invalid option\n\nSelect a valid option to proceed\n${purchasesmenu}`, from);
 	}
+} 
+
+async function purchasesStepTwo(body, from) {
+	await Session.findOneAndUpdate(
+		{ user: from },
+		{
+			flow: "mainmenu",
+			currentStep: 1,
+		}
+	);
+	sendWhatsappMessage(mainmenu, from);
 }

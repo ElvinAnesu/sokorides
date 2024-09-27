@@ -10,6 +10,10 @@ const sessionSchema = new Schema(
 			type: Number,
 			default: 1,
 		},
+		flow: {
+			type: String,
+			default:"mainmenu"
+		}
 	},
 	{ timestamps: true }
 );
