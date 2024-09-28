@@ -56,7 +56,7 @@ export default function DashBoard(){
                 <div className="hidden md:flex flex-col md:col-span-2">
                     <div className="flex flex-col gap-4">
                         <h1 className="text-black text-2xl font-semibold">Latest Shipments</h1>
-                        <p className="text-xs text-purple-900"><span className="text-black font-bold">Recently</span> added shipments</p>
+                        <p className="text-xs text-purple-900"><span className="text-black font-bold">Recently</span> added</p>
                         <div className="flex flex-col w-full h-full">
                             <table>
                                 <tbody>
