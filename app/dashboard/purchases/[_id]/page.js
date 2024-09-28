@@ -55,6 +55,7 @@ export default function PurchaseDetails({ params }) {
 				vehicleStatus: vehicleStatus,
 				totalPrice: totalPrice,
 				currentPayment: currentPayment,
+				gallery:gallery
 			}),
 		});
 		const data = await response.json();
