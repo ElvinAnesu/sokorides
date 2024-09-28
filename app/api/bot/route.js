@@ -14,7 +14,8 @@ const viewcars =
 	"to visit cars for sale please visit our website\n\nhttps://www.sokocars.com/";
 const requestphone =
 	"Please provide your registered phone number in the format 0773XXXXXX";
-const purchasesmenu = "My Purchases\n1. View my purchases\n2. Back to main menu"
+const purchasesmenu =
+	"My Purchases\n1. View my purchases\n2. Back to main menu";
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -129,10 +130,10 @@ async function trackShipmentFlow(body, from) {
 async function myPurchasesFlow(body, from, currentStep) {
 	switch (currentStep) {
 		case 1:
-			purchasesStepOne(body,from)
+			purchasesStepOne(body, from);
 			break;
 		case 2:
-			purchasesStepTwo(body,from)
+			purchasesStepTwo(body, from);
 			break;
 		default:
 			break;
@@ -152,13 +153,30 @@ async function sendWhatsappMessage(message, from) {
 	}
 }
 
-async function purchasesStepOne(body,from) {
+async function sendWhatsappImage(image, carname, from) {
+	const sendMsg = await client.messages.create({
+		mediaUrl:image,
+		body: carname,
+		from: "whatsapp:+17744893074",
+		to: from,
+	});
+	if (sendMsg) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+async function purchasesStepOne(body, from) {
 	if (body === "1") {
 		sendWhatsappMessage(requestphone, from);
-		await Session.findOneAndUpdate({ user: from }, {
-			currentStep:2
-		})
-	} else if (body === "2"){
+		await Session.findOneAndUpdate(
+			{ user: from },
+			{
+				currentStep: 2,
+			}
+		);
+	} else if (body === "2") {
 		await Session.findOneAndUpdate(
 			{ user: from },
 			{
@@ -167,18 +185,56 @@ async function purchasesStepOne(body,from) {
 			}
 		);
 		sendWhatsappMessage(mainmenu, from);
-	}else {
-		sendWhatsappMessage(`You've selected an invalid option\n\nSelect a valid option to proceed\n${purchasesmenu}`, from);
+	} else {
+		sendWhatsappMessage(
+			`You've selected an invalid option\n\nSelect a valid option to proceed\n${purchasesmenu}`,
+			from
+		);
 	}
-} 
+}
 
 async function purchasesStepTwo(body, from) {
-	await Session.findOneAndUpdate(
-		{ user: from },
-		{
-			flow: "mainmenu",
-			currentStep: 1,
+	const mypurchases = await Purchase.find({ customerPhonenumber: body });
+	const _mypurchases = mypurchases ? mypurchases : [];
+	
+	if (_mypurchases.length > 0) {
+		for (let i = 0; i < _mypurchases.length; i++) {
+			let car = _mypurchases[i]
+			let carname = car.purchasedItem;
+			let images = car.gallery;
+			
+			if (images.length > 0) {
+				for (let j = 0; j < images.length; j++) {
+					const _carimage = images[j];
+					await sendWhatsappImage(_carimage, carname, from);
+				}
+			} else {
+				await sendWhatsappMessage(
+					`No preview images available for this purchase (${carname})\n\n${mainmenu}`,
+					from
+				);
+			}
+				
 		}
-	);
-	sendWhatsappMessage(mainmenu, from);
+		await Session.findOneAndUpdate(
+			{ user: from },
+			{
+				flow: "mainmenu",
+				currentStep: 1,
+			}
+		);
+		await sendWhatsappMessage(`How else can i help you\n\n${mainmenu}`, from);
+	} else {
+		sendWhatsappMessage(
+			`No purchases registered under ${body} found\nHow else can i help you\n${mainmenu}`,
+			from
+		);
+		await Session.findOneAndUpdate(
+			{ user: from },
+			{
+				flow: "mainmenu",
+				currentStep: 1,
+			}
+		);
+	}
 }

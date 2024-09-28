@@ -10,6 +10,10 @@ const purchaseSchema = new Schema(
 			type: String,
 			required: true,
 		},
+		customerPhonenumber: {
+			type: String,
+			required: true,
+		},
 		purchasedItem: {
 			type: String,
 			required: true,
