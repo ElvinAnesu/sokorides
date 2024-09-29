@@ -11,7 +11,7 @@ const greeting = "Hello there 👋.\nWelcome to SOKO WA platform.\n\n";
 const mainmenu =
 	"👉 Select an option below to get started\n\n1. 🚖🚘 View cars for sale\n2. 💸 My Purchases\n3. 🚢 Track Shipment";
 const viewcars =
-	"to visit cars for sale please visit our website\n\nhttps://www.sokocars.com/";
+	"To visit cars for sale, please visit our website\n\nhttps://www.sokocars.com/";
 const requestphone =
 	"Please provide your registered phone number in the format 0773XXXXXX";
 const purchasesmenu =
@@ -22,220 +22,187 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = new Twilio(accountSid, authToken);
 
 export async function POST(request) {
-	const rawBody = await request.text();
-	const formData = new URLSearchParams(rawBody);
-	const body = formData.get("Body");
-	const from = formData.get("From");
-
 	try {
-		connectdb();
-		const sessionExists = await Session.findOne({ user: from });
-		if (sessionExists) {
-			switch (sessionExists.flow) {
+		const rawBody = await request.text();
+		const formData = new URLSearchParams(rawBody);
+		const body = formData.get("Body");
+		const from = formData.get("From");
+
+		await connectdb();
+
+		const session = await Session.findOne({ user: from });
+		if (session) {
+			switch (session.flow) {
 				case "mainmenu":
-					mainMenuFlow(body, from);
+					await mainMenuFlow(body, from);
 					break;
 				case "shipment":
-					trackShipmentFlow(body, from);
+					await trackShipmentFlow(body, from);
 					break;
 				case "purchases":
-					myPurchasesFlow(body, from, sessionExists.currentStep);
+					await myPurchasesFlow(body, from, session.currentStep);
 					break;
 				default:
-					mainMenuFlow(body, from);
+					await mainMenuFlow(body, from);
 					break;
 			}
 		} else {
-			sendWhatsappMessage(`${greeting}\n${mainmenu}`, from);
-			await Session.create({
-				user: from,
-			});
+			await sendWhatsappMessage(`${greeting}\n${mainmenu}`, from);
+			await Session.create({ user: from });
 		}
 
-		console.log("success")
 		return NextResponse.json({
 			success: true,
-			message: "transaction completed",
+			message: "Transaction completed",
 		});
 	} catch (error) {
-		console.log(error);
+		console.error("Error:", error.message);
 		return NextResponse.json({
 			success: false,
-			message: "Error sending whatsapp message",
+			message: "Error processing request",
 		});
 	}
 }
 
 async function mainMenuFlow(body, from) {
-	switch (body) {
-		case "1":
-			sendWhatsappMessage(
-				`${viewcars}\n\nHow else can i help you?\n${mainmenu}`,
-				from
-			);
-			break;
-		case "2":
-			await Session.findOneAndUpdate(
-				{ user: from },
-				{ currentStep: 1, flow: "purchases" }
-			);
-			sendWhatsappMessage(purchasesmenu, from);
-			break;
-		case "3":
-			await Session.findOneAndUpdate(
-				{ user: from },
-				{ currentStep: 1, flow: "shipment" }
-			);
-			sendWhatsappMessage(requestphone, from);
-			break;
-		default:
-			sendWhatsappMessage(
-				`You've selected an invalid option\n\n${mainmenu}`,
-				from
-			);
-			break;
+	try {
+		switch (body) {
+			case "1":
+				await sendWhatsappMessage(
+					`${viewcars}\n\nHow else can I help you?\n${mainmenu}`,
+					from
+				);
+				break;
+			case "2":
+				await updateSessionFlow(from, "purchases", 1);
+				await sendWhatsappMessage(purchasesmenu, from);
+				break;
+			case "3":
+				await updateSessionFlow(from, "shipment", 1);
+				await sendWhatsappMessage(requestphone, from);
+				break;
+			default:
+				await sendWhatsappMessage(`Invalid option\n\n${mainmenu}`, from);
+				break;
+		}
+	} catch (error) {
+		console.error("Main menu flow error:", error.message);
 	}
 }
+
 async function trackShipmentFlow(body, from) {
-	const shipment = await Shipment.findOne({ customerphone: body });
-	if (shipment) {
-		let updates = shipment.update;
-		let update = updates.at(-1)
-			? updates.at(-1)
-			: "no updates available for shipments under";
-		sendWhatsappMessage(
-			`Updates for ${body}:\n${update} \n\n\nHow else can i help you?\n${mainmenu}`,
+	try {
+		const shipment = await Shipment.findOne({ customerphone: body });
+		const update =
+			shipment?.update?.at(-1) || "No updates available for this shipment";
+
+		await sendWhatsappMessage(
+			`Updates for ${body}:\n${update}\n\nHow else can I help you?\n${mainmenu}`,
 			from
 		);
-		await Session.findOneAndUpdate(
-			{ user: from },
-			{
-				flow: "mainmenu",
-				currentStep: 1,
-			}
-		);
-	} else {
-		sendWhatsappMessage(
-			`No shipments registered  under ${body} found\n\nHow else can i help you?\n${mainmenu}`,
+		await updateSessionFlow(from, "mainmenu", 1);
+	} catch (error) {
+		console.error("Shipment tracking error:", error.message);
+		await sendWhatsappMessage(
+			`No shipments found for ${body}\n${mainmenu}`,
 			from
 		);
-		await Session.findOneAndUpdate(
-			{ user: from },
-			{
-				flow: "mainmenu",
-				currentStep: 1,
-			}
-		);
+		await updateSessionFlow(from, "mainmenu", 1);
 	}
 }
+
 async function myPurchasesFlow(body, from, currentStep) {
-	switch (currentStep) {
-		case 1:
-			purchasesStepOne(body, from);
-			break;
-		case 2:
-			purchasesStepTwo(body, from);
-			break;
-		default:
-			break;
-	}
-}
-
-async function sendWhatsappMessage(message, from) {
-	const sendMsg = await client.messages.create({
-		body: message,
-		from: "whatsapp:+17744893074",
-		to: from,
-	});
-	if (sendMsg) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
-async function sendWhatsappImage(image, carname, from) {
-	const sendMsg = await client.messages.create({
-		mediaUrl:image,
-		body: carname,
-		from: "whatsapp:+17744893074",
-		to: from,
-	});
-	if (sendMsg) {
-		return true;
-	} else {
-		return false;
+	try {
+		if (currentStep === 1) {
+			await purchasesStepOne(body, from);
+		} else if (currentStep === 2) {
+			await purchasesStepTwo(body, from);
+		}
+	} catch (error) {
+		console.error("Purchases flow error:", error.message);
 	}
 }
 
 async function purchasesStepOne(body, from) {
-	if (body === "1") {
-		sendWhatsappMessage(requestphone, from);
-		await Session.findOneAndUpdate(
-			{ user: from },
-			{
-				currentStep: 2,
-			}
-		);
-	} else if (body === "2") {
-		await Session.findOneAndUpdate(
-			{ user: from },
-			{
-				flow: "mainmenu",
-				currentStep: 1,
-			}
-		);
-		sendWhatsappMessage(mainmenu, from);
-	} else {
-		sendWhatsappMessage(
-			`You've selected an invalid option\n\nSelect a valid option to proceed\n${purchasesmenu}`,
-			from
-		);
+	try {
+		if (body === "1") {
+			await updateSessionStep(from, 2);
+			await sendWhatsappMessage(requestphone, from);
+		} else if (body === "2") {
+			await updateSessionFlow(from, "mainmenu", 1);
+			await sendWhatsappMessage(mainmenu, from);
+		} else {
+			await sendWhatsappMessage(`Invalid option\n\n${purchasesmenu}`, from);
+		}
+	} catch (error) {
+		console.error("Purchases step one error:", error.message);
 	}
 }
 
 async function purchasesStepTwo(body, from) {
-	const mypurchases = await Purchase.find({ customerPhonenumber: body });
-	const _mypurchases = mypurchases ? mypurchases : [];
-	
-	if (_mypurchases.length > 0) {
-		for (let i = 0; i < _mypurchases.length; i++) {
-			let car = _mypurchases[i]
-			let carname = car.purchasedItem;
-			let images = car.gallery;
-			
-			if (images.length > 0) {
-				for (let j = 0; j < images.length; j++) {
-					const _carimage = images[j];
-					await sendWhatsappImage(_carimage, carname, from);
-				}
-			} else {
-				await sendWhatsappMessage(
-					`No preview images available for this purchase (${carname})\n\n${mainmenu}`,
-					from
-				);
-			}
-				
+	try {
+		const purchases = await Purchase.find({ customerPhonenumber: body });
+
+		if (purchases.length > 0) {
+			await Promise.all(
+				purchases.map(async (purchase) => {
+					const { purchasedItem, gallery } = purchase;
+					if (gallery.length > 0) {
+						await Promise.all(
+							gallery.map((image) =>
+								sendWhatsappImage(image, purchasedItem, from)
+							)
+						);
+					} else {
+						await sendWhatsappMessage(
+							`No images for ${purchasedItem}\n${mainmenu}`,
+							from
+						);
+					}
+				})
+			);
+			await updateSessionFlow(from, "mainmenu", 1);
+		} else {
+			await sendWhatsappMessage(
+				`No purchases found for ${body}\n${mainmenu}`,
+				from
+			);
+			await updateSessionFlow(from, "mainmenu", 1);
 		}
-		await Session.findOneAndUpdate(
-			{ user: from },
-			{
-				flow: "mainmenu",
-				currentStep: 1,
-			}
-		);
-		await sendWhatsappMessage(`How else can i help you\n\n${mainmenu}`, from);
-	} else {
-		sendWhatsappMessage(
-			`No purchases registered under ${body} found\nHow else can i help you\n${mainmenu}`,
-			from
-		);
-		await Session.findOneAndUpdate(
-			{ user: from },
-			{
-				flow: "mainmenu",
-				currentStep: 1,
-			}
-		);
+	} catch (error) {
+		console.error("Purchases step two error:", error.message);
 	}
+}
+
+async function sendWhatsappMessage(message, from) {
+	try {
+		await client.messages.create({
+			body: message,
+			from: "whatsapp:+17744893074",
+			to: from,
+		});
+	} catch (error) {
+		console.error("Error sending WhatsApp message:", error.message);
+	}
+}
+
+async function sendWhatsappImage(image, carname, from) {
+	try {
+		await client.messages.create({
+			mediaUrl: image,
+			body: carname,
+			from: "whatsapp:+17744893074",
+			to: from,
+		});
+	} catch (error) {
+		console.error("Error sending WhatsApp image:", error.message);
+	}
+}
+
+async function updateSessionFlow(user, flow, currentStep) {
+	await Session.findOneAndUpdate({ user }, { flow, currentStep });
+}
+
+async function updateSessionStep(user, currentStep) {
+	await Session.findOneAndUpdate({ user }, { currentStep });
 }
