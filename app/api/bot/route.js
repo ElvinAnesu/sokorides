@@ -52,6 +52,7 @@ export async function POST(request) {
 			});
 		}
 
+		console.log("success")
 		return NextResponse.json({
 			success: true,
 			message: "transaction completed",
