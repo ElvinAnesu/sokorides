@@ -10,6 +10,7 @@ import {
 	ExitIcon,
 	CardStackIcon,
 	IdCardIcon,
+	ArchiveIcon,
 } from "@radix-ui/react-icons";
 
 export default function MobileDashboardNav({ onClose }) {
@@ -77,6 +78,20 @@ export default function MobileDashboardNav({ onClose }) {
 							className="flex gap-2 items-center"
 						>
 							<CardStackIcon /> Purchases
+						</Link>
+					</li>
+					<li
+						className={`p-2 rounded hover:bg-white hover:text-black  ${
+							pathname === "/dashboard/batches"
+								? "bg-white text-black"
+								: "text-white"
+						}`}
+					>
+						<Link
+							href="/dashboard/batches"
+							className="flex gap-2 items-center"
+						>
+							<ArchiveIcon /> Batches
 						</Link>
 					</li>
 					<li

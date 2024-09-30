@@ -5,6 +5,7 @@ import User from "@/app/models/user"
 export async function POST(request) {
     const {phonenumber, password} = await request.json()
     try {
+        await connectdb()
         const user = await User.findOne({phonenumber})
         if(!user){
             return NextResponse.json({

@@ -4,6 +4,7 @@ import User from "@/app/models/user"
 
 
 export async function POST(params) {
+    
     const {
         surname,
         firstname,
@@ -15,6 +16,7 @@ export async function POST(params) {
     console.log(phonenumber)
 
     try {
+       await connectdb();
         const user = await User.create({
             surname,
             firstname,
@@ -44,7 +46,8 @@ export async function POST(params) {
 }
 
 export async function GET(params) {
-    try{
+    try {
+        await connectdb();
         const users = await User.find()
         if(!users){
             return NextResponse.json({
@@ -59,7 +62,8 @@ export async function GET(params) {
             users
         })
 
-    }catch(error){
+    } catch (error) {
+        console.log(error.message)
         return NextResponse.json({
             success:true,
             message: "Error while fetching users"
