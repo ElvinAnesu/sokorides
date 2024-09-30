@@ -5,38 +5,39 @@ import { EyeOpenIcon, TrashIcon, PlusIcon } from "@radix-ui/react-icons";
 
 export default function BatchesTable() {
 	const router = useRouter();
-	const [shipments, setShipments] = useState([]);
+	const [batches, setBatches] = useState([]);
 	const [isLoadiig, setIsLoading] = useState(false);
 
-	const getShipments = async () => {
+	const getBatches = async () => {
 		setIsLoading(true);
-		const response = await fetch("/api/shipments", {
+		const response = await fetch("/api/batch", {
 			method: "GET",
 			headers: { "Content-Type": "application/json" },
 		});
 		const data = await response.json();
 		if (data.success) {
-			setShipments(data.shipments);
+			setBatches(data.batches);
 			setIsLoading(false);
 		} else {
 			alert(data.message);
 			setIsLoading(false);
 		}
 	};
-	const deleteShipment = async (_id) => {
-		const response = await fetch(`/api/shipments/${_id}`, {
+	const deleteBatch = async (_id) => {
+		const response = await fetch(`/api/batch/${_id}`, {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" },
 		});
 		const data = await response.json();
 		if (data.success) {
 			alert(data.message);
+			window.location.reload();
 		} else {
 			alert(data.message);
 		}
 	};
 	useEffect(() => {
-		getShipments();
+		getBatches();
 	}, []);
 
 	return (
@@ -66,27 +67,27 @@ export default function BatchesTable() {
 								Action
 							</td>
 						</tr>
-						{shipments.map((shipment, index) => (
+						{batches.map((batch, index) => (
 							<tr className="border-b border-gray-500" key={index}>
 								<td className="px-2 rounded-s-full text-sm">{index + 1}</td>
 								<td className="px-2 rounded-s-full text-sm">
-									Batch name
+									{batch.batchName}
 								</td>
 								<td className="text-sm hidden md:table-cell">
-									3
+									{batch.shipments.length || 0}
 								</td>
 								<td className="text-sm hidden md:table-cell">
-									Now in Chirundu
+									{batch.updates.at(-1) || "no updates yet"}
 								</td>
 								<td className="px-2 rounded-e-full flex items-center justify-around">
 									<button
 										onClick={() =>
-											router.push(`/dashboard/shipments/${shipment._id}`)
+											router.push(`/dashboard/batches/${batch._id}`)
 										}
 									>
 										<EyeOpenIcon />
 									</button>
-									<button onClick={() => deleteShipment(shipment._id)}>
+									<button onClick={() => deleteBatch(batch._id)}>
 										<TrashIcon />
 									</button>
 								</td>

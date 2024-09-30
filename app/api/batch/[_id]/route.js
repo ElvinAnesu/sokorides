@@ -52,13 +52,12 @@ export async function DELETE(request, { params }) {
 }
 export async function PUT(request, { params }) {
     const { _id } = params;
-    const { batchName, shipments, updates } = await request.json();
+    const { batchName, shipments} = await request.json();
 	try {
 		connectdb;
         const batch = await Batch.findByIdAndUpdate(_id, {
 					batchName,
 					shipments,
-					updates,
 				});
 		if (!batch) {
 			return NextResponse.json({

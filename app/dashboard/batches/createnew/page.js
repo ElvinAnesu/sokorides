@@ -1,53 +1,47 @@
 "use client";
 import { useEffect, useState } from "react";
-import { ArrowLeftIcon } from "@radix-ui/react-icons";
+import { ArrowLeftIcon, Cross1Icon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 
 export default function CreateNew() {
 	const router = useRouter();
-	const [customers, setCustomers] = useState([]);
-	const [customername, setCustomername] = useState();
-	const [customerphone, setCustomerphone] = useState();
-	const [customeremail, setCustomeremail] = useState();
-	const [purchaseditem, setPurchaseditem] = useState();
-	const [price, setPrice] = useState();
-	const [origin, setOrigin] = useState();
-	const [destination, setDestination] = useState();
+	const [allshipments, setAllShipments] = useState([]);
+	const [shipments, setShipments] = useState([]);
+	const [batchName, setBatchName] = useState();
 	const [isLoading, setIsLoading] = useState(false);
 
-	const getCustomers = async () => {
-		const response = await fetch("/api/customers", {
+	const getShipments = async () => {
+		const response = await fetch("/api/shipments", {
 			method: "GET",
 			headers: { "Content-Type": "applicaton/json" },
 		});
 		const data = await response.json();
 		if (data.success) {
-			setCustomers(data.customers);
+			setAllShipments(data.shipments);
 		} else {
 			alert(data.message);
 		}
 	};
-	const setCustomerdetails = (index) => {
-		setCustomername(
-			`${customers[index].surname} ${customers[index].firstname}`
-		);
-		setCustomerphone(customers[index].phonenumber);
-		setCustomeremail(customers[index].customeremail);
+	const addShipment = (selectedshipment) => {
+		if (!shipments.includes(selectedshipment)) {
+			setShipments((shipments) => [...shipments, selectedshipment]);
+		}
 	};
-	const createShipment = async (e) => {
+	const removeShipment = (shipmentToRemove) => {
+		setShipments((shipments) =>
+			shipments.filter((item) => item !== shipmentToRemove)
+		);
+	};
+	const createBatch = async (e) => {
 		e.preventDefault();
 		setIsLoading(true);
-		const response = await fetch("/api/shipments", {
+		const response = await fetch("/api/batch", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({
-				customername,
-				customerphone,
-				customeremail,
-				purchaseditem,
-				origin,
-				destination,
-				price,
+				batchName,
+				shipments,
+				updates: [],
 			}),
 		});
 		const data = await response.json();
@@ -59,8 +53,9 @@ export default function CreateNew() {
 			alert(data.message);
 		}
 	};
+
 	useEffect(() => {
-		getCustomers();
+		getShipments();
 	}, []);
 
 	return (
@@ -74,6 +69,23 @@ export default function CreateNew() {
 				</button>
 				<h1 className="text-sm font-semibold">Create New Batch Shipment</h1>
 			</div>
+			<div className="w-full flex flex-col md:grid md:grid-cols-5 items-center gap-2">
+				{allshipments
+					.filter((_shipment) => shipments.includes(_shipment._id))
+					.map((shipment_, index) => (
+						<div
+							className="flex p-2 gap-2 bg-purple-900 shadow rounded text-white font-semibold items-center justify-between"
+							key={index}
+						>
+							<h1 className="text-xs">
+								{`${shipment_.customername}-${shipment_.purchaseditem}`}
+							</h1>
+							<button onClick={() => removeShipment(shipment_._id)}>
+								<Cross1Icon />
+							</button>
+						</div>
+					))}
+			</div>
 			{isLoading ? (
 				<div className="w-full flex items-center justify-center md:col-span-4 min-h-96">
 					<div className="flex flex-col items-center justify-center  w-full h-full">
@@ -83,28 +95,28 @@ export default function CreateNew() {
 			) : (
 				<form
 					className="flex flex-col md:grid md:grid-cols-3 p-4 bg-white rounded"
-					onSubmit={(e) => createShipment(e)}
+					onSubmit={(e) => createBatch(e)}
 				>
 					<div className="flex flex-col p-2">
 						<h1 className="text-xs font-bold">Add Shipments</h1>
 						<select
-							className="border border-black rounded bg-transparent w-full p-2 test-sm"
-							onChange={(e) => setCustomerdetails(e.target.value)}
+							className="p-2 border border-gray-900 rounded bg-transparent"
+							onChange={(e) => addShipment(e.target.value)}
 						>
 							<option className="bg-gray-900 text-white">
-								--select customer--
+								--select shipment--
 							</option>
-							{customers ? (
-								customers.map((customer, index) => (
+							{shipments ? (
+								allshipments.map((shipment, index) => (
 									<option
 										key={index}
 										className="bg-gray-900 text-white"
-										value={index}
-									>{`${customer.surname} ${customer.firstname}`}</option>
+										value={shipment._id}
+									>{`${shipment.customername}-${shipment.purchaseditem}`}</option>
 								))
 							) : (
 								<option className="bg-gray-900 text-white">
-									no customers found
+									no shipments found
 								</option>
 							)}
 						</select>
@@ -114,7 +126,7 @@ export default function CreateNew() {
 						<input
 							className="border border-black rounded bg-transparent w-full p-2 test-sm"
 							placeholder="purchased vehicle"
-							onChange={(e) => setPurchaseditem(e.target.value)}
+							onChange={(e) => setBatchName(e.target.value)}
 						/>
 					</div>
 					<div></div>
