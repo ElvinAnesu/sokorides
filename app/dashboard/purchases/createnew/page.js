@@ -31,7 +31,8 @@ export default function CreateNew() {
 				vehicleStatus: vehilceStatus,
 				totalPrice: totalPrice,
 				currentPayment: currentPayment,
-				gallery:gallery
+				gallery: gallery,
+				customerPhonenumber: customers[selectCustomer].phonenumber,
 			}),
 		});
 		const data = await response.json();

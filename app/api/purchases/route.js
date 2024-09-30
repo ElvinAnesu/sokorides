@@ -11,6 +11,7 @@ export async function POST(request, { params }) {
 		totalPrice,
 		currentPayment,
 		gallery,
+		customerPhonenumber,
 	} = await request.json();
 
 	try {
@@ -23,6 +24,7 @@ export async function POST(request, { params }) {
 			totalPrice,
 			currentPayment,
 			gallery,
+			customerPhonenumber,
 		});
 
 		if (!recordPuchase) {
