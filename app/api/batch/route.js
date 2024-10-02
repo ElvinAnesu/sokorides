@@ -31,23 +31,35 @@ export async function POST(request) {
 	}
 }
 
-export async function GET(request) {
+export async function GET(request, { params }) {
 	try {
 		connectdb();
-		const batches = await Batch.find();
+		const { searchParams } = new URL(request.url);
+		const page = parseInt(searchParams.get("page"), 10) || 1;
+		const pageSize = parseInt(searchParams.get("pageSize"), 10) || 10;
+
+		const totalBatches = await Batch.countDocuments();
+		const batches = await Batch.find()
+			.sort({ _id: -1 })
+			.skip((page - 1) * pageSize)
+			.limit(pageSize);
+
 		if (!batches) {
 			return NextResponse.json({
 				success: false,
 				message: "Failed to fetch batches",
 			});
 		}
+
 		return NextResponse.json({
 			success: true,
 			message: "Batches fetched successfully",
+			totalBatches,
 			batches,
 		});
+
 	} catch (error) {
-		console.log(error.message);
+		console.log("Error: ",error.message);
 		return NextResponse.json({
 			success: false,
 			message: "Error while fetching batches",
