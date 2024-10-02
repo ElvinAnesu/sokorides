@@ -1,7 +1,13 @@
 "use client"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import { EyeOpenIcon, TrashIcon, PlusIcon } from "@radix-ui/react-icons"
+import {
+	EyeOpenIcon,
+	TrashIcon,
+	PlusIcon,
+	ArrowLeftIcon,
+	ArrowRightIcon,
+} from "@radix-ui/react-icons";
 
 const PAGE_SIZE = 10
 
@@ -9,7 +15,8 @@ export default function CustomersTable(){
     const router = useRouter()
     const [customers, setCustomers] = useState([])
     const [page, setPage] = useState(1)
-    const [searchQuery, setSearchQuery] = useState(null)
+	const [searchQuery, setSearchQuery] = useState(null)
+	const [total, setTotal] = useState(0);
     const [fetchingfailed, setFetchingFailed] = useState(false)
     const [errorMessage, setErrormessage] = useState()
     const [isLoading, setIsLoading] = useState(false)
@@ -25,7 +32,7 @@ export default function CustomersTable(){
 
         if(data.success){
             setCustomers(data.customers)
-            console.log(data.customers)
+            setTotal(data.totalCustomers);
             setIsLoading(false)
         }else{
             setErrormessage(data.message)
@@ -43,14 +50,30 @@ export default function CustomersTable(){
         const data = await response.json()
 
         if(data.success){
-            alert(data.message)
+			alert(data.message)
+			window.location.reload()
         }else{
             alert(data.message)
         }
-    }
+	}
+	
+	const handlePreviousPage = () => {
+		if (page > 1) {
+			setPage(page - 1);
+		}
+	};
+
+	const handleNextPage = () => {
+		if (page * PAGE_SIZE < total) {
+			setPage(page + 1);
+		}
+	};
+
+
+
     useEffect(()=>{
         getCustomers()
-    },[])
+    },[page])
 
     return (
 			<div className="flex flex-col w-full h-full gap-2">
@@ -89,7 +112,9 @@ export default function CustomersTable(){
 								</tr>
 								{customers.map((customer, index) => (
 									<tr className="border-b border-gray-500" key={index}>
-										<td className="px-2  text-sm">{index + 1}</td>
+										<td className="px-2  text-sm">
+											{(page - 1) * PAGE_SIZE + index + 1}
+										</td>
 										<td className="px-2 text-sm">{customer.surname}</td>
 										<td className="text-sm">{customer.firstname}</td>
 										<td className="text-sm">{customer.phonenumber}</td>
@@ -114,6 +139,23 @@ export default function CustomersTable(){
 							</tbody>
 						</table>
 					)}
+					<div className="flex w-full items-full items-center justify-center gap-4 mt-4">
+						<button
+							className="border border-purple-900 rounded-full p-1 text-purple-900"
+							onClick={handlePreviousPage}
+							disabled={page === 1}
+						>
+							<ArrowLeftIcon />
+						</button>
+						<span className="text-sm">page{page}</span>
+						<button
+							className="border border-purple-900 rounded-full p-1 text-purple-900"
+							onClick={handleNextPage}
+							disabled={page * PAGE_SIZE >= total}
+						>
+							<ArrowRightIcon />
+						</button>
+					</div>
 				</div>
 			</div>
 		);
