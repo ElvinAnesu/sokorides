@@ -1,75 +1,91 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { EyeOpenIcon, TrashIcon, PlusIcon } from "@radix-ui/react-icons";
+import {
+	PlusIcon,
+	ArrowLeftIcon,
+	ArrowRightIcon,
+} from "@radix-ui/react-icons";
+
+const PAGE_SIZE = 10;
 
 export default function PaymentsTable() {
 	const router = useRouter();
 	const [payments, setPayments] = useState([]);
-	const [isLoading, setIsLoading] = useState(false)
+	const [isLoading, setIsLoading] = useState(false);
+	const [page, setPage] = useState(1);
+	const [total, setTotal] = useState(0);
 
 	const getPayments = async () => {
-		setIsLoading(true)
-        const response = await fetch("/api/payments", {
-            method: "GET",
-            headers: { "Content-Type": "application/json" }
-        })
-        
-        const data = await response.json()
+		setIsLoading(true);
+		const response = await fetch("/api/payments", {
+			method: "GET",
+			headers: { "Content-Type": "application/json" },
+		});
+
+		const data = await response.json();
 
 		if (data.success) {
-			setIsLoading(false)
-            setPayments(data.payments)
+			setIsLoading(false);
+			setPayments(data.payments);
+			setTotal(data.totalPayments);
 		} else {
-			setIsLoading(false)
-            alert(data.message)
-        }
-    };
+			setIsLoading(false);
+			alert(data.message);
+		}
+	};
 
-      const formatDate = (date) => {
-				const dateObj = new Date(date);
-				const now = new Date();
+	const formatDate = (date) => {
+		const dateObj = new Date(date);
+		const now = new Date();
 
-				// Check if createdAt is today
-				if (
-					dateObj.getDate() === now.getDate() &&
-					dateObj.getMonth() === now.getMonth() &&
-					dateObj.getFullYear() === now.getFullYear()
-				) {
-					const hours = String(dateObj.getHours()).padStart(2, "0");
-					const minutes = String(dateObj.getMinutes()).padStart(2, "0");
-					return `today ${hours}:${minutes}`;
-				}
+		// Check if createdAt is today
+		if (
+			dateObj.getDate() === now.getDate() &&
+			dateObj.getMonth() === now.getMonth() &&
+			dateObj.getFullYear() === now.getFullYear()
+		) {
+			return "today";
+		}
 
-				// Check if createdAt is yesterday
-				const yesterday = new Date(now);
-				yesterday.setDate(now.getDate() - 1);
-				if (
-					dateObj.getDate() === yesterday.getDate() &&
-					dateObj.getMonth() === yesterday.getMonth() &&
-					dateObj.getFullYear() === yesterday.getFullYear()
-				) {
-					const hours = String(dateObj.getHours()).padStart(2, "0");
-					const minutes = String(dateObj.getMinutes()).padStart(2, "0");
-					return `yesterday ${hours}:${minutes}`;
-				}
+		// Check if createdAt is yesterday
+		const yesterday = new Date(now);
+		yesterday.setDate(now.getDate() - 1);
+		if (
+			dateObj.getDate() === yesterday.getDate() &&
+			dateObj.getMonth() === yesterday.getMonth() &&
+			dateObj.getFullYear() === yesterday.getFullYear()
+		) {
+			return "yesterday";
+		}
 
-				// For any day before yesterday
-				const formattedDate = `${String(dateObj.getDate()).padStart(
-					2,
-					"0"
-				)}/${String(dateObj.getMonth() + 1).padStart(2, "0")}/${String(
-					dateObj.getFullYear()
-				).slice(-2)}`;
-				const hours = String(dateObj.getHours()).padStart(2, "0");
-				const minutes = String(dateObj.getMinutes()).padStart(2, "0");
-				return `${formattedDate} ${hours}:${minutes}`;
-			};
+		// For any day before yesterday
+		const formattedDate = `${String(dateObj.getDate()).padStart(
+			2,
+			"0"
+		)}/${String(dateObj.getMonth() + 1).padStart(2, "0")}/${String(
+			dateObj.getFullYear()
+		).slice(-2)}`;
+		return formattedDate;
+	};
+
 	const deletePayment = async (_id) => {};
+
+	const handlePreviousPage = () => {
+		if (page > 1) {
+			setPage(page - 1);
+		}
+	};
+
+	const handleNextPage = () => {
+		if (page * PAGE_SIZE < total) {
+			setPage(page + 1);
+		}
+	};
 
 	useEffect(() => {
 		getPayments();
-	}, []);
+	}, [page]);
 
 	return (
 		<div className="flex flex-col w-full h-full gap-2 p-4">
@@ -82,7 +98,8 @@ export default function PaymentsTable() {
 					Add New
 				</button>
 			</div>
-			<div className="w-full h-full bg-gray-200 rounded p-4">
+
+			<div className="w-full bg-gray-200 rounded p-4">
 				{isLoading ? (
 					<div className="w-full flex items-center justify-center md:col-span-4 min-h-96">
 						<div className="flex flex-col items-center justify-center  w-full h-full">
@@ -131,6 +148,23 @@ export default function PaymentsTable() {
 						</tbody>
 					</table>
 				)}
+				<div className="flex w-full items-full items-center justify-center gap-4 mt-4">
+					<button
+						className="border border-purple-900 rounded-full p-1 text-purple-900"
+						onClick={handlePreviousPage}
+						disabled={page === 1}
+					>
+						<ArrowLeftIcon />
+					</button>
+					<span className="text-sm">page{page}</span>
+					<button
+						className="border border-purple-900 rounded-full p-1 text-purple-900"
+						onClick={handleNextPage}
+						disabled={page * PAGE_SIZE >= total}
+					>
+						<ArrowRightIcon />
+					</button>
+				</div>
 			</div>
 		</div>
 	);

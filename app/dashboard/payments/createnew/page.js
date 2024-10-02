@@ -1,32 +1,40 @@
-"use client"
+"use client";
 import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function CreateNew() {
+	const router = useRouter();
+	const [fullname, setFullname] = useState();
+	const [amount, setAmount] = useState();
+	const [date, setDate] = useState();
+	const [description, setDescription] = useState();
+	const [paymentMethod, setPaymentMethod] = useState();
+	const [isLoading, setIsLoading] = useState(false);
 
-    const router = useRouter();
-    const [fullname, setFullname] = useState()
-    const [amount, setAmount] = useState()
-    const [date, setDate] = useState()
-    const [description, setDescription] = useState()
-    const [paymentMethod, setPaymentMethod] = useState()
-    const [isLoading, setIsLoading] = useState(false)
-
-    const recordPayment = async (e) => {
-        e.preventDefault()
-        const response = await fetch("/api/payments", {
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({
-						fullname,
-						amount,
-						paymentMethod,
-						date,
-						description,
-					}),
-				});
-    }
+	const recordPayment = async (e) => {
+		e.preventDefault();
+		setIsLoading(true);
+		const response = await fetch("/api/payments", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				fullname,
+				amount,
+				paymentMethod,
+				date,
+				description,
+			}),
+		});
+		const data = await response.json();
+		if (data.success) {
+			alert(data.message);
+			setIsLoading(false);
+		} else {
+			alert(data.message);
+			setIsLoading(false);
+		}
+	};
 	return (
 		<div className="flex flex-col w-full h-full gap-4">
 			<div className="flex   w-full items-center gap-2">
@@ -46,26 +54,32 @@ export default function CreateNew() {
 					</div>
 				</div>
 			) : (
-				<form className="flex flex-col md:grid md:grid-cols-3 gap-4">
+				<form
+					className="flex flex-col md:grid md:grid-cols-3 gap-4"
+					onSubmit={(e) => recordPayment(e)}
+				>
 					<div className="flex flex-col">
 						<h1 className="text-xs font-semibold">Full Name</h1>
 						<input
 							className="border rouded border-gray-900 rounded bg-transparent p-2 text-sm"
-							placeholder="full name"
+								placeholder="full name"
+								onChange={(e)=>setFullname(e.target.value)}
 						/>
 					</div>
 					<div className="flex flex-col">
 						<h1 className="text-xs font-semibold">Amount</h1>
 						<input
 							className="border rouded border-gray-900 rounded bg-transparent p-2 text-sm"
-							placeholder="amount"
+								placeholder="amount"
+								onChange={(e)=>setAmount(e.target.value)}
 						/>
 					</div>
 					<div className="flex flex-col">
 						<h1 className="text-xs font-semibold">Payment Method</h1>
 						<input
 							className="border rouded border-gray-900 rounded bg-transparent p-2 text-sm"
-							placeholder="payment method"
+								placeholder="payment method"
+								onChange={(e)=>setPaymentMethod(e.target.value)}
 						/>
 					</div>
 					<div className="flex flex-col">
@@ -73,18 +87,22 @@ export default function CreateNew() {
 						<input
 							className="border rouded border-gray-900 rounded bg-transparent p-2 text-sm"
 							placeholder="date"
-							type="date"
+								type="date"
+								onChange={(e)=>setDate(e.target.value)}
 						/>
 					</div>
 					<div className="flex flex-col">
 						<h1 className="text-xs font-semibold">Description</h1>
 						<input
 							className="border rouded border-gray-900 rounded bg-transparent p-2 text-sm"
-							placeholder="description"
+								placeholder="description"
+								onChange={(e)=>setDescription(e.target.value)}
 						/>
 					</div>
 					<div></div>
-					<button className="bg-purple-900 p-2 rounded text-white">Submit</button>
+					<button className="bg-purple-900 p-2 rounded text-white">
+						Submit
+					</button>
 				</form>
 			)}
 		</div>
