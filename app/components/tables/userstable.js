@@ -85,7 +85,7 @@ export default function UsersTable() {
 					Add New
 				</button>
 			</div>
-			<div className="w-full h-full bg-gray-200 rounded p-4">
+			<div className="w-full bg-gray-200 rounded p-4">
 				{isLoading ? (
 					<div className="w-full flex items-center justify-center md:col-span-4 min-h-96">
 						<div className="flex flex-col items-center justify-center  w-full h-full">

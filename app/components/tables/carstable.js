@@ -1,7 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { EyeOpenIcon, PlusIcon, TrashIcon } from "@radix-ui/react-icons";
+import {
+	EyeOpenIcon,
+	PlusIcon,
+	TrashIcon,
+	ArrowLeftIcon,
+	ArrowRightIcon,
+} from "@radix-ui/react-icons";
 
 const PAGE_SIZE = 10;
 
@@ -9,7 +15,7 @@ export default function CarsTable() {
 	const router = useRouter();
 	const [page, setPage] = useState(1);
 	const [searchParams, setSearchParams] = useState();
-	const [totalProducts, setTotalProducts] = useState(0);
+	const [total, setTotal] = useState(0);
 	const [products, setProducts] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -26,7 +32,7 @@ export default function CarsTable() {
 		const data = await response.json();
 
 		if (data.success) {
-			setTotalProducts(data.total);
+			setTotal(data.total);
 			setProducts(data.products);
 			setIsLoading(false);
 		} else {
@@ -50,9 +56,21 @@ export default function CarsTable() {
 		}
 	};
 
+	const handlePreviousPage = () => {
+		if (page > 1) {
+			setPage(page - 1);
+		}
+	};
+
+	const handleNextPage = () => {
+		if (page * PAGE_SIZE < total) {
+			setPage(page + 1);
+		}
+	};
+
 	useEffect(() => {
 		getProducts();
-	}, []);
+	}, [page]);
 
 	return (
 		<div className="flex flex-col w-full h-full gap-2">
@@ -71,7 +89,7 @@ export default function CarsTable() {
 					</div>
 				</div>
 			) : (
-				<div className="w-full h-full bg-gray-200 rounded p-4">
+				<div className="w-full bg-gray-200 rounded p-4">
 					<table className="w-full">
 						<tbody>
 							<tr className="px-2 bg-purple-900 text-white  rounded-full">
@@ -87,9 +105,14 @@ export default function CarsTable() {
 									Action
 								</td>
 							</tr>
-							{totalProducts === 0 ? (
-								<tr >
-									<td colSpan={4} className="text-black text-sm table:cell items-center justify-center">Products not found</td>
+							{total === 0 ? (
+								<tr>
+									<td
+										colSpan={4}
+										className="text-black text-sm table:cell items-center justify-center"
+									>
+										Products not found
+									</td>
 								</tr>
 							) : (
 								products.map((car, index) => (
@@ -117,6 +140,23 @@ export default function CarsTable() {
 							)}
 						</tbody>
 					</table>
+					<div className="flex w-full items-full items-center justify-center gap-4 mt-4">
+						<button
+							className="border border-purple-900 rounded-full p-1 text-purple-900"
+							onClick={handlePreviousPage}
+							disabled={page === 1}
+						>
+							<ArrowLeftIcon />
+						</button>
+						<span className="text-sm">page{page}</span>
+						<button
+							className="border border-purple-900 rounded-full p-1 text-purple-900"
+							onClick={handleNextPage}
+							disabled={page * PAGE_SIZE >= total}
+						>
+							<ArrowRightIcon />
+						</button>
+					</div>
 				</div>
 			)}
 		</div>
