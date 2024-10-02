@@ -5,7 +5,7 @@ import { useState } from "react";
 export default function MobileNav({ onClose }) {
     const [searchQuery, setSearchQuery] = useState()
     return (
-			<div className="absolute h-full top-0 left-0 bg-purple-900 flex flex-col gap-4 p-4 z-10 w-3/4">
+			<div className="absolute h-full top-0 left-0 bg-purple-900 flex flex-col gap-4 p-4 z-10 w-3/4 md:w-1/5">
 				<div className="flex items-center justify-end">
 					<button
 						className="border border-white text-white rounded p-2"
@@ -14,7 +14,7 @@ export default function MobileNav({ onClose }) {
 						<Cross1Icon />
 					</button>
 				</div>
-				<div className="relative w-full px-4">
+				<div className="relative w-full px-4 md:hidden">
 					<input
 						className="border border-white rounded-full bg-transparent p-2 text-sm w-full text-white"
 						placeholder="search for cars"
@@ -27,11 +27,23 @@ export default function MobileNav({ onClose }) {
 						<MagnifyingGlassIcon className="w-6 h-6" />
 					</button>
 				</div>
-				<button
-					className="border border-white text-white rounded p-2 w-full"
-				>
+				<button className="border border-white text-white rounded p-2 w-full md:hidden">
 					search
 				</button>
+				<ul className="flex flex-col text-white text-xs font-semibold gap-4">
+					<li>
+						<button>Hybrid</button>
+					</li>
+					<li>
+						<button>SUV</button>
+					</li>
+					<li>
+						<button>Fuel Saver</button>
+					</li>
+					<li>
+						<button>Latest</button>
+					</li>
+				</ul>
 			</div>
 		);
 }

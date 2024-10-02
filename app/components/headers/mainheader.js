@@ -15,15 +15,14 @@ export default function MainHeader() {
 
 	return (
 		<div className="flex w-full h-100 p-2 items-center justify-between bg-purple-900">
-			<div className="w-full md:hidden">
+			<div className={`${isDashboard && "hidden"}`}>
 				<button
-					className="md:hidden border border-white text-white rounded p-2"
+					className="border border-white text-white rounded p-2"
 					onClick={() => setShowMobileNav(true)}
 				>
 					<HamburgerMenuIcon />
 				</button>
 			</div>
-
 			{!isDashboard && (
 				<div className="md:w-full md:flex gap-4 px-4">
 					<button onClick={() => router.push("/")}>
@@ -64,7 +63,9 @@ export default function MainHeader() {
 					<MobileNav onClose={() => setShowMobileNav(false)} />
 				)
 			) : (
-				<div></div>
+				<div>
+						
+				</div>
 			)}
 		</div>
 	);
