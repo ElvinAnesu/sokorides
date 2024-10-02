@@ -1,28 +1,43 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { EyeOpenIcon, TrashIcon, PlusIcon } from "@radix-ui/react-icons";
+import {
+	EyeOpenIcon,
+	TrashIcon,
+	PlusIcon,
+	ArrowLeftIcon,
+	ArrowRightIcon,
+} from "@radix-ui/react-icons";
+
+const PAGE_SIZE = 10;
 
 export default function ShipmentsTable() {
 	const router = useRouter();
 	const [shipments, setShipments] = useState([]);
-	const [isLoadiig, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+	const [page, setPage] = useState(1);
+	const [total, setTotal] = useState(0);
 
 	const getShipments = async () => {
 		setIsLoading(true);
-		const response = await fetch("/api/shipments", {
-			method: "GET",
-			headers: { "Content-Type": "application/json" },
-		});
+		const response = await fetch(
+			`/api/shipments?page=${page}&pageSize=${PAGE_SIZE}`,
+			{
+				method: "GET",
+				headers: { "Content-Type": "application/json" },
+			}
+		);
 		const data = await response.json();
 		if (data.success) {
 			setShipments(data.shipments);
+			setTotal(data.totalShipments);
 			setIsLoading(false);
 		} else {
 			alert(data.message);
 			setIsLoading(false);
 		}
 	};
+
 	const deleteShipment = async (_id) => {
 		const response = await fetch(`/api/shipments/${_id}`, {
 			method: "DELETE",
@@ -31,13 +46,27 @@ export default function ShipmentsTable() {
 		const data = await response.json();
 		if (data.success) {
 			alert(data.message);
+			window.location.reload()
 		} else {
 			alert(data.message);
 		}
 	};
+
+	const handlePreviousPage = () => {
+		if (page > 1) {
+			setPage(page - 1);
+		}
+	};
+
+	const handleNextPage = () => {
+		if (page * PAGE_SIZE < total) {
+			setPage(page + 1);
+		}
+	};
+
 	useEffect(() => {
 		getShipments();
-	}, []);
+	}, [page]);
 
 	return (
 		<div className="flex flex-col w-full h-full gap-2">
@@ -50,56 +79,83 @@ export default function ShipmentsTable() {
 					Add New
 				</button>
 			</div>
-			<div className="w-full h-full bg-gray-200 rounded p-4">
-				<table className="w-full">
-					<tbody>
-						<tr className="px-2 bg-purple-900 text-white rounded-full">
-							<td className="px-2 rounded-s-full text-sm font-semibold">#</td>
-							<td className="px-2 text-sm font-semibold">Customer</td>
-							<td className="text-sm font-semibold hidden md:table-cell">
-								Phone Number
-							</td>
-							<td className="text-sm font-semibold hidden md:table-cell">
-								Purchased Vehicle
-							</td>
-							<td className="text-sm font-semibold hidden md:table-cell">
-								Price
-							</td>
-							<td className="px-2 rounded-e-full text-sm font-semibold">
-								Action
-							</td>
-						</tr>
-						{shipments.map((shipment, index) => (
-							<tr className="border-b border-gray-500" key={index}>
-								<td className="px-2 rounded-s-full text-sm">{index + 1}</td>
-								<td className="px-2 rounded-s-full text-sm">
-									{shipment.customername}
+			<div className="w-full  bg-gray-200 rounded p-4">
+				{isLoading ? (
+					<div className="w-full flex items-center justify-center md:col-span-4 min-h-96">
+						<div className="flex flex-col items-center justify-center  w-full h-full">
+							<div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-900"></div>
+						</div>
+					</div>
+				) : (
+					<table className="w-full">
+						<tbody>
+							<tr className="px-2 bg-purple-900 text-white rounded-full">
+								<td className="px-2 rounded-s-full text-sm font-semibold">#</td>
+								<td className="px-2 text-sm font-semibold">Customer</td>
+								<td className="text-sm font-semibold hidden md:table-cell">
+									Phone Number
 								</td>
-								<td className="text-sm hidden md:table-cell">
-									{shipment.customerphone}
+								<td className="text-sm font-semibold hidden md:table-cell">
+									Purchased Vehicle
 								</td>
-								<td className="text-sm hidden md:table-cell">
-									{shipment.purchaseditem}
+								<td className="text-sm font-semibold hidden md:table-cell">
+									Price
 								</td>
-								<td className="text-sm hidden md:table-cell">
-									{shipment.price}
-								</td>
-								<td className="px-2 rounded-e-full flex items-center justify-around">
-									<button
-										onClick={() =>
-											router.push(`/dashboard/shipments/${shipment._id}`)
-										}
-									>
-										<EyeOpenIcon />
-									</button>
-									<button onClick={() => deleteShipment(shipment._id)}>
-										<TrashIcon />
-									</button>
+								<td className="px-2 rounded-e-full text-sm font-semibold">
+									Action
 								</td>
 							</tr>
-						))}
-					</tbody>
-				</table>
+							{shipments.map((shipment, index) => (
+								<tr className="border-b border-gray-500" key={index}>
+									<td className="px-2 rounded-s-full text-sm">
+										{(page - 1) * PAGE_SIZE + index + 1}
+									</td>
+									<td className="px-2 rounded-s-full text-sm">
+										{shipment.customername}
+									</td>
+									<td className="text-sm hidden md:table-cell">
+										{shipment.customerphone}
+									</td>
+									<td className="text-sm hidden md:table-cell">
+										{shipment.purchaseditem}
+									</td>
+									<td className="text-sm hidden md:table-cell">
+										{shipment.price}
+									</td>
+									<td className="px-2 rounded-e-full flex items-center justify-around">
+										<button
+											onClick={() =>
+												router.push(`/dashboard/shipments/${shipment._id}`)
+											}
+										>
+											<EyeOpenIcon />
+										</button>
+										<button onClick={() => deleteShipment(shipment._id)}>
+											<TrashIcon />
+										</button>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				)}
+				<div className="flex w-full items-full items-center justify-center gap-4 mt-4">
+					<button
+						className="border border-purple-900 rounded-full p-1 text-purple-900"
+						onClick={handlePreviousPage}
+						disabled={page === 1}
+					>
+						<ArrowLeftIcon />
+					</button>
+					<span className="text-sm">page{page}</span>
+					<button
+						className="border border-purple-900 rounded-full p-1 text-purple-900"
+						onClick={handleNextPage}
+						disabled={page * PAGE_SIZE >= total}
+					>
+						<ArrowRightIcon />
+					</button>
+				</div>
 			</div>
 		</div>
 	);

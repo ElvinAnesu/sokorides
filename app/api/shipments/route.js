@@ -66,15 +66,17 @@ export async function GET(request,{params}) {
     : {}
 
     try {
-        connectdb()
+        await connectdb()
         const totalShipments = await Shipment.countDocuments(query)
-        const shipments = await Shipment.find(query).skip((page-1) * pageSize).limit(pageSize)
+        const shipments = await Shipment.find(query).skip((page - 1) * pageSize).limit(pageSize)
+        
         if(!shipments){
             return NextResponse.json({
                 success:false,
                 message:"Failed getting shipments"
             })
         }
+        
         return NextResponse.json({
             success:true,
             message:"Shipments fetched successfully",
