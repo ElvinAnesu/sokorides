@@ -1,51 +1,78 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { EyeOpenIcon, TrashIcon, PlusIcon } from "@radix-ui/react-icons";
+import {
+	EyeOpenIcon,
+	TrashIcon,
+	PlusIcon,
+	ArrowLeftIcon,
+	ArrowRightIcon,
+} from "@radix-ui/react-icons";
+
+const PAGE_SIZE = 10;
 
 export default function PurchasesTable() {
 	const router = useRouter();
 	const [purchases, setPurchasess] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
+	const [page, setPage] = useState(1);
+	const [total, setTotal] = useState(0);
 
 	const getPurchases = async () => {
 		setIsLoading(true);
-		const response = await fetch("/api/purchases", {
-			method: "GET",
-			headers: { "Content-Type": "applicaction/json" },
-		});
+
+		const response = await fetch(
+			`/api/purchases?page=${page}&pageSize=${PAGE_SIZE}`,
+			{
+				method: "GET",
+				headers: { "Content-Type": "applicaction/json" },
+			}
+		);
 		const data = await response.json();
 		if (data.success) {
 			setPurchasess(data.purchases);
+			setTotal(data.totalPurchases);
 			setIsLoading(false);
 		} else {
 			setIsLoading(false);
 			alert(data.message);
 		}
 	};
-  const deletePurchase = async (_id) => {
-    const confirmDelete = confirm("Delete this purchase record")
-    if (confirmDelete) {
-      setIsLoading(true)
-      const response = await fetch(`/api/purchases/${_id}`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-      })
-      const data = await response.json()
-      if (data.success) {
-        setIsLoading(false)
-        alert(data.message)
-        window.location.reload()
-      } else {
-        setIsLoading(false);
+	const deletePurchase = async (_id) => {
+		const confirmDelete = confirm("Delete this purchase record");
+		if (confirmDelete) {
+			setIsLoading(true);
+			const response = await fetch(`/api/purchases/${_id}`, {
+				method: "DELETE",
+				headers: { "Content-Type": "application/json" },
+			});
+			const data = await response.json();
+			if (data.success) {
+				setIsLoading(false);
 				alert(data.message);
-      }
-    }
-  };
+				window.location.reload();
+			} else {
+				setIsLoading(false);
+				alert(data.message);
+			}
+		}
+	};
+
+	const handlePreviousPage = () => {
+		if (page > 1) {
+			setPage(page - 1);
+		}
+	};
+
+	const handleNextPage = () => {
+		if (page * PAGE_SIZE < total) {
+			setPage(page + 1);
+		}
+	};
 
 	useEffect(() => {
 		getPurchases();
-	}, []);
+	}, [page]);
 
 	return (
 		<div className="flex flex-col w-full h-full gap-2">
@@ -92,7 +119,9 @@ export default function PurchasesTable() {
 							</tr>
 							{purchases.map((purchase, index) => (
 								<tr className="border-b border-gray-500" key={index}>
-									<td className="px-2 rounded-s-full text-sm">{index + 1}</td>
+									<td className="px-2 rounded-s-full text-sm">
+										{(page - 1) * PAGE_SIZE + index + 1}
+									</td>
 									<td className="px-2 rounded-s-full text-sm">
 										{purchase.customerName}
 									</td>
@@ -109,7 +138,8 @@ export default function PurchasesTable() {
 										${purchase.currentPayment.toFixed(2)}
 									</td>
 									<td className="text-sm hidden md:table-cell">
-										${(purchase.totalPrice - purchase.currentPayment).toFixed(2)}
+										$
+										{(purchase.totalPrice - purchase.currentPayment).toFixed(2)}
 									</td>
 									<td className="px-2 rounded-e-full text-sm flex gap-2">
 										<button
@@ -128,6 +158,23 @@ export default function PurchasesTable() {
 						</tbody>
 					</table>
 				)}
+				<div className="flex w-full items-full items-center justify-center gap-4 mt-4">
+					<button
+						className="border border-purple-900 rounded-full p-1 text-purple-900"
+						onClick={handlePreviousPage}
+						disabled={page === 1}
+					>
+						<ArrowLeftIcon />
+					</button>
+					<span className="text-sm">page{page}</span>
+					<button
+						className="border border-purple-900 rounded-full p-1 text-purple-900"
+						onClick={handleNextPage}
+						disabled={page * PAGE_SIZE >= total}
+					>
+						<ArrowRightIcon />
+					</button>
+				</div>
 			</div>
 		</div>
 	);

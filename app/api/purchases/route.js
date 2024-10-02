@@ -47,8 +47,17 @@ export async function POST(request, { params }) {
 }
 export async function GET(request, { params }) {
 	try {
-		connectdb();
-		const purchases = await Purchase.find();
+		await connectdb();
+		const { searchParams } = new URL(request.url);
+		const page = parseInt(searchParams.get("page"), 10) || 1;
+		const pageSize = parseInt(searchParams.get("pageSize"), 10) || 10;
+
+		const totalPurchases = await Purchase.countDocuments();
+		const purchases = await Purchase.find()
+			.sort({ _id: -1 })
+			.skip((page - 1) * pageSize)
+			.limit(pageSize);
+
 		if (!purchases) {
 			return NextResponse.json({
 				success: false,
@@ -57,8 +66,9 @@ export async function GET(request, { params }) {
 		}
 		return NextResponse.json({
 			success: true,
-            message: "Purchases fetched successfully",
-            purchases
+			message: "Purchases fetched successfully",
+			totalPurchases,
+			purchases,
 		});
 	} catch (error) {
 		console.log(error);
