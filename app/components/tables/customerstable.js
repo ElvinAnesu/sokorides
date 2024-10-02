@@ -85,7 +85,7 @@ export default function CustomersTable(){
 						<PlusIcon /> Add New
 					</button>
 				</div>
-				<div className="w-full h-full bg-gray-200 rounded p-4">
+				<div className="w-full bg-gray-200 rounded p-4">
 					{fetchingfailed ? (
 						<div className="w-full h-full items-center justify-center">
 							<h1>{errorMessage}</h1>
