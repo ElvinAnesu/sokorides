@@ -53,7 +53,7 @@ export async function POST(request) {
             newproduct
         })
     }catch(error){
-        console.log()
+        console.log("Error: ", error.message);
         return NextResponse.json({ 
             success:false,
             message:"Error while creating the product"
@@ -102,7 +102,7 @@ export async function GET(request,{params}) {
             products,
         })
     }catch(error){
-        console.log(error)
+        console.log("Error :",error.message)
         return NextResponse.json({
             success:false,
             message:"Error while fetching the products",

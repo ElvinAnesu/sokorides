@@ -15,7 +15,7 @@ export default function MainHeader() {
 
 	return (
 		<div className="flex w-full h-100 p-2 items-center justify-between bg-purple-900">
-			<div className={`${isDashboard && "hidden"}`}>
+			<div className={`${isDashboard && "md:hidden"}`}>
 				<button
 					className="border border-white text-white rounded p-2"
 					onClick={() => setShowMobileNav(true)}

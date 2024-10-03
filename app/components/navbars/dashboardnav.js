@@ -10,7 +10,8 @@ import {
 	ExitIcon,
 	CardStackIcon,
 	IdCardIcon,
-	ArchiveIcon
+	ArchiveIcon,
+	ReaderIcon
 } from "@radix-ui/react-icons";
 
 export default function DashBoardNav() {
@@ -45,6 +46,17 @@ export default function DashBoardNav() {
 				</li>
 				<li
 					className={`p-2 rounded hover:bg-white hover:text-black ${
+						pathname === "/dashboard/invoices"
+							? "bg-white text-black"
+							: "text-white "
+					}`}
+				>
+					<Link href="/dashboard/invoices" className="flex gap-2 items-center">
+						<ReaderIcon /> Invoice
+					</Link>
+				</li>
+				<li
+					className={`p-2 rounded hover:bg-white hover:text-black ${
 						pathname === "/dashboard/payments"
 							? "bg-white text-black"
 							: "text-white "
@@ -73,7 +85,7 @@ export default function DashBoardNav() {
 					}`}
 				>
 					<Link href="/dashboard/batches" className="flex gap-2 items-center">
-						<ArchiveIcon/> Batches
+						<ArchiveIcon /> Batches
 					</Link>
 				</li>
 				<li
