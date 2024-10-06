@@ -5,6 +5,8 @@ import {
 	PlusIcon,
 	ArrowLeftIcon,
 	ArrowRightIcon,
+	TrashIcon,
+	EyeOpenIcon,
 } from "@radix-ui/react-icons";
 
 const PAGE_SIZE = 10;
@@ -69,7 +71,30 @@ export default function PaymentsTable() {
 		return formattedDate;
 	};
 
-	const deletePayment = async (_id) => {};
+	const deletePayment = async (_id, customer) => {
+		const role = localStorage.getItem("role");
+		if (role === "owner") {
+			const confirmDelete = confirm(`Delete payment for ${customer}`);
+			if (confirmDelete) {
+				setIsLoading(true)
+				const response = await fetch(`/api/payments/${_id}`, {
+					method: "DELETE",
+					headers:{"Content-Type":"application/json"}
+				})
+				const data = await response.json()
+				if (data.success) {
+					setIsLoading(false)
+					alert(data.message)
+					window.location.reload()
+				} else {
+					setIsLoading(false);
+					alert(data.message);
+				}
+			}
+		} else {
+			alert("No rights to perform this action");
+		}
+	};
 
 	const handlePreviousPage = () => {
 		if (page > 1) {
@@ -121,8 +146,11 @@ export default function PaymentsTable() {
 								<td className="text-sm font-semibold hidden md:table-cell">
 									Payment Method
 								</td>
-								<td className="text-sm font-semibold rounded-e-full hidden md:table-cell">
+								<td className="text-sm font-semibold hidden md:table-cell">
 									Date
+								</td>
+								<td className="text-sm font-semibold rounded-e-full ">
+									Action
 								</td>
 							</tr>
 							{payments.map((payment, index) => (
@@ -142,6 +170,18 @@ export default function PaymentsTable() {
 									</td>
 									<td className="text-sm hidden md:table-cell">
 										{formatDate(payment.date)}
+									</td>
+									<td className="text-sm flex gap-4">
+										<button onClick={()=> router.push(`/dashboard/payments/${payment._id}`)}>
+											<EyeOpenIcon />
+										</button>
+										<button
+											onClick={(e) =>
+												deletePayment(payment._id, payment.fullname)
+											}
+										>
+											<TrashIcon />
+										</button>
 									</td>
 								</tr>
 							))}

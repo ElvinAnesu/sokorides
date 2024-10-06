@@ -39,16 +39,27 @@ export default function BatchesTable() {
 	};
 
 	const deleteBatch = async (_id) => {
-		const response = await fetch(`/api/batch/${_id}`, {
-			method: "DELETE",
-			headers: { "Content-Type": "application/json" },
-		});
-		const data = await response.json();
-		if (data.success) {
-			alert(data.message);
-			window.location.reload();
+		const role = localStorage.getItem("role")
+		if (role === "owner") {
+			const confirmDelete = confirm("Delete this batch")
+			if (confirmDelete) {
+				setIsLoading(true)
+				const response = await fetch(`/api/batch/${_id}`, {
+					method: "DELETE",
+					headers: { "Content-Type": "application/json" },
+				});
+				const data = await response.json();
+				if (data.success) {
+					setIsLoading(false)
+					alert(data.message);
+					window.location.reload();
+				} else {
+					setIsLoading(false);
+					alert(data.message);
+				}
+			}
 		} else {
-			alert(data.message);
+			alert("No rights to perfom this action")
 		}
 	};
 
@@ -114,7 +125,7 @@ export default function BatchesTable() {
 									<td className="text-sm hidden md:table-cell">
 										{batch.updates.at(-1) || "no updates yet"}
 									</td>
-									<td className="px-2 rounded-e-full flex items-center justify-around">
+									<td className="px-2 rounded-e-full flex items-center gap-4">
 										<button
 											onClick={() =>
 												router.push(`/dashboard/batches/${batch._id}`)

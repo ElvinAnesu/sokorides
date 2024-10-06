@@ -39,37 +39,49 @@ export default function UsersTable() {
 	};
 
 	const deleteUser = async (_id) => {
-		let confirmDelete = confirm("Delete this user");
-		if (confirmDelete) {
-			setIsLoading(true);
-			const response = await fetch(`/api/users/${_id}`, {
-				method: "DELETE",
-				headers: { "Content-Type": "application/json" },
-			});
-			const data = await response.json();
-			if (data.success) {
-				setIsLoading(false);
-				alert(data.message);
-				window.location.reload();
-			} else {
-				setIsLoading(false);
-				alert(data.message);
+		const role = localStorage.getItem("role");
+		if (role === "owner") {
+			let confirmDelete = confirm("Delete this user");
+			if (confirmDelete) {
+				setIsLoading(true);
+				const response = await fetch(`/api/users/${_id}`, {
+					method: "DELETE",
+					headers: { "Content-Type": "application/json" },
+				});
+				const data = await response.json();
+				if (data.success) {
+					setIsLoading(false);
+					alert(data.message);
+					window.location.reload();
+				} else {
+					setIsLoading(false);
+					alert(data.message);
+				}
 			}
+		} else {
+			alert("No rights to perform this action");
+		}
+	};
+	const createUser = () => {
+		const role = localStorage.getItem("role")
+		if (role === "owner") {
+			router.push("/dashboard/users/createnew");
+		} else {
+			alert("No rights to perform this action")
+		}
+	}
+	const handlePreviousPage = () => {
+		if (page > 1) {
+			setPage(page - 1);
 		}
 	};
 
-		const handlePreviousPage = () => {
-			if (page > 1) {
-				setPage(page - 1);
-			}
-		};
-
-		const handleNextPage = () => {
-			if (page * PAGE_SIZE < total) {
-				setPage(page + 1);
-			}
+	const handleNextPage = () => {
+		if (page * PAGE_SIZE < total) {
+			setPage(page + 1);
+		}
 	};
-	
+
 	useEffect(() => {
 		getUsers();
 	}, [page]);
@@ -79,7 +91,7 @@ export default function UsersTable() {
 			<div className="flex w-full items-center justify-end">
 				<button
 					className="bg-purple-900 text-sm rounded p-2 flex items-center gap-1 text-white"
-					onClick={() => router.push("/dashboard/users/createnew")}
+					onClick={createUser}
 				>
 					<PlusIcon />
 					Add New
@@ -120,7 +132,7 @@ export default function UsersTable() {
 										{user.phonenumber}
 									</td>
 									<td className="text-sm">{user.role}</td>
-									<td className="px-2 rounded-e-full flex items-center justify-around">
+									<td className="px-2 rounded-e-full flex items-center gap-4">
 										<button
 											onClick={() =>
 												router.push(`/dashboard/users/${user._id}`)

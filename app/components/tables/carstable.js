@@ -42,17 +42,28 @@ export default function CarsTable() {
 	};
 
 	const deleteProduct = async (_id) => {
-		const response = await fetch(`/api/products/${_id}`, {
-			method: "DELETE",
-			headers: { "Content-Type": "application/json" },
-		});
+		const role = localStorage.getItem("role");
+		if (role === "owner") {
+			const confirmDelete = confirm("Delete this prodcut?");
+			if (confirmDelete) {
+				setIsLoading(true);
+				const response = await fetch(`/api/products/${_id}`, {
+					method: "DELETE",
+					headers: { "Content-Type": "application/json" },
+				});
 
-		const data = await response.json();
+				const data = await response.json();
 
-		if (data.success) {
-			alert(data.message);
+				if (data.success) {
+					setIsLoading(false);
+					alert(data.message);
+				} else {
+					setIsLoading(false);
+					alert(data.message);
+				}
+			}
 		} else {
-			alert(data.message);
+			alert("No rights to perform this action");
 		}
 	};
 

@@ -39,22 +39,27 @@ export default function PurchasesTable() {
 		}
 	};
 	const deletePurchase = async (_id) => {
-		const confirmDelete = confirm("Delete this purchase record");
-		if (confirmDelete) {
-			setIsLoading(true);
-			const response = await fetch(`/api/purchases/${_id}`, {
-				method: "DELETE",
-				headers: { "Content-Type": "application/json" },
-			});
-			const data = await response.json();
-			if (data.success) {
-				setIsLoading(false);
-				alert(data.message);
-				window.location.reload();
-			} else {
-				setIsLoading(false);
-				alert(data.message);
-			}
+		const role = localStorage.getItem("role")
+		if (role === "owner") {
+				const confirmDelete = confirm("Delete this purchase record");
+				if (confirmDelete) {
+					setIsLoading(true);
+					const response = await fetch(`/api/purchases/${_id}`, {
+						method: "DELETE",
+						headers: { "Content-Type": "application/json" },
+					});
+					const data = await response.json();
+					if (data.success) {
+						setIsLoading(false);
+						alert(data.message);
+						window.location.reload();
+					} else {
+						setIsLoading(false);
+						alert(data.message);
+					}
+				}
+		} else {
+			alert("No rights to perfom this action")
 		}
 	};
 
@@ -141,7 +146,7 @@ export default function PurchasesTable() {
 										$
 										{(purchase.totalPrice - purchase.currentPayment).toFixed(2)}
 									</td>
-									<td className="px-2 rounded-e-full text-sm flex gap-2">
+									<td className="px-2 rounded-e-full text-sm flex gap-4">
 										<button
 											onClick={() =>
 												router.push(`/dashboard/purchases/${purchase._id}`)

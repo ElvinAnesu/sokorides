@@ -23,6 +23,7 @@ export default function Login() {
 		if (data.success) {
 			setIsLoading(false);
 			localStorage.setItem("username", data.user.firstname);
+			localStorage.setItem("role", data.user.role);
 			router.push("/dashboard");
 		} else {
 			setIsLoading(false);

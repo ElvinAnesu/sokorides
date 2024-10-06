@@ -11,7 +11,6 @@ import {
 	CardStackIcon,
 	IdCardIcon,
 	ArchiveIcon,
-	ReaderIcon
 } from "@radix-ui/react-icons";
 
 export default function DashBoardNav() {
@@ -42,17 +41,6 @@ export default function DashBoardNav() {
 				>
 					<Link href="/dashboard/cars" className="flex gap-2 items-center">
 						<ListBulletIcon /> Cars in stock
-					</Link>
-				</li>
-				<li
-					className={`p-2 rounded hover:bg-white hover:text-black ${
-						pathname === "/dashboard/invoices"
-							? "bg-white text-black"
-							: "text-white "
-					}`}
-				>
-					<Link href="/dashboard/invoices" className="flex gap-2 items-center">
-						<ReaderIcon /> Invoice
 					</Link>
 				</li>
 				<li

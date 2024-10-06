@@ -42,19 +42,28 @@ export default function CustomersTable(){
     }
 
     const deleteCustomer = async(_id)=>{
-        const response = await fetch(`/api/customers/${_id}`,{
-            method:"DELETE",
-            headers:{"Content-Type":"application/json"}
-        })
+		const role = localStorage.getItem("role")
+		if (role === "owner") {
+			const confirmDelete = confirm("Delete this customer?")
+			if (confirmDelete) {
+				setIsLoading(true)
+				const response = await fetch(`/api/customers/${_id}`, {
+					method: "DELETE",
+					headers: { "Content-Type": "application/json" },
+				});
 
-        const data = await response.json()
+				const data = await response.json();
 
-        if(data.success){
-			alert(data.message)
-			window.location.reload()
-        }else{
-            alert(data.message)
-        }
+				if (data.success) {
+					setIsLoading(false);
+					alert(data.message);
+					window.location.reload();
+				} else {
+					setIsLoading(false);
+					alert(data.message);
+				}
+			}
+		}
 	}
 	
 	const handlePreviousPage = () => {
@@ -118,7 +127,7 @@ export default function CustomersTable(){
 										<td className="px-2 text-sm">{customer.surname}</td>
 										<td className="text-sm">{customer.firstname}</td>
 										<td className="text-sm">{customer.phonenumber}</td>
-										<td className="px-2 rounded-e-full flex items-center justify-around">
+										<td className="px-2 rounded-e-full flex items-center gap-4">
 											<button
 												onClick={() => {
 													router.push(`/dashboard/customers/${customer._id}`);

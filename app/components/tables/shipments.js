@@ -39,16 +39,27 @@ export default function ShipmentsTable() {
 	};
 
 	const deleteShipment = async (_id) => {
-		const response = await fetch(`/api/shipments/${_id}`, {
-			method: "DELETE",
-			headers: { "Content-Type": "application/json" },
-		});
-		const data = await response.json();
-		if (data.success) {
-			alert(data.message);
-			window.location.reload()
+		const role = localStorage.getItem("role")
+		if (role === "owner") {
+			const confirmDelete = confirm("Delete this shipment?")
+			if (confirmDelete) {
+				setIsLoading(true)
+				const response = await fetch(`/api/shipments/${_id}`, {
+					method: "DELETE",
+					headers: { "Content-Type": "application/json" },
+				});
+				const data = await response.json();
+				if (data.success) {
+					setIsLoading(false)
+					alert(data.message);
+					window.location.reload();
+				} else {
+					setIsLoading(false);
+					alert(data.message);
+				}
+			}
 		} else {
-			alert(data.message);
+			alert("No rights to perform this action")
 		}
 	};
 
