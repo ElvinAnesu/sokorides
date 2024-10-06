@@ -16,6 +16,7 @@ const requestphone =
 	"Please provide your registered phone number in the format 0773XXXXXX";
 const purchasesmenu =
 	"My Purchases\n1. View my purchases\n2. Back to main menu";
+const invoicereq = "Please provide your full name, phone number and the nature of invoice you want (e.g. invoice for 3000 down payment)"
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -86,7 +87,7 @@ async function mainMenuFlow(body, from) {
 				break;
 			case "4":
 				await requestInvoiceFlow(from, "invoicerequest", 1);
-				await sendWhatsappMessage(requestphone, from);
+				await sendWhatsappMessage(invoicereq, from);
 				break;
 			default:
 				await sendWhatsappMessage(`Invalid option\n\n${mainmenu}`, from);
@@ -220,7 +221,7 @@ async function sendAdminWhatsappMessage(message, from) {
 		await client.messages.create({
 			body: message,
 			from: "whatsapp:+17744893074",
-			to: "whatsapp:+273775953491",
+			to: "whatsapp:+263775953491",
 		});
 	} catch (error) {
 		console.error("Error sending WhatsApp message:", error.message);
