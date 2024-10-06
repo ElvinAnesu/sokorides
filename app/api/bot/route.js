@@ -9,7 +9,7 @@ export const maxDuration = 60;
 
 const greeting = "Hello there 👋.\nWelcome to SOKO WA platform.\n\n";
 const mainmenu =
-	"👉 Select an option below to get started\n\n1. 🚖🚘 View cars for sale\n2. 💸 My Purchases\n3. 🚢 Track Shipment";
+	"👉 Select an option below to get started\n\n1. 🚖🚘 View cars for sale\n2. 💸 My Purchases\n3. 🚢 Track Shipment\n4. Request Invoice";
 const viewcars =
 	"To visit cars for sale, please visit our website\n\nhttps://www.sokocars.com/";
 const requestphone =
@@ -41,6 +41,9 @@ export async function POST(request) {
 					break;
 				case "purchases":
 					await myPurchasesFlow(body, from, session.currentStep);
+					break;
+				case "invoicerequest":
+					await requestInvoiceFlow(body, from, session.currentStep);
 					break;
 				default:
 					await mainMenuFlow(body, from);
@@ -81,6 +84,10 @@ async function mainMenuFlow(body, from) {
 				await updateSessionFlow(from, "shipment", 1);
 				await sendWhatsappMessage(requestphone, from);
 				break;
+			case "4":
+				await requestInvoiceFlow(from, "invoicerequest", 1);
+				await sendWhatsappMessage(requestphone, from);
+				break;
 			default:
 				await sendWhatsappMessage(`Invalid option\n\n${mainmenu}`, from);
 				break;
@@ -89,6 +96,28 @@ async function mainMenuFlow(body, from) {
 		console.error("Main menu flow error:", error.message);
 	}
 }
+
+async function requestInvoiceFlow(body, from) {
+	try {
+		// Run independent async operations concurrently
+		await Promise.all([
+			sendAdminWhatsappMessage(`Invoice Request:\n\n ${body}`, from),
+			sendWhatsappMessage(
+				`Request invoice sent. Invoice will be sent to you via WhatsApp\n\nHow else can I help you?\n${mainmenu}`,
+				from
+			),
+			updateSessionFlow(from, "mainmenu", 1),
+		]);
+	} catch (error) {
+		console.error("Shipment tracking error:", error.message);
+		// Run error handling operations concurrently
+		await Promise.all([
+			sendWhatsappMessage(`No shipments found for ${body}\n${mainmenu}`, from),
+			updateSessionFlow(from, "mainmenu", 1),
+		]);
+	}
+}
+
 
 async function trackShipmentFlow(body, from) {
 	try {
@@ -180,6 +209,18 @@ async function sendWhatsappMessage(message, from) {
 			body: message,
 			from: "whatsapp:+17744893074",
 			to: from,
+		});
+	} catch (error) {
+		console.error("Error sending WhatsApp message:", error.message);
+	}
+}
+
+async function sendAdminWhatsappMessage(message, from) {
+	try {
+		await client.messages.create({
+			body: message,
+			from: "whatsapp:+17744893074",
+			to: "whatsapp:+273775953491",
 		});
 	} catch (error) {
 		console.error("Error sending WhatsApp message:", error.message);
