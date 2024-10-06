@@ -100,26 +100,18 @@ async function mainMenuFlow(body, from) {
 
 async function requestInvoiceFlow(body, from, currentStep) {
 	try {
-		if (currentStep === 1) {
-			await sendWhatsappMessage(
-				"Please provide your full name, phone number, and the nature of the invoice you want (e.g., invoice for 3000 down payment).",
+		await Promise.all([
+			sendAdminWhatsappMessage(
+				`Invoice Request:\n\n${body}\nRequested by: ${from}`,
 				from
-			);
-			await updateSessionStep(from, 2);
-		} else if (currentStep === 2) {
-			await Promise.all([
-				sendAdminWhatsappMessage(
-					`Invoice Request:\n\n${body}\nRequested by: ${from}`,
-					from
-				),
-				sendWhatsappMessage(
-					"Your invoice request has been received. You will receive the invoice shortly via WhatsApp.\n\nHow else can I help you?\n" +
-						mainmenu,
-					from
-				),
-				updateSessionFlow(from, "mainmenu", 1),
-			]);
-		}
+			),
+			sendWhatsappMessage(
+				"Your invoice request has been received. You will receive the invoice shortly via WhatsApp.\n\nHow else can I help you?\n" +
+					mainmenu,
+				from
+			),
+			updateSessionFlow(from, "mainmenu", 1),
+		]);
 	} catch (error) {
 		console.error("Invoice request error:", error.message);
 		await Promise.all([
