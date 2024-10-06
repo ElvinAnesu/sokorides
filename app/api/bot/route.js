@@ -98,26 +98,40 @@ async function mainMenuFlow(body, from) {
 	}
 }
 
-async function requestInvoiceFlow(body, from) {
+async function requestInvoiceFlow(body, from, currentStep) {
 	try {
-		// Run independent async operations concurrently
+		if (currentStep === 1) {
+			await sendWhatsappMessage(
+				"Please provide your full name, phone number, and the nature of the invoice you want (e.g., invoice for 3000 down payment).",
+				from
+			);
+			await updateSessionStep(from, 2);
+		} else if (currentStep === 2) {
+			await Promise.all([
+				sendAdminWhatsappMessage(
+					`Invoice Request:\n\n${body}\nRequested by: ${from}`,
+					from
+				),
+				sendWhatsappMessage(
+					"Your invoice request has been received. You will receive the invoice shortly via WhatsApp.\n\nHow else can I help you?\n" +
+						mainmenu,
+					from
+				),
+				updateSessionFlow(from, "mainmenu", 1),
+			]);
+		}
+	} catch (error) {
+		console.error("Invoice request error:", error.message);
 		await Promise.all([
-			sendAdminWhatsappMessage(`Invoice Request:\n\n ${body}`, from),
 			sendWhatsappMessage(
-				`Request invoice sent. Invoice will be sent to you via WhatsApp\n\nHow else can I help you?\n${mainmenu}`,
+				`There was an error processing your invoice request. Please try again.\n${mainmenu}`,
 				from
 			),
 			updateSessionFlow(from, "mainmenu", 1),
 		]);
-	} catch (error) {
-		console.error("Shipment tracking error:", error.message);
-		// Run error handling operations concurrently
-		await Promise.all([
-			sendWhatsappMessage(`No shipments found for ${body}\n${mainmenu}`, from),
-			updateSessionFlow(from, "mainmenu", 1),
-		]);
 	}
 }
+
 
 
 async function trackShipmentFlow(body, from) {
