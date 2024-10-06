@@ -9,7 +9,7 @@ export const maxDuration = 60;
 
 const greeting = "Hello there 👋.\nWelcome to SOKO WA platform.\n\n";
 const mainmenu =
-	"👉 Select an option below to get started\n\n1. 🚖🚘 View cars for sale\n2. 💸 My Purchases\n3. 🚢 Track Shipment\n4. Request Invoice";
+	"👉 Select an option below to get started\n\n1. 🚖🚘 View cars for sale\n2. 💸 My Purchases\n3. 🚢 Track Shipment\n4. 🧾 Request Invoice";
 const viewcars =
 	"To visit cars for sale, please visit our website\n\nhttps://www.sokocars.com/";
 const requestphone =
@@ -227,7 +227,7 @@ async function sendAdminWhatsappMessage(message, from) {
 		await client.messages.create({
 			body: message,
 			from: "whatsapp:+17744893074",
-			to: "whatsapp:+263775953491",
+			to: "whatsapp:+263774050385",
 		});
 	} catch (error) {
 		console.error("Error sending WhatsApp message:", error.message);
