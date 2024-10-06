@@ -86,7 +86,7 @@ async function mainMenuFlow(body, from) {
 				await sendWhatsappMessage(requestphone, from);
 				break;
 			case "4":
-				await requestInvoiceFlow(from, "invoicerequest", 1);
+				await updateSessionFlow(from, "invoicerequest", 1);
 				await sendWhatsappMessage(invoicereq, from);
 				break;
 			default:
