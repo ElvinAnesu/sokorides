@@ -14,7 +14,7 @@ export default function DashBoardLayout({ children }) {
 			<div className="hidden md:block">
 				<DashBoardNav />
 			</div>
-			<div className="max-h-full md:col-span-4 flex flex-col bg-grad-1 overflow-y-auto overflow-hidden">
+			<div className="max-h-full md:col-span-4 flex flex-col overflow-y-auto overflow-hidden">
 				<div className="w-full flex items-center justify-end gap-2  h-16">
 					<h1 className="text-black font-bold text-sm">{username}</h1>
 					<div className="bg-purple-900 text-white h-8 w-8 rounded-full flex items-center justify-center">
