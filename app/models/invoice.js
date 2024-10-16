@@ -2,16 +2,9 @@ import mongoose, { Schema } from "mongoose";
 
 const invoiceSchema = new Schema(
 	{
-		firstname: {
-			type: String,
-			required: true,
-		},
-		surname: {
-			type: String,
-			required: true,
-		},
-		phonenumber: {
-			type: String,
+		purchase: {
+			type: Schema.Types.ObjectId, // Reference to the purchases collection
+			ref: "Purchase", // The name of the model you are referencing
 			required: true,
 		},
 		description: {

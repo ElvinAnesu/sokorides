@@ -6,7 +6,7 @@ import Batch from "@/app/models/batch";
 export async function GET(request,{params}) {
     const { _id } = params
     try {
-        connectdb
+        connectdb()
         const batch = await Batch.findById(_id)
         if (!batch) {
             return NextResponse.json({
@@ -30,7 +30,7 @@ export async function GET(request,{params}) {
 export async function DELETE(request, { params }) {
 	const { _id } = params;
 	try {
-		connectdb;
+		connectdb();
 		const batch = await Batch.findByIdAndDelete(_id);
 		if (!batch) {
 			return NextResponse.json({
@@ -46,7 +46,7 @@ export async function DELETE(request, { params }) {
 		console.log(error.message);
 		return NextResponse.json({
 			success: false,
-			message: "Error while deleting batch",
+			message: `Error:${error.message}`,
 		});
 	}
 }
@@ -54,7 +54,7 @@ export async function PUT(request, { params }) {
     const { _id } = params;
     const { batchName, shipments} = await request.json();
 	try {
-		connectdb;
+		connectdb();
         const batch = await Batch.findByIdAndUpdate(_id, {
 					batchName,
 					shipments,
@@ -73,7 +73,7 @@ export async function PUT(request, { params }) {
 		console.log(error.message);
 		return NextResponse.json({
 			success: false,
-			message: "Error while updating batch",
+			message: `Error: ${error.message}`,
 		});
 	}
 }
