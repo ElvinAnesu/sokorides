@@ -104,7 +104,13 @@ async function requestInvoiceFlow(body, from, currentStep) {
 		if (currentStep === 1) {
 			switch (body) {
 				case "1":
-					showPurchasesList();
+					await Promise.all([
+						updateSessionStep(from, 3),
+						sendWhatsappMessage(
+							"Please provide your registered phone number in the format(07XXXXXXXXXX)",
+							from
+						),
+					]);
 					break;
 				case "2":
 					await Promise.all([
@@ -138,6 +144,20 @@ async function requestInvoiceFlow(body, from, currentStep) {
 				),
 				updateSessionFlow(from, "mainmenu", 1),
 			]);
+		} else if (currentStep === 3) {
+			// fetch all purchases
+			const userpurchases = Purchase.find({
+				customerPhonenumber:body
+			});
+			if (!userpurchases) {
+				await Promise.all([
+					sendWhatsappMessage(
+						`No purchases found under this number how else can i help you?.\n${mainmenu}`,
+						from
+					),
+					updateSessionFlow(from, "mainmenu", 1),
+				]);
+			}
 		}
 	} catch (error) {
 		console.error("Invoice request error:", error.message);
@@ -292,7 +312,3 @@ async function updateSessionStep(user, currentStep) {
 // 	),
 // 	updateSessionFlow(from, "mainmenu", 1),
 // ]);
-
-function showPurchasesList() {}
-
-
