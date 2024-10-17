@@ -106,7 +106,7 @@ async function requestInvoiceFlow(body, from, currentStep) {
 					showPurchasesList()
 					break;
 				case "2":
-					 requestCustomInvoice()
+					 requestCustomInvoice(from)
 					break;
 				case "3":
 					await Promise.all([
@@ -279,7 +279,7 @@ async function updateSessionStep(user, currentStep) {
 // ]);
 
 function showPurchasesList() { }
-async function requestCustomInvoice(){
+async function requestCustomInvoice(from){
 	await Promise.all([
 		updateSessionStep(from, 2),
 		sendWhatsappMessage(
