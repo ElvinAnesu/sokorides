@@ -9,14 +9,14 @@ export const maxDuration = 60;
 
 const greeting = "Hello there 👋.\nWelcome to SOKO WA platform.\n\n";
 const mainmenu =
-	"👉 Select an option below to get started\n\n1. 🚖🚘 View cars for sale\n2. 💸 My Purchases\n3. 🚢 Track Shipment\n4. 🧾 Request Invoice";
+	"👉 Select an option below to get started\n\n1. 🚖🚘 View cars for sale\n2. 💸 My Purchases\n3. 🚢 Track Shipment\n4. 🧾 Invoices";
 const viewcars =
 	"To visit cars for sale, please visit our website\n\nhttps://www.sokocars.com/";
 const requestphone =
 	"Please provide your registered phone number in the format 0773XXXXXX";
 const purchasesmenu =
 	"My Purchases\n1. View my purchases\n2. Back to main menu";
-const invoicereq = "Please provide your full name, phone number and the nature of invoice you want (e.g. invoice for 3000 down payment)"
+const invoicemenu = "1. My purchases invoices\n2. Request custom invoice\n3. Back to main menu"
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -87,7 +87,7 @@ async function mainMenuFlow(body, from) {
 				break;
 			case "4":
 				await updateSessionFlow(from, "invoicerequest", 1);
-				await sendWhatsappMessage(invoicereq, from);
+				await sendWhatsappMessage(invoicemenu, from);
 				break;
 			default:
 				await sendWhatsappMessage(`Invalid option\n\n${mainmenu}`, from);
@@ -100,18 +100,19 @@ async function mainMenuFlow(body, from) {
 
 async function requestInvoiceFlow(body, from, currentStep) {
 	try {
-		await Promise.all([
-			sendAdminWhatsappMessage(
-				`Invoice Request:\n\n${body}\nRequested by: ${from}`,
-				from
-			),
-			sendWhatsappMessage(
-				"Your invoice request has been received. You will receive the invoice shortly via WhatsApp.\n\nHow else can I help you?\n" +
-					mainmenu,
-				from
-			),
-			updateSessionFlow(from, "mainmenu", 1),
-		]);
+		if (currentStep === 1) {
+			switch (body) {
+				case "1":
+					showPurchasesList()
+					break;
+				case "2":
+					 requestCustomInvoice()
+					break;
+				default:
+					 invalidIption()
+					break;
+			}
+		}
 	} catch (error) {
 		console.error("Invoice request error:", error.message);
 		await Promise.all([
@@ -254,3 +255,21 @@ async function updateSessionFlow(user, flow, currentStep) {
 async function updateSessionStep(user, currentStep) {
 	await Session.findOneAndUpdate({ user }, { currentStep });
 }
+
+
+// await Promise.all([
+// 	sendAdminWhatsappMessage(
+// 		`Invoice Request:\n\n${body}\nRequested by: ${from}`,
+// 		from
+// 	),
+// 	sendWhatsappMessage(
+// 		"Your invoice request has been received. You will receive the invoice shortly via WhatsApp.\n\nHow else can I help you?\n" +
+// 			mainmenu,
+// 		from
+// 	),
+// 	updateSessionFlow(from, "mainmenu", 1),
+// ]);
+
+function showPurchasesList() { }
+function requestCustomInvoice() {}
+function invalidIption() {}
