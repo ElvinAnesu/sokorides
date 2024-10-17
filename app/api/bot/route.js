@@ -118,6 +118,8 @@ async function requestInvoiceFlow(body, from, currentStep) {
 					 await sendWhatsappMessage(`Invalid option\n\n${invoicemenu}`, from);
 					break;
 			}
+		} else if (currentStep === 2) {
+			sendCustomRequest(body, from)
 		}
 	} catch (error) {
 		console.error("Invoice request error:", error.message);
@@ -277,7 +279,26 @@ async function updateSessionStep(user, currentStep) {
 // ]);
 
 function showPurchasesList() { }
-function requestCustomInvoice() {}
-function invalidIption() {
-
+async function requestCustomInvoice(){
+	await Promise.all([
+		updateSessionStep(from, 2),
+		sendWhatsappMessage(
+			"Please provide your full name, phone number and the nature of invoice you want (e.g. invoice for 3000 down payment)",
+			from
+		),
+	]);
+}
+async function sendCustomRequest(body, from) {
+	await Promise.all([
+		sendAdminWhatsappMessage(
+			`Invoice Request:\n\n${body}\nRequested by: ${from}`,
+			from
+		),
+		sendWhatsappMessage(
+			"Your invoice request has been received. You will receive the invoice shortly via WhatsApp.\n\nHow else can I help you?\n" +
+				mainmenu,
+			from
+		),
+		updateSessionFlow(from, "mainmenu", 1),
+	]);
 }
