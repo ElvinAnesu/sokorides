@@ -109,7 +109,7 @@ async function requestInvoiceFlow(body, from, currentStep) {
 					 requestCustomInvoice()
 					break;
 				default:
-					 invalidIption()
+					 await sendWhatsappMessage(`Invalid option\n\n${invoicemenu}`, from);
 					break;
 			}
 		}
@@ -272,4 +272,6 @@ async function updateSessionStep(user, currentStep) {
 
 function showPurchasesList() { }
 function requestCustomInvoice() {}
-function invalidIption() {}
+function invalidIption() {
+
+}
