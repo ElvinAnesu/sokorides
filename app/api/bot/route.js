@@ -108,6 +108,12 @@ async function requestInvoiceFlow(body, from, currentStep) {
 				case "2":
 					 requestCustomInvoice()
 					break;
+				case "3":
+					await Promise.all([
+						updateSessionFlow(from, "mainmenu", 1),
+						sendWhatsappMessage(mainmenu, from)
+					])
+					break;
 				default:
 					 await sendWhatsappMessage(`Invalid option\n\n${invoicemenu}`, from);
 					break;
