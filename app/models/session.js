@@ -13,7 +13,8 @@ const sessionSchema = new Schema(
 		flow: {
 			type: String,
 			default:"mainmenu"
-		}
+		},
+		purchases: [{ type: mongoose.Schema.Types.Mixed }]
 	},
 	{ timestamps: true }
 );

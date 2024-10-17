@@ -145,18 +145,57 @@ async function requestInvoiceFlow(body, from, currentStep) {
 				updateSessionFlow(from, "mainmenu", 1),
 			]);
 		} else if (currentStep === 3) {
-			// fetch all purchases
-			const userpurchases = Purchase.find({
-				customerPhonenumber:body
-			});
-			if (!userpurchases) {
+			const purchases = await Purchase.find({ customerPhonenumber: body });
+			
+			if (purchases.length === 0) {
 				await Promise.all([
 					sendWhatsappMessage(
-						`No purchases found under this number how else can i help you?.\n${mainmenu}`,
+						`No purchases found under this number. How else can I help you?\n${mainmenu}`,
 						from
 					),
 					updateSessionFlow(from, "mainmenu", 1),
 				]);
+			} else {
+				const purchaseList = purchases.map((purchase, index) => 
+					`${index + 1}. ${purchase.purchasedItem}`
+				).join('\n');
+				
+				const message = `Here are your purchases. Please select the number of the purchase you want to see invoices for:\n\n${purchaseList}\n\n0. Back to main menu`;
+				
+				await Promise.all([
+					sendWhatsappMessage(message, from),
+					updateSessionStep(from, 4),
+					Session.findOneAndUpdate({ user: from }, { $set: { purchases: purchases } })
+				]);
+			}
+		} else if (currentStep === 4) {
+			const session = await Session.findOne({ user: from });
+			const purchases = session.purchases;
+
+			if (body === '0') {
+				await Promise.all([
+					sendWhatsappMessage(mainmenu, from),
+					updateSessionFlow(from, "mainmenu", 1),
+				]);
+				return;
+			}
+
+			const selectedIndex = parseInt(body) - 1;
+			if (selectedIndex >= 0 && selectedIndex < purchases.length) {
+				const selectedPurchase = purchases[selectedIndex];
+				// Here you would fetch and send the invoices for the selected purchase
+				// For now, we'll just send a placeholder message
+				await sendWhatsappMessage(
+					`You've selected: ${selectedPurchase.purchasedItem}. Invoices for this purchase will be sent shortly.\n\nHow else can I help you?\n${mainmenu}`,
+					from
+				);
+				await updateSessionFlow(from, "mainmenu", 1);
+			} else {
+				await sendWhatsappMessage(
+					`Invalid selection. Please try again.\n\nHow else can I help you?\n${mainmenu}`,
+					from
+				);
+				await updateSessionFlow(from, "mainmenu", 1);
 			}
 		}
 	} catch (error) {
