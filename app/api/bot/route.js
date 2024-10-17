@@ -16,7 +16,8 @@ const requestphone =
 	"Please provide your registered phone number in the format 0773XXXXXX";
 const purchasesmenu =
 	"My Purchases\n1. View my purchases\n2. Back to main menu";
-const invoicemenu = "1. My purchases invoices\n2. Request custom invoice\n3. Back to main menu"
+const invoicemenu =
+	"1. My purchases invoices\n2. Request custom invoice\n3. Back to main menu";
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -103,23 +104,29 @@ async function requestInvoiceFlow(body, from, currentStep) {
 		if (currentStep === 1) {
 			switch (body) {
 				case "1":
-					showPurchasesList()
+					showPurchasesList();
 					break;
 				case "2":
-					 requestCustomInvoice(from)
+					await Promise.all([
+						updateSessionStep(from, 2),
+						sendWhatsappMessage(
+							"Please provide your full name, phone number and the nature of invoice you want (e.g. invoice for 3000 down payment)",
+							from
+						),
+					]);
 					break;
 				case "3":
 					await Promise.all([
 						updateSessionFlow(from, "mainmenu", 1),
-						sendWhatsappMessage(mainmenu, from)
-					])
+						sendWhatsappMessage(mainmenu, from),
+					]);
 					break;
 				default:
-					 await sendWhatsappMessage(`Invalid option\n\n${invoicemenu}`, from);
+					await sendWhatsappMessage(`Invalid option\n\n${invoicemenu}`, from);
 					break;
 			}
 		} else if (currentStep === 2) {
-			sendCustomRequest(body, from)
+			sendCustomRequest(body, from);
 		}
 	} catch (error) {
 		console.error("Invoice request error:", error.message);
@@ -132,8 +139,6 @@ async function requestInvoiceFlow(body, from, currentStep) {
 		]);
 	}
 }
-
-
 
 async function trackShipmentFlow(body, from) {
 	try {
@@ -264,7 +269,6 @@ async function updateSessionStep(user, currentStep) {
 	await Session.findOneAndUpdate({ user }, { currentStep });
 }
 
-
 // await Promise.all([
 // 	sendAdminWhatsappMessage(
 // 		`Invoice Request:\n\n${body}\nRequested by: ${from}`,
@@ -278,8 +282,8 @@ async function updateSessionStep(user, currentStep) {
 // 	updateSessionFlow(from, "mainmenu", 1),
 // ]);
 
-function showPurchasesList() { }
-async function requestCustomInvoice(from){
+function showPurchasesList() {}
+async function requestCustomInvoice(from) {
 	await Promise.all([
 		updateSessionStep(from, 2),
 		sendWhatsappMessage(
