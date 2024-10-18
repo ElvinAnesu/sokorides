@@ -4,6 +4,7 @@ import Shipment from "@/app/models/shipment";
 import { Twilio } from "twilio";
 import Session from "@/app/models/session";
 import Purchase from "@/app/models/purchase";
+import Invoice from "@/app/models/invoice";
 
 export const maxDuration = 60;
 
@@ -183,12 +184,29 @@ async function requestInvoiceFlow(body, from, currentStep) {
 			const selectedIndex = parseInt(body) - 1;
 			if (selectedIndex >= 0 && selectedIndex < purchases.length) {
 				const selectedPurchase = purchases[selectedIndex];
-				// Here you would fetch and send the invoices for the selected purchase
-				// For now, we'll just send a placeholder message
-				await sendWhatsappMessage(
-					`You've selected: ${selectedPurchase.purchasedItem}. Invoices for this purchase will be sent shortly.\n\nHow else can I help you?\n${mainmenu}`,
-					from
-				);
+				
+				// Search for the invoice in the invoices collection
+				const invoice = await Invoice.findOne({ purchase: selectedPurchase._id });
+				
+				if (invoice) {
+					// Send the invoice document to the user
+					await sendWhatsappDocument(
+						invoice.invoiceUrl,
+						`Invoice for ${selectedPurchase.purchasedItem}`,
+						from
+					);
+					await sendWhatsappMessage(
+						`Invoice for ${selectedPurchase.purchasedItem} has been sent.\n\nHow else can I help you?\n${mainmenu}`,
+						from
+					);
+				} else {
+					// Send a message if no invoice is found
+					await sendWhatsappMessage(
+						`No invoice found for ${selectedPurchase.purchasedItem}.\n\nHow else can I help you?\n${mainmenu}`,
+						from
+					);
+				}
+				
 				await updateSessionFlow(from, "mainmenu", 1);
 			} else {
 				await sendWhatsappMessage(
@@ -330,7 +348,18 @@ async function sendWhatsappImage(image, carname, from) {
 		console.error("Error sending WhatsApp image:", error.message);
 	}
 }
-
+async function sendWhatsappDocument(invoiceUrl, description, from) {
+	try {
+		await client.messages.create({
+			mediaUrl: invoiceUrl,
+			body: description,
+			from: "whatsapp:+17744893074",
+			to: from,
+		});
+	} catch (error) {
+		console.error("Error sending WhatsApp image:", error.message);
+	}
+}
 async function updateSessionFlow(user, flow, currentStep) {
 	await Session.findOneAndUpdate({ user }, { flow, currentStep });
 }

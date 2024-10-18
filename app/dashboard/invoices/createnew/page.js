@@ -105,10 +105,11 @@ export default function Createnew() {
 							<h1 className="text-xs font-semibold">upload invoice(pdf)</h1>
 							<CldUploadButton
 								className="border border-black text-black rounded text-white rounded p-1"
-								uploadPreset="sokoimgs"
+									uploadPreset="sokoimgs"
 								onSuccess={(results, options) =>
 									uploadSuccess(results, options)
 								}
+								
 							/>
 						</div>
 						<button className="bg-purple-900 rounded p-2 text-white">
