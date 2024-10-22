@@ -81,7 +81,8 @@ export default function Createnew() {
 							<select
 								className="w-full rounded bg-transparent border border-black  p-2 text-sm text-black"
 								onChange={(e) => setSelectedPurchase(e.target.value)}
-							>
+								>
+									<option value="">Select Purchase</option>
 								{purchases.map((purchase, index) => (
 									<option
 										value={purchase._id}
