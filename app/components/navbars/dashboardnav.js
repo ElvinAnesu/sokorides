@@ -19,6 +19,7 @@ export default function DashBoardNav() {
 	const pathname = usePathname();
 	const logout = () => {
 		localStorage.removeItem("username");
+		localStorage.removeItem("token");
 		router.push("/auth/login");
 	};
 	return (

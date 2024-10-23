@@ -2,13 +2,25 @@
 import DashBoardNav from "../components/navbars/dashboardnav";
 import { PersonIcon } from "@radix-ui/react-icons";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function DashBoardLayout({ children }) {
+	const router = useRouter();
 	const [username, setUsername] = useState();
+
 	useEffect(() => {
-		const _username = localStorage.getItem("username");
-		setUsername(_username);
+		const token = localStorage.getItem("token");
+		if (!token) {
+			router.push("/auth/login");
+			console.log("No token found");
+		} else {
+			console.log("Token found");
+			console.log(token);
+			const _username = localStorage.getItem("username");
+			setUsername(_username);
+		}
 	}, []);
+
 	return (
 		<div className="h-screen w-full flex flex-col md:grid md:grid-cols-5 p-4 gap-4 bg-grad-1">
 			<div className="hidden md:block">

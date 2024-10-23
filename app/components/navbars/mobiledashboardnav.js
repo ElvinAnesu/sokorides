@@ -19,6 +19,7 @@ export default function MobileDashboardNav({ onClose }) {
 	const pathname = usePathname();
 	const logout = () => {
 		localStorage.removeItem("username");
+		localStorage.removeItem("token");
 		router.push("/auth/login");
 	};
 	return (
