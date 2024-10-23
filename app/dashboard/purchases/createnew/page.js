@@ -45,7 +45,7 @@ export default function CreateNew() {
 		}
 	};
 	const getCustomers = async () => {
-		const response = await fetch("/api/customers", {
+		const response = await fetch("/api/customers/all", {
 			method: "GET",
 			headers: { "Content-Type": "application/json" },
 		});
