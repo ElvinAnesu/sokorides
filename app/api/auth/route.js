@@ -36,7 +36,7 @@ export async function POST(request) {
 		console.log(error);
 		return NextResponse.json({
 			success: false,
-			message: "Error loging in user",
+			message: `Error: ${error.message}`,
 		});
 	}
 }
