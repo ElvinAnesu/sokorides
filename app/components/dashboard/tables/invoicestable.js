@@ -41,11 +41,14 @@ export default async function InvoicesTable({query, currentPage}) {
 									</th>
 									<th
 										scope="col"
-										className="px-3 py-4 font-semibold"
+										className="px-3 py-4 font-semibold hidden md-table-cell"
 									>
 										Amount
 									</th>
-									<th scope="col" className="px-3 py-4 font-semibold">
+									<th
+										scope="col"
+										className="px-3 py-4 font-semibold hidden md-table-cell"
+									>
 										Status
 									</th>
 									<th
@@ -71,10 +74,10 @@ export default async function InvoicesTable({query, currentPage}) {
 										<td className="whitespace-nowrap px-3 py-2 hidden md:table-cell">
 											{invoice.description}
 										</td>
-										<td className="whitespace-nowrap px-3 py-2">
+										<td className="whitespace-nowrap px-3 py-2 hidden md-table-cell">
 											{`$${invoice.amount.toFixed(2)}`}
 										</td>
-										<td className="whitespace-nowrap px-3 py-2">
+										<td className="whitespace-nowrap px-3 py-2 hidden md-table-cell">
 											<InvoiceStatus status={invoice.isPaid} />
 										</td>
 										<td className="whitespace-nowrap px-3 py-2 hidden md:table-cell">

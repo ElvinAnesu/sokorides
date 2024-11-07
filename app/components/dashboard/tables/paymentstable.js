@@ -25,7 +25,10 @@ export default async function PaymentsTable({ query, currentPage }) {
 								>
 									Description
 								</th>
-								<th scope="col" className="px-3 py-4 font-semibold">
+								<th
+									scope="col"
+									className="px-3 py-4 font-semibold hidden md-table-cell"
+								>
 									Amount
 								</th>
 								<th
@@ -57,7 +60,7 @@ export default async function PaymentsTable({ query, currentPage }) {
 									<td className="whitespace-nowrap px-3 py-2 hidden md:table-cell">
 										{trimName(payment.description)}
 									</td>
-									<td className="whitespace-nowrap px-3 py-2">
+									<td className="whitespace-nowrap px-3 py-2 hidden md-table-cell">
 										{`$${payment.amount.toFixed(2)}`}
 									</td>
 									<td className="whitespace-nowrap px-3 py-2 hidden md:table-cell">
