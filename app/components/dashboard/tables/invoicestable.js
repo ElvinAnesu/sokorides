@@ -27,7 +27,7 @@ export default async function InvoicesTable({query, currentPage}) {
 			<div className={`${lusitana.className} mt-2 flow-root`}>
 				<div className="inline-block min-w-full align-middle">
 					<div className="rounded-lg bg-gray-200 p-2 md:pt-0">
-						<table className="min-w-full text-gray-900">
+						<table className="min-w-full text-gray-900 text-xs">
 							<thead className="rounded-lg text-left text-sm ">
 								<tr>
 									<th scope="col" className="px-4 py-4 font-semibold sm:pl-6">
