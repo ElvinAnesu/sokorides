@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^2.1.5",
     "@radix-ui/react-icons": "^1.3.0",
     "@react-icons/all-files": "^4.1.0",
     "cloudinary": "^2.5.0",
@@ -22,7 +23,8 @@
     "react-dom": "^18",
     "react-window": "^1.8.10",
     "swiper": "^11.1.12",
-    "twilio": "^5.3.1"
+    "twilio": "^5.3.1",
+    "use-debounce": "^10.0.4"
   },
   "devDependencies": {
     "eslint": "^8",

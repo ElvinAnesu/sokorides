@@ -20,12 +20,13 @@ export default function RootLayout({ children }) {
 	const pathname = usePathname();
 	let isAuthPage = pathname.startsWith("/auth");
 	let isDashboard = pathname.startsWith("/dashboard");
+	let hideHeader = isAuthPage || isDashboard
 	return (
 		<html lang="en">
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				{!isAuthPage && <MainHeader />}
+				{ !hideHeader && <MainHeader />}
 				<main className="flex flex-col">{children}</main>
 				{!isAuthPage || !isDashboard && <Footer />}
 			</body>

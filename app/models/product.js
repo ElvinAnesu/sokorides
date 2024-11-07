@@ -10,10 +10,6 @@ const productSchema = new Schema(
 			type: String,
 			required: true,
 		},
-		currency: {
-			type: String,
-			default: "USD",
-		},
 		milage: {
 			type: String,
 		},
@@ -36,9 +32,6 @@ const productSchema = new Schema(
 			type: String,
 		},
 		drive: {
-			type: String,
-		},
-		coverimage: {
 			type: String,
 		},
 		gallery: [

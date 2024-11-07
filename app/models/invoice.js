@@ -1,10 +1,15 @@
 import mongoose, { Schema } from "mongoose";
 
+
 const invoiceSchema = new Schema(
 	{
-		purchase: {
+		customerId: {
 			type: Schema.Types.ObjectId, // Reference to the purchases collection
 			ref: "Purchase", // The name of the model you are referencing
+			required: true,
+		},
+		customername: {
+			type: String, // The name of the model you are referencing
 			required: true,
 		},
 		description: {
@@ -14,6 +19,14 @@ const invoiceSchema = new Schema(
 		invoiceUrl: {
 			type: String,
 			required: true,
+		},
+		isPaid: {
+			type: Boolean,
+			default: false,
+		},
+		amount: {
+			type: Number,
+			default: 0,
 		},
 	},
 	{ timestamps: true }
