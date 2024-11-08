@@ -21,13 +21,13 @@ export default async function UsersTable({ query, currentPage }) {
 								</th>
 								<th
 									scope="col"
-									className="px-3 py-4 font-semibold hidden md-table-cell"
+									className="px-3 py-4 font-semibold hidden md:table-cell"
 								>
 									Phone Number
 								</th>
 								<th
 									scope="col"
-									className="px-3 py-4 font-semibold hidden md-table-cell"
+									className="px-3 py-4 font-semibold hidden md:table-cell"
 								>
 									Role
 								</th>
@@ -48,10 +48,10 @@ export default async function UsersTable({ query, currentPage }) {
 									<td className="whitespace-nowrap px-3 py-2">
 										{user.firstname}
 									</td>
-									<td className="whitespace-nowrap px-3 py-2 hidden md-table-cell">
+									<td className="whitespace-nowrap px-3 py-2 hidden md:table-cell">
 										{user.phonenumber}
 									</td>
-									<td className="whitespace-nowrap px-3 py-2 hidden md-table-cell">
+									<td className="whitespace-nowrap px-3 py-2 hidden md:table-cell">
 										{user.role}
 									</td>
 									<td className="whitespace-nowrap py-2 pl-6 pr-3">

@@ -17,13 +17,13 @@ export default async function PurchasesTable({ query, currentPage }) {
 								</th>
 								<th
 									scope="col"
-									className="px-3 py-4 font-semibold hidden md-table-cell"
+									className="px-3 py-4 font-semibold hidden md:table-cell"
 								>
 									Purchased Vehicle
 								</th>
 								<th
 									scope="col"
-									className="px-3 py-4 font-semibold hidden md-table-cell"
+									className="px-3 py-4 font-semibold hidden md:table-cell"
 								>
 									Vehicle Status
 								</th>
@@ -59,10 +59,10 @@ export default async function PurchasesTable({ query, currentPage }) {
 									<td className="whitespace-nowrap px-3 py-2">
 										{trimName(purchase.customerName)}
 									</td>
-									<td className="whitespace-nowrap px-3 py-2 hidden md-table-cell">
+									<td className="whitespace-nowrap px-3 py-2 hidden md:table-cell">
 										{trimName(purchase.purchasedItem)}
 									</td>
-									<td className="whitespace-nowrap px-3 py-2 hidden md-table-cell">
+									<td className="whitespace-nowrap px-3 py-2 hidden md:table-cell">
 										{purchase.vehicleStatus}
 									</td>
 									<td className="whitespace-nowrap px-3 py-2 hidden md:table-cell">

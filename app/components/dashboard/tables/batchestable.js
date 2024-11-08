@@ -17,13 +17,13 @@ export default async function BatchesTable({ query, currentPage }) {
 								</th>
 								<th
 									scope="col"
-									className="px-3 py-4 font-semibold hidden md-table-cell"
+									className="px-3 py-4 font-semibold hidden md:table-cell"
 								>
 									Number of Shipments
 								</th>
 								<th
 									scope="col"
-									className="px-3 py-4 font-semibold hidden md-table-cell"
+									className="px-3 py-4 font-semibold hidden md:table-cell"
 								>
 									Last Update
 								</th>
@@ -41,10 +41,10 @@ export default async function BatchesTable({ query, currentPage }) {
 									<td className="whitespace-nowrap px-3 py-2">
 										{trimName(batch.batchName)}
 									</td>
-									<td className="whitespace-nowrap px-3 py-2 hidden md-table-cell">
+									<td className="whitespace-nowrap px-3 py-2 hidden md:table-cell">
 										{batch.shipments.length}
 									</td>
-									<td className="whitespace-nowrap px-3 py-2 hidden md-table-cell">
+									<td className="whitespace-nowrap px-3 py-2 hidden md:table-cell">
 										{batch.updates.at(-1) ? trimName(batch.updates.at(-1)) : ""}
 									</td>
 									<td className="whitespace-nowrap py-2 pl-6 pr-3">

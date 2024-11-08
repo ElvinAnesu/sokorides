@@ -23,7 +23,7 @@ export default async function ShipmentsTable({ query, currentPage }) {
 								</th>
 								<th
 									scope="col"
-									className="px-3 py-4 font-semibold hidden md-table-cell"
+									className="px-3 py-4 font-semibold hidden md:table-cell"
 								>
 									Purchased Vehicle
 								</th>
@@ -50,7 +50,7 @@ export default async function ShipmentsTable({ query, currentPage }) {
 									<td className="whitespace-nowrap px-3 py-2 hidden md:table-cell">
 										{shipment.customerphone}
 									</td>
-									<td className="whitespace-nowrap px-3 py-2 hidden md-table-cell">
+									<td className="whitespace-nowrap px-3 py-2 hidden md:table-cell">
 										{trimName(shipment.purchaseditem)}
 									</td>
 									<td className="whitespace-nowrap px-3 py-2 hidden md:table-cell">
