@@ -29,16 +29,16 @@ const cardMap = {
 	},
 };
 
-export default function DashboardCard({value, type}) {
-    const Icon = cardMap[type].icon
+export default function DashboardCard({ value, type }) {
+	const Icon = cardMap[type].icon;
 	return (
-		<div className="rounded-xl  bg-purple-900 p-2 shadow w-full text-white">
-			<div className="flex p-4 items-center">
-				{Icon ? <Icon className="h-5 w-5" /> : null}
-				<h3 className="ml-2 text-xs md:text-sm font-semibold ">{cardMap[type].title}</h3>
+		<div className="rounded-lg bg-white border border-gray-200 p-6 shadow-sm w-full max-w-xs text-gray-900 transform transition-transform hover:scale-105">
+			<div className="flex items-center justify-between mb-6">
+				<h3 className="text-sm font-medium text-gray-500">{cardMap[type].title}</h3>
+				{Icon && <Icon className="h-6 w-6 text-purple-500" />}
 			</div>
 			<p
-				className={`${lusitana.className} text-gray-700 truncate-rounded rounded-xl bg-white px-4 py-8 text-center text-2xl`}
+				className={`${lusitana.className} text-4xl font-semibold text-purple-800 text-center`}
 			>
 				{value}
 			</p>

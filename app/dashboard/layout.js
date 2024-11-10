@@ -24,7 +24,7 @@ export default function DashBoardLayout({ children }) {
 	}, []);
 
 	return (
-		<div className="h-screen w-full flex flex-col md:grid md:grid-cols-5 p-4 gap-4 bg-grad-1">
+		<div className="h-screen w-full flex flex-col md:grid md:grid-cols-5 p-4 gap-4 bg-gray-200">
 			<div className="hidden md:block">
 				<DashBoardNav />
 			</div>
