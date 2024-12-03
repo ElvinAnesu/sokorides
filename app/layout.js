@@ -17,18 +17,18 @@ const geistMono = localFont({
 });
 
 export default function RootLayout({ children }) {
-	const pathname = usePathname();
-	let isAuthPage = pathname.startsWith("/auth");
-	let isDashboard = pathname.startsWith("/dashboard");
-	let hideHeader = isAuthPage || isDashboard
+	// const pathname = usePathname();
+	// let isAuthPage = pathname.startsWith("/auth");
+	// let isDashboard = pathname.startsWith("/dashboard");
+	// let hideHeader = isAuthPage || isDashboard
 	return (
 		<html lang="en">
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				{ !hideHeader && <MainHeader />}
+				{/* { !hideHeader && <MainHeader />} */}
 				<main className="flex flex-col">{children}</main>
-				{!isAuthPage || !isDashboard && <Footer />}
+				{/* {!isAuthPage || !isDashboard && <Footer />} */}
 			</body>
 		</html>
 	);

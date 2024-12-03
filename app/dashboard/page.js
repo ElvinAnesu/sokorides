@@ -7,19 +7,23 @@ import { CardsSkeleton, DashBoardTablesSkeleton } from "../components/skeletons/
 export default function DashBoard(){
 
     return (
-		<div className="w-full h-full p-4 gap-4 flex flex-col">
-			<div className="w-full flex p-2 rounded">
-				<h1 className={`${lusitana.className} text-purple-700 text-2xl font-bold`}>
-					Dashboard
-				</h1>
-			</div>
-			<Suspense fallback={<CardsSkeleton/>}>
-				<CardSection/>
-			</Suspense>
+			<div className="w-full h-full p-4 gap-4 flex flex-col">
+				<div className="w-full flex p-2 rounded">
+					<h1
+						className={`${lusitana.className} text-purple-700 text-2xl font-bold`}
+					>
+						Dashboard
+					</h1>
+				</div>
+				<Suspense fallback={<CardsSkeleton />}>
+					<div className="min-h-36">
+						<CardSection />
+					</div>
+				</Suspense>
 
-			<Suspense fallback={<DashBoardTablesSkeleton/>}>
-				<TableSection/>
-			</ Suspense>
-		</div>
-	);
+				<Suspense fallback={<DashBoardTablesSkeleton />}>
+					<TableSection />
+				</Suspense>
+			</div>
+		);
 }

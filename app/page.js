@@ -1,5 +1,10 @@
-import Products from "./store/products/page"
+import CustomerLoginForm from "./components/clientarea/forms/loginform"
+
 
 export default function Home() {
-  return <Products/>
+  return (
+    <div className="w-full h-screen flex flex-col items-center justify-center">
+      <CustomerLoginForm />
+    </div>
+  )
 }
