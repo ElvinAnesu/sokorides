@@ -5,7 +5,6 @@ import ClientSidebar from "../components/clientarea/nav/sidebar";
 import ClientMobileNav from "../components/clientarea/nav/mobilenav";
 
 export default function ClientAreaLayout({ children }) { 
-    const [showMobileNav, setShowMobileNav] = useState(false)
     return (
 		<div className="h-screen w-full flex flex-col md:grid md:grid-cols-5 p-4 gap-4 bg-gray-200">
 			<div className="hidden md:block">

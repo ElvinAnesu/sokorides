@@ -65,7 +65,7 @@ const userInfo = {
 
 export default function Home() {
     return (
-			<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+			<div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
 				<HomeCard title={userInfo.title} _list={userInfo.details} />
 				<HomeCard
 					title={purchasedVehicle.title}

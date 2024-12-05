@@ -28,46 +28,52 @@ export default function ClientSidebar() {
 			<ul className="flex flex-col gap-4 text-sm">
 				<li
 					className={`p-2 rounded transition-colors duration-200 hover:bg-purple-100 hover:text-purple-800 ${
-						pathname === "/dashboard"
+						pathname === "/clientarea"
 							? "bg-purple-200 text-purple-900"
 							: "text-gray-700"
 					}`}
 				>
-					<Link href="/dashboard" className="flex gap-2 items-center">
+					<Link href="/clientarea" className="flex gap-2 items-center">
 						<HomeIcon /> Home
 					</Link>
 				</li>
-				
+
 				<li
 					className={`p-2 rounded transition-colors duration-200 hover:bg-purple-100 hover:text-purple-800 ${
-						pathname === "/dashboard/invoices"
+						pathname === "/clientarea/invoices"
 							? "bg-purple-200 text-purple-900"
 							: "text-gray-700"
 					}`}
 				>
-					<Link href="/dashboard/invoices" className="flex gap-2 items-center">
+					<Link href="/clientarea/invoices" className="flex gap-2 items-center">
 						<ReaderIcon /> Invoices
 					</Link>
 				</li>
 				<li
 					className={`p-2 rounded transition-colors duration-200 hover:bg-purple-100 hover:text-purple-800 ${
-						pathname === "/dashboard/payments"
+						pathname === "/clientarea/transactions"
 							? "bg-purple-200 text-purple-900"
 							: "text-gray-700"
 					}`}
 				>
-					<Link href="/dashboard/payments" className="flex gap-2 items-center">
-						<IdCardIcon /> Payments
+					<Link
+						href="/clientarea/transactions"
+						className="flex gap-2 items-center"
+					>
+						<IdCardIcon /> Transactions
 					</Link>
 				</li>
 				<li
 					className={`p-2 rounded transition-colors duration-200 hover:bg-purple-100 hover:text-purple-800 ${
-						pathname === "/dashboard/purchases"
+						pathname === "/clientarea/notifications"
 							? "bg-purple-200 text-purple-900"
 							: "text-gray-700"
 					}`}
 				>
-					<Link href="/dashboard/purchases" className="flex gap-2 items-center">
+					<Link
+						href="/clientarea/notifications"
+						className="flex gap-2 items-center"
+					>
 						<BellIcon /> Notifications
 					</Link>
 				</li>
@@ -78,7 +84,7 @@ export default function ClientSidebar() {
 							: "text-gray-700"
 					}`}
 				>
-					<Link href="/dashboard/customers" className="flex gap-2 items-center">
+					<Link href="/clientarea/profile" className="flex gap-2 items-center">
 						<PersonIcon /> My Profile
 					</Link>
 				</li>

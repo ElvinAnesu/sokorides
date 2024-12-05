@@ -22,57 +22,63 @@ export default function ClientMobileNav() {
 			<ul className="flex  justify-between text-sm">
 				<li
 					className={`p-2 rounded transition-colors duration-200 hover:bg-purple-100 hover:text-purple-800 ${
-						pathname === "/dashboard"
+						pathname === "/clientarea"
 							? "bg-purple-200 text-purple-900"
 							: "text-gray-700"
 					}`}
 				>
 					<Link href="/dashboard" className="flex gap-2 items-center">
-						<HomeIcon /> 
+						<HomeIcon />
 					</Link>
 				</li>
 
 				<li
 					className={`p-2 rounded transition-colors duration-200 hover:bg-purple-100 hover:text-purple-800 ${
-						pathname === "/dashboard/invoices"
+						pathname === "/clientarea/invoices"
 							? "bg-purple-200 text-purple-900"
 							: "text-gray-700"
 					}`}
 				>
-					<Link href="/dashboard/invoices" className="flex gap-2 items-center">
+					<Link href="/clientarea/invoices" className="flex gap-2 items-center">
 						<ReaderIcon />
 					</Link>
 				</li>
 				<li
 					className={`p-2 rounded transition-colors duration-200 hover:bg-purple-100 hover:text-purple-800 ${
-						pathname === "/dashboard/payments"
+						pathname === "/clientarea/transactions"
 							? "bg-purple-200 text-purple-900"
 							: "text-gray-700"
 					}`}
 				>
-					<Link href="/dashboard/payments" className="flex gap-2 items-center">
-						<IdCardIcon /> 
+					<Link
+						href="/clientarea/transactions"
+						className="flex gap-2 items-center"
+					>
+						<IdCardIcon />
 					</Link>
 				</li>
 				<li
 					className={`p-2 rounded transition-colors duration-200 hover:bg-purple-100 hover:text-purple-800 ${
-						pathname === "/dashboard/purchases"
+						pathname === "/clientarea/notifications"
 							? "bg-purple-200 text-purple-900"
 							: "text-gray-700"
 					}`}
 				>
-					<Link href="/dashboard/purchases" className="flex gap-2 items-center">
-						<BellIcon /> 
+					<Link
+						href="/clientarea/notifications"
+						className="flex gap-2 items-center"
+					>
+						<BellIcon />
 					</Link>
 				</li>
 				<li
 					className={`p-2 rounded transition-colors duration-200 hover:bg-purple-100 hover:text-purple-800 ${
-						pathname === "/dashboard/customers"
+						pathname === "/clientarea/profile"
 							? "bg-purple-200 text-purple-900"
 							: "text-gray-700"
 					}`}
 				>
-					<Link href="/dashboard/customers" className="flex gap-2 items-center">
+					<Link href="/clientarea/profile" className="flex gap-2 items-center">
 						<PersonIcon />
 					</Link>
 				</li>
