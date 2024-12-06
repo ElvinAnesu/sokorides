@@ -14,7 +14,8 @@ export default function UserProfileForm(){
 								className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
 								placeholder="first name"
 								name="firstname"
-								value={"Elvin"}
+								value={"Elvin"} 
+								disabled
 							/>
 						</div>
 						<div className="w-full">
@@ -23,7 +24,8 @@ export default function UserProfileForm(){
 								className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
 								placeholder="first name"
 								name="firstname"
-								value={"Kakomo"}
+								value={"Kakomo"} 
+								disabled
 							/>
 						</div>
 						<div className="w-full">
@@ -32,7 +34,8 @@ export default function UserProfileForm(){
 								className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
 								placeholder="first name"
 								name="firstname"
-								value={"Male"}
+							value={"Male"} 
+								disabled
 							/>
 						</div>
 						<div className="w-full">
@@ -41,7 +44,8 @@ export default function UserProfileForm(){
 								className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
 								placeholder="first name"
 								name="firstname"
-								value={"42-289200W49"}
+								value={"42-289200W49"} 
+								disabled
 							/>
 						</div>
 						<div className="w-full">
@@ -50,7 +54,8 @@ export default function UserProfileForm(){
 								className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
 								placeholder="first name"
 								name="firstname"
-								value={"elvin@gmail.com"}
+								value={"elvin@gmail.com"} 
+								disabled
 							/>
 						</div>
 						<div className="w-full">
@@ -59,7 +64,8 @@ export default function UserProfileForm(){
 								className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
 								placeholder="first name"
 								name="firstname"
-								value={"0775953491"}
+								value={"0775953491"} 
+								disabled
 							/>
 						</div>
 						<div className="w-full">
@@ -68,7 +74,8 @@ export default function UserProfileForm(){
 								className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
 								placeholder="first name"
 								name="firstname"
-								value={"1068 mabvazuva rusape"}
+								value={"1068 mabvazuva rusape"} 
+								disabled
 							/>
 						</div>
 					</form>
