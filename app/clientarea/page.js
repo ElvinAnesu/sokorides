@@ -6,7 +6,7 @@ const purchasedVehicle = {
 	vehicles: [
 		{
 			label: "Honda Vezel Hybrid",
-			url: "#"
+			url: "/clientarea/purchases/_id"
 		}
 	]
 }
