@@ -27,7 +27,7 @@ export default function ClientMobileNav() {
 							: "text-gray-700"
 					}`}
 				>
-					<Link href="/dashboard" className="flex gap-2 items-center">
+					<Link href="/clientarea" className="flex gap-2 items-center">
 						<HomeIcon />
 					</Link>
 				</li>

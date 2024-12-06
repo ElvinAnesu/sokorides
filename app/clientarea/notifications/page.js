@@ -1,3 +1,4 @@
+import NotificationsTable from "@/app/components/clientarea/tables/notifiactionstable";
 
 
 
@@ -5,7 +6,7 @@
 export default function Notifications() {
     return (
         <div>
-            <h1>Notifications</h1>
+            <NotificationsTable />
         </div>
     )
 }
