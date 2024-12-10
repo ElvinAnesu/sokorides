@@ -27,7 +27,9 @@ export default function DashBoardNav() {
 			<ul className="flex flex-col gap-4 text-sm">
 				<li
 					className={`p-2 rounded transition-colors duration-200 hover:bg-purple-100 hover:text-purple-800 ${
-						pathname === "/dashboard" ? "bg-purple-200 text-purple-900" : "text-gray-700"
+						pathname === "/dashboard"
+							? "bg-purple-200 text-purple-900"
+							: "text-gray-700"
 					}`}
 				>
 					<Link href="/dashboard" className="flex gap-2 items-center">
@@ -36,13 +38,16 @@ export default function DashBoardNav() {
 				</li>
 				<li
 					className={`p-2 rounded transition-colors duration-200 hover:bg-purple-100 hover:text-purple-800 ${
-						pathname === "/dashboard/cars"
+						pathname === "/dashboard/rent-to-buy"
 							? "bg-purple-200 text-purple-900"
 							: "text-gray-700"
 					}`}
 				>
-					<Link href="/dashboard/cars" className="flex gap-2 items-center">
-						<ListBulletIcon /> Cars in stock
+					<Link
+						href="/dashboard/rent-to-buy"
+						className="flex gap-2 items-center"
+					>
+						<ListBulletIcon />Rent to Buy
 					</Link>
 				</li>
 				<li

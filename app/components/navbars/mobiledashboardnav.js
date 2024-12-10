@@ -44,13 +44,16 @@ export default function MobileDashboardNav({ onClose }) {
 				</li>
 				<li
 					className={`p-2 rounded hover:bg-white hover:text-black ${
-						pathname === "/dashboard/cars"
+						pathname === "/dashboard/rent-to-buy"
 							? "bg-white text-black"
 							: "text-white"
 					}`}
 				>
-					<Link href="/dashboard/cars" className="flex gap-2 items-center">
-						<ListBulletIcon /> Cars in stock
+					<Link
+						href="/dashboard/rent-to-buy"
+						className="flex gap-2 items-center"
+					>
+						<ListBulletIcon /> Rent to Buy
 					</Link>
 				</li>
 				<li
