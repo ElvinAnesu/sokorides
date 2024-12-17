@@ -34,7 +34,7 @@ export default function Login() {
 
 	return (
 		<div className="relative w-full h-screen flex items-center justify-center bg-gray-100 px-4">
-			<form
+			{/* <form
 				className="flex flex-col items-center justify-center gap-4 bg-white p-8 rounded-lg shadow-lg w-full max-w-md"
 				onSubmit={(e) => login(e)}
 			>
@@ -64,8 +64,8 @@ export default function Login() {
 						"Login"
 					)}
 				</button>
-			</form>
+			</form> */}
+			<h1 className="text-xs text-red-600">system crashed</h1>
 		</div>
-
 	);
 }
