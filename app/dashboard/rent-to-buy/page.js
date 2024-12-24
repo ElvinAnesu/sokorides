@@ -1,34 +1,18 @@
+import DocumnetsCard from "@/app/components/cards/documentscard";
 import NotificationsCard from "@/app/components/cards/notifications";
+import PaymentsCard from "@/app/components/cards/paymentscard";
 import RentedCars from "@/app/components/cards/rentedcars";
 import TransactionsCard from "@/app/components/cards/transactions";
+import Link from "next/link";
 
-
-const leasedCars = [
-    {
-        customerName: "Elvin Kakomo",
-        model: "Honda Fit gke",
-        currentPayments: 3000,
-        outstandingBalance: 1500
-    } ,
-    {
-        customerName: "Marshal Madziya",
-        model: "Nissan NV350",
-        currentPayments: 9000,
-        outstandingBalance: 3500
-    },
-     {
-        customerName: "Ariyela Maxwell",
-        model: "Tpyota Prius",
-        currentPayments: 4000,
-        outstandingBalance: 3500
-    }
-]
 export default function RentToBuy() {
-    return (
-        <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4">
-            <RentedCars leasedCars={leasedCars} />
-            <TransactionsCard /> 
-            <NotificationsCard />
-        </div>
-    )
+	return (
+		<div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4">
+			<RentedCars />
+			<PaymentsCard />
+			<TransactionsCard />
+			<NotificationsCard />
+			<DocumnetsCard />
+		</div>
+	);
 }

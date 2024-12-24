@@ -1,8 +1,40 @@
-export default function RentedCars({leasedCars}) {
+import { ArrowRightIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
+
+
+export default function RentedCars() { 
+	const leasedCars = [
+		{
+			customerName: "Elvin Kakomo",
+			model: "Honda Fit gke",
+			currentPayments: 3000,
+			outstandingBalance: 1500,
+		},
+		{
+			customerName: "Marshal Madziya",
+			model: "Nissan NV350",
+			currentPayments: 9000,
+			outstandingBalance: 3500,
+		},
+		{
+			customerName: "Ariyela Maxwell",
+			model: "Tpyota Prius",
+			currentPayments: 4000,
+			outstandingBalance: 3500,
+		},
+	];
+
 	return (
 		<div className="flex flex-col rounded bg-white shadow">
-			<div className="w-full flex bg-purple-900 p-2 rounded-t">
+			<div className="w-full flex bg-purple-900 p-2 rounded-t flex items-center justify-between">
 				<h1 className="text-white">Leased Cars(2)</h1>
+				<Link
+					href={"/dashboard/rent-to-buy/leasedcars"}
+					className="text-white flex items-center gap-2"
+				>
+					View
+				 <ArrowRightIcon className="w-4 h-4" fontSize={24}/>
+				</Link>
 			</div>
 			{leasedCars?.length ?
 				leasedCars.map((leasedCar, index) => (

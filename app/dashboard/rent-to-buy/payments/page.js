@@ -1,0 +1,32 @@
+import BreadCrumb from "@/app/components/dashboard/common/breadcrumb";
+import Pagination from "@/app/components/dashboard/common/pagination";
+import SearchTable from "@/app/components/tables/searchtable";
+
+const data = [
+    { _id: 1, customer: "Elvin Kakomo", description: "Monthly payment", status:"up-coming", amount: 3000 },
+	// Add more data as needed
+];
+const columns = [
+	{ Header: "Customer", accessor: "customer" },
+	{ Header: "Descriptio", accessor: "description" },
+	{ Header: "Status", accessor: "status" },
+	{ Header: "Amount", accessor: "amount" },
+];
+export default async function Payments({ searchParams }) {
+	const _searchParams = await searchParams;
+	const query = _searchParams?.query || "";
+	const currentPage = Number(_searchParams?.page) || 1;
+	const totalPages = 1;
+
+	return (
+		<div className="flex flex-col gap-8">
+			<BreadCrumb title={"Payments"} />
+			<div className="flex flex-col w-full bg-white rounded px-4 py-2">
+				<SearchTable columns={columns} data={data} type={"payments"}/>
+				<div className="mt-5 flex w-full justify-center">
+					<Pagination totalPages={totalPages} />
+				</div>
+			</div>
+		</div>
+	);
+}

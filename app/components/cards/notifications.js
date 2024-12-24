@@ -1,6 +1,6 @@
+import Link from "next/link";
 
-
-import { SpeakerLoudIcon } from "@radix-ui/react-icons";
+import { SpeakerLoudIcon, ArrowRightIcon } from "@radix-ui/react-icons";
 
 const notoifications = [
 	{
@@ -20,8 +20,15 @@ const notoifications = [
 export default function NotificationsCard() {
 	return (
 		<div className="w-full rounded shadow bg-white">
-			<div className="rounded-t bg-purple-900 p-2">
-				<h5 className="text-white">Notifications</h5>
+			<div className="rounded-t bg-purple-900 p-2 flex items-center justify-between">
+				<h5 className="text-white ">Notifications</h5>
+				<Link
+					href={"/dashboard/rent-to-buy/notifications"}
+					className="text-white flex items-center gap-2"
+				>
+					View
+					<ArrowRightIcon className="w-4 h-4" fontSize={24} />
+				</Link>
 			</div>
 			<div className="p-4">
 				{notoifications.map((_notification, index) => (
