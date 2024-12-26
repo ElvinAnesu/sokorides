@@ -38,7 +38,7 @@ export default function Login() {
 				className="flex flex-col items-center justify-center gap-4 bg-white p-8 rounded-lg shadow-lg w-full max-w-md"
 				onSubmit={(e) => login(e)}
 			>
-				<h1 className="font-bold text-2xl text-gray-800">SOKO CARS ADMIN PANEL</h1>
+				<h1 className="font-bold text-2xl text-gray-800 text-center">SOKO CARS ADMIN PANEL</h1>
 				<input
 					className="border border-gray-300 rounded-lg w-full bg-gray-50 p-3 text-gray-700 text-base focus:outline-none focus:border-purple-500"
 					placeholder="Phone number"
@@ -55,7 +55,7 @@ export default function Login() {
 					disabled={isLoading}
 				/>
 				<button
-					className="w-full bg-purple-600 text-white p-3 rounded-lg font-semibold hover:bg-purple-700 transition-all duration-200"
+					className="flex items-center justify-center w-full bg-purple-600 text-white p-3 rounded-lg font-semibold hover:bg-purple-700 transition-all duration-200"
 					type="submit"
 				>
 					{isLoading ? (

@@ -38,7 +38,7 @@ export default function DashboardCard({ value, type, color = "text-gray-900" }) 
 				{Icon && <Icon className="h-6 w-6 text-purple-500" />}
 			</div>
 			<p
-				className={`${lusitana.className} text-4xl font-semibold ${color} text-center`}
+				className={`${lusitana.className} text-2xl md:text-4xl font-semibold ${color} text-center`}
 			>
 				{value}
 			</p>

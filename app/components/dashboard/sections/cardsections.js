@@ -21,7 +21,7 @@ export default async function CardSection() {
 	};
 
 	return (
-		<div className="flex w-full gap-4 overflow-auto">
+		<div className="w-full grid grid-cols-2 md:grid-cols-4 gap-4">
 			<DashboardCard
 				type="totalPayments"
 				value={`$${formatNumber(totalPayments.toFixed(2))}`}

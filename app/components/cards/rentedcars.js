@@ -9,7 +9,7 @@ export default async function RentedCars() {
 	return (
 		<div className="flex flex-col rounded bg-white shadow">
 			<div className="w-full flex bg-purple-900 p-2 rounded-t flex items-center justify-between">
-				<h1 className="text-white">Leased Cars(2)</h1>
+				<h1 className="text-white">Leased Cars</h1>
 				<Link
 					href={"/dashboard/rent-to-buy/leasedcars"}
 					className="text-white flex items-center gap-2"
@@ -27,17 +27,17 @@ export default async function RentedCars() {
 							</h1>
 							<h1 className="font-bold">{leasedCar.leasedCar}</h1>
 						</div>
-						<div className="flex items-center justify-between text-xs border-b pb-2">
+						<div className="flex flex-col text-xs border-b pb-2">
 							<h1 className="font-bold">
 								Current Payments:{" "}
-								<span className="text-sm text-green-600">
-									{leasedCar.downPayment}
+								<span className="text-green-600  text-xl">
+									${leasedCar.downPayment.toFixed(2)}
 								</span>
 							</h1>
 							<h1 className="font-bold">
 								Outstanding balance:{" "}
-								<span className="text-sm text-amber-600">
-									{leasedCar.totalPrice - leasedCar.downPayment}
+								<span className="text-xl text-amber-600">
+									${(leasedCar.totalPrice - leasedCar.downPayment).toFixed(2)}
 								</span>
 							</h1>
 						</div>

@@ -11,8 +11,6 @@ const notifications = {
 	],
 }; 
 
-
-
 export default async function Home({params}) {  
 	const { _id } = await params;
 	const lease = await getLeaseById(_id) 
@@ -76,4 +74,4 @@ export default async function Home({params}) {
 				/>
 			</div>
 		);
-}
+} 

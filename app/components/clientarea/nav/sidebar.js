@@ -33,7 +33,7 @@ export default function ClientSidebar() {
 							: "text-gray-700"
 					}`}
 				>
-					<Link href="/clientarea" className="flex gap-2 items-center">
+					<Link href="#" className="flex gap-2 items-center">
 						<HomeIcon /> Home
 					</Link>
 				</li>

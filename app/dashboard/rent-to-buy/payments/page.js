@@ -5,7 +5,7 @@ import SearchTable from "@/app/components/tables/searchtable";
 import { Suspense } from "react";
 
 const data = [
-    { _id: 1, customer: "Elvin Kakomo", description: "Monthly payment", status:"up-coming", amount: 3000 },
+
 	// Add more data as needed
 ];
 const columns = [
