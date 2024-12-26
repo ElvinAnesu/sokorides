@@ -1,27 +1,29 @@
+"use server"
 import BreadCrumb from "@/app/components/dashboard/common/breadcrumb";
 import Pagination from "@/app/components/dashboard/common/pagination";
 import SearchTable from "@/app/components/tables/searchtable";
 import { Suspense } from "react";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-
-const data = [
-	{ _id: 1, name: "Car A", owner: "Owner A", price: 3000 },
-	{ _id: 2, name: "Car B", owner: "Owner B", price: 4000 },
-	// Add more data as needed
-];
+import {
+	getPaginatedLeases
+	
+ } from "@/lib/server-actions/lease";
+;
 const columns = [
-	{ Header: "Name", accessor: "name" },
-	{ Header: "Owner", accessor: "owner" },
-	{ Header: "Price", accessor: "price" },
+	{ Header: "Client", accessor: "clientSurname" },
+	{ Header: "Car", accessor: "leasedCar" },
+	{ Header: "Price", accessor: "totalPrice" },
 ];
-const mobileColumns = [{ Header: "Name", accessor: "name" }];
+const mobileColumns = [{ Header: "Client", accessor: "clientSurname" }];
 
 export default async function leasedCars({ searchParams }) {
 	const _searchParams = await searchParams;
 	const query = _searchParams?.query || "";
 	const currentPage = Number(_searchParams?.page) || 1;
 	const totalPages = 1;
+
+	const data = await getPaginatedLeases()
 
 	return (
 		<div className="flex flex-col gap-8">

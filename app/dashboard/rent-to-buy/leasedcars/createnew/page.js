@@ -5,11 +5,14 @@ import { useActionState } from "react";
 
 
 
+
 export default function LeaseCar() {  
 
 	const [state, formAction, pending] = useActionState(
 		addClientDetails, 
-	undefined)
+		undefined)  
+	
+	
 
 	return (
 		<div className="flex flex-col gap-8">
@@ -75,6 +78,46 @@ export default function LeaseCar() {
 						required
 					/>
 				</div>
+				<div className="md:col-span-3">
+					<h1 className="font-semibold text-sm">Lease Details</h1>
+				</div>
+				<div className="w-full">
+					<h5 className="text-sm">Car</h5>
+					<input
+						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
+						placeholder="Car"
+						name="leasedCar"
+					/>
+				</div>
+				<div className="w-full">
+					<h5 className="text-sm">Total Price</h5>
+					<input
+						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
+						placeholder="Price"
+						name="totalPrice"
+						type="number"
+					/>
+				</div>
+				<div className="w-full">
+					<h5 className="text-sm">Monthly Payments</h5>
+					<input
+						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
+						type="number"
+						name="monthlyPayments"
+					/>
+				</div>
+
+				<div className="w-full">
+					<h5 className="text-sm">Down Payment</h5>
+					<input
+						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
+						placeholder="Payment"
+						name="downPayment"
+						type="numbers"
+					/>
+				</div>
+				<div className="hidden md:block md:col-span-2"></div>
+			
 				<button className="bg-purple-900 rounded text-white p-2">
 					{pending ? "loading" : "Next"}
 				</button>

@@ -1,6 +1,14 @@
+"use server"
 import BreadCrumb from "@/app/components/dashboard/common/breadcrumb";
+import { getLeaseById } from "@/lib/server-actions/lease";
+import Link from "next/link";
 
-export default function LeasedCarDetails() {
+export default async function LeasedCarDetails({params}) { 
+
+	const { _id } = await params;
+	const lease = await getLeaseById(_id)
+
+	 
 	return (
 		<div className="flex flex-col gap-8">
 			<BreadCrumb title={"Leased Vehicle"} />
@@ -14,7 +22,7 @@ export default function LeasedCarDetails() {
 						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
 						placeholder="first name"
 						name="firstname"
-						value={"Elvin"}
+						defaultValue={lease?.clientName}
 						disabled
 					/>
 				</div>
@@ -24,7 +32,7 @@ export default function LeasedCarDetails() {
 						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
 						placeholder="first name"
 						name="firstname"
-						value={"Kakomo"}
+						defaultValue={lease?.clientSurname}
 						disabled
 					/>
 				</div>
@@ -34,7 +42,7 @@ export default function LeasedCarDetails() {
 						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
 						placeholder="first name"
 						name="firstname"
-						value={"42-289200W49"}
+						defaultValue={lease?.clientIdNo}
 						disabled
 					/>
 				</div>
@@ -44,7 +52,7 @@ export default function LeasedCarDetails() {
 						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
 						placeholder="first name"
 						name="firstname"
-						value={"elvin@gmail.com"}
+						defaultValue={lease?.clientEmail}
 						disabled
 					/>
 				</div>
@@ -54,7 +62,7 @@ export default function LeasedCarDetails() {
 						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
 						placeholder="first name"
 						name="firstname"
-						value={"0775953491"}
+						defaultValue={lease?.clientPhonenumber}
 						disabled
 					/>
 				</div>
@@ -64,7 +72,7 @@ export default function LeasedCarDetails() {
 						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
 						placeholder="first name"
 						name="firstname"
-						value={"1068 mabvazuva rusape"}
+						defaultValue={lease?.clientAddress}
 						disabled
 					/>
 				</div>
@@ -77,7 +85,7 @@ export default function LeasedCarDetails() {
 						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
 						placeholder="first name"
 						name="firstname"
-						value={"Honda Vezel"}
+						defaultValue={lease?.leasedCar}
 						disabled
 					/>
 				</div>
@@ -97,37 +105,18 @@ export default function LeasedCarDetails() {
 						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
 						placeholder="first name"
 						name="firstname"
-						value={"USD500"}
+						defaultValue={lease?.monthlyPayments}
 						disabled
 					/>
 				</div>
-				<div className="w-full">
-					<h5 className="text-sm">Period</h5>
-					<input
-						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
-						placeholder="first name"
-						name="firstname"
-						value={"12 Months"}
-						disabled
-					/>
-				</div>
-				<div className="w-full">
-					<h5 className="text-sm">Period</h5>
-					<input
-						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
-						placeholder="first name"
-						name="firstname"
-						value={"12 Months"}
-						disabled
-					/>
-				</div>
+
 				<div className="w-full">
 					<h5 className="text-sm">Current Payments</h5>
 					<input
 						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
 						placeholder="first name"
 						name="firstname"
-						value={"USD 300"}
+						defaultValue={lease?.downPayment}
 						disabled
 					/>
 				</div>
@@ -154,32 +143,23 @@ export default function LeasedCarDetails() {
 				<div className="md:col-span-4">
 					<h1 className="font-semibold text-sm">Supporting Documents</h1>
 				</div>
-				<div className="w-full">
-					<input
-						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
-						placeholder="first name"
-						name="firstname"
-						value={"Agreemet of sale"}
-						disabled
-					/>
+				<div className="w-full flex flex-col gap-4 md:col-span-4">
+					{lease?.documents?.length > 0 &&
+						lease.documents.map((doc, index) => (
+							<input
+								key={index}
+								className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
+								placeholder="first name"
+								name="firstname"
+								value={"Document"}
+								disabled
+							/>
+						))}
 				</div>
-				<div className="w-full">
-					<input
-						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
-						placeholder="first name"
-						name="firstname"
-						value={"Proof of residence"}
-						disabled
-					/>
-				</div>
-				<div className="w-full">
-					<input
-						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
-						placeholder="first name"
-						name="firstname"
-						value={"Change of ownership"}
-						disabled
-					/>
+				<div className="w-full flex flex col gap-4">
+					<Link href={`/dashboard/rent-to-buy/leasedcars/${_id}/payments`} className="bg-purple-900 rounded p-2 text-white">
+						Update Payments
+					</Link>
 				</div>
 			</form>
 		</div>

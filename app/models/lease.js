@@ -45,9 +45,9 @@ const leaseSchema = new Schema({
     endDate: {
         type:Date
     },
-    documents:{
-    type:[String]
-    }
+    documents: [{
+        type: String,
+    }],
 }, { timestamps: true });
 
 const Lease = mongoose.models.Lease || mongoose.model("Lease", leaseSchema);
