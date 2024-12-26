@@ -2,9 +2,10 @@ import connectdb from "@/mongodb";
 import { NextResponse } from "next/server";
 import Payment from "@/app/models/payment";
 
-export async function GET(request, { params }) {
-	const { _id } = params;
-	try {
+export async function GET(request, props) {
+    const params = await props.params;
+    const { _id } = params;
+    try {
 		connectdb();
 		const payment = await Payment.findById(_id);
 		if (!payment) {
@@ -27,11 +28,12 @@ export async function GET(request, { params }) {
 	}
 }
 
-export async function PUT(request, { params }) {
-	const { _id } = params;
-	const { fullname, amount, paymentMethod, date, description } =
+export async function PUT(request, props) {
+    const params = await props.params;
+    const { _id } = params;
+    const { fullname, amount, paymentMethod, date, description } =
 		await request.json();
-	try {
+    try {
 		connectdb();
 		const updatePayment = await Payment.findByIdAndUpdate(_id, {
 			fullname,
@@ -59,9 +61,10 @@ export async function PUT(request, { params }) {
 	}
 }
 
-export async function DELETE(request, { params }) {
-	const { _id } = params;
-	try {
+export async function DELETE(request, props) {
+    const params = await props.params;
+    const { _id } = params;
+    try {
 		connectdb();
 		const deletepayment = await Payment.findByIdAndDelete(_id);
 		if (!deletepayment) {

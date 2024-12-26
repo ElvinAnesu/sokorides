@@ -2,7 +2,8 @@ import connectdb from "@/mongodb"
 import { NextResponse } from "next/server"
 import User from "@/app/models/user"
 
-export async function GET(request,{params}) {
+export async function GET(request, props) {
+    const params = await props.params;
     const {_id} = params
     try{
         const user = await User.findById(_id)
@@ -25,7 +26,8 @@ export async function GET(request,{params}) {
         })
     }
 }
-export async function PUT(request,{params}) {
+export async function PUT(request, props) {
+    const params = await props.params;
     const {_id} = params
     const {
         surname,
@@ -59,7 +61,8 @@ export async function PUT(request,{params}) {
         })
     }
 }
-export async function DELETE(request,{params}) {
+export async function DELETE(request, props) {
+    const params = await props.params;
     const {_id} = params
     try {
         const deleteuser = await User.findByIdAndDelete(_id)

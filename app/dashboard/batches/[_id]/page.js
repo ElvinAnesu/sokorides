@@ -1,21 +1,22 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import { ArrowLeftIcon, Cross1Icon } from "@radix-ui/react-icons";
 
-export default function ShipmentDetails({ params }) {
-	const router = useRouter();
-	const { _id } = params;
-	const [batchName, setBatchName] = useState();
-	const [update, setUpdate] = useState(false);
-	const [shipments, setShipments] = useState([]);
-	const [batchupdate, setBatchupdate] = useState();
-	const [showupdateinput, setShowupdateinput] = useState(false);
-	const [updates, setUpdates] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
-	const [allshipments, setAllShipments] = useState([]);
+export default function ShipmentDetails(props) {
+    const params = use(props.params);
+    const router = useRouter();
+    const { _id } = params;
+    const [batchName, setBatchName] = useState();
+    const [update, setUpdate] = useState(false);
+    const [shipments, setShipments] = useState([]);
+    const [batchupdate, setBatchupdate] = useState();
+    const [showupdateinput, setShowupdateinput] = useState(false);
+    const [updates, setUpdates] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [allshipments, setAllShipments] = useState([]);
 
-	const getBatch = async () => {
+    const getBatch = async () => {
 		setIsLoading(true);
 		const response = await fetch(`/api/batch/${_id}`, {
 			method: "GET",
@@ -34,7 +35,7 @@ export default function ShipmentDetails({ params }) {
 		}
 	};
 
-	const sendBatchUpdate = async (e) => {
+    const sendBatchUpdate = async (e) => {
 		e.preventDefault();
 		setIsLoading(true);
 		const response = await fetch("/api/batch/tracker", {
@@ -56,7 +57,7 @@ export default function ShipmentDetails({ params }) {
 		}
 	};
 
-	const updateBatch = async (e) => {
+    const updateBatch = async (e) => {
 		e.preventDefault();
 		setIsLoading(true);
 		const response = await fetch(`/api/batch/${_id}`, {
@@ -76,7 +77,7 @@ export default function ShipmentDetails({ params }) {
 			alert(data.message);
 		}
 	};
-	const getShipments = async (e) => {
+    const getShipments = async (e) => {
 		const response = await fetch(`/api/shipments`, {
 			method: "GET",
 			headers: { "Content-Type": "application/json" },
@@ -89,7 +90,7 @@ export default function ShipmentDetails({ params }) {
 			alert(data.message);
 		}
 	};
-	const addShipment = async (e) => {
+    const addShipment = async (e) => {
 		const selectedshipment = allshipments[e]._id;
 		if (selectedshipment) {
 			if (!shipments.includes(selectedshipment)) {
@@ -103,12 +104,12 @@ export default function ShipmentDetails({ params }) {
 				shipments.filter((item) => item !== shipmentToRemove)
 			);
 		};
-	useEffect(() => {
+    useEffect(() => {
 		getBatch();
 		getShipments();
 	}, []);
 
-	return (
+    return (
 		<div className="w-full h-full flex flex-col  p-4 gap-4 rounded">
 			<div className="flex items-center gap-2">
 				<button

@@ -2,7 +2,8 @@ import connectdb from "@/mongodb"
 import { NextResponse } from "next/server"
 import Shipment from "@/app/models/shipment"
 
-export async function GET(request,{params}) {
+export async function GET(request, props) {
+    const params = await props.params;
     const {_id} = params
     try {
         connectdb()
@@ -26,7 +27,8 @@ export async function GET(request,{params}) {
         })
     }
 }
-export async function PUT(request,{params}) {
+export async function PUT(request, props) {
+    const params = await props.params;
     const {_id} = params
     const {
         customername,

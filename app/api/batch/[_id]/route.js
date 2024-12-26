@@ -3,7 +3,8 @@ import { NextResponse } from "next/server";
 import Batch from "@/app/models/batch";
 
 
-export async function GET(request,{params}) {
+export async function GET(request, props) {
+    const params = await props.params;
     const { _id } = params
     try {
         connectdb()
@@ -27,9 +28,10 @@ export async function GET(request,{params}) {
         })
     }
 }
-export async function DELETE(request, { params }) {
-	const { _id } = params;
-	try {
+export async function DELETE(request, props) {
+    const params = await props.params;
+    const { _id } = params;
+    try {
 		connectdb();
 		const batch = await Batch.findByIdAndDelete(_id);
 		if (!batch) {
@@ -50,10 +52,11 @@ export async function DELETE(request, { params }) {
 		});
 	}
 }
-export async function PUT(request, { params }) {
+export async function PUT(request, props) {
+    const params = await props.params;
     const { _id } = params;
     const { batchName, shipments} = await request.json();
-	try {
+    try {
 		connectdb();
         const batch = await Batch.findByIdAndUpdate(_id, {
 					batchName,

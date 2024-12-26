@@ -9,15 +9,15 @@ export default function TransactionDetails() {
 					<h1 className="font-semibold text-sm">Payment Details</h1>
 					<div className="bg-white rounded p-4 text-sm ">
 						<div className="grid grid-cols-1 md:grid-cols-3 border-b py-4">
-							<div className="flex items-center  gap-8">
+							<div className="grid grid-cols-2 gap-4">
 								<h1>Due Date:</h1>
 								<h1 className="font-semibold">02 Jan 2023</h1>
 							</div>
-							<div className="flex items-center  gap-8">
+							<div className="grid grid-cols-2 gap-4">
 								<h1>Customer:</h1>
 								<h1 className="font-semibold">Elvin Kakoomo</h1>
 							</div>
-							<div className="flex items-center  gap-8">
+							<div className="grid grid-cols-2 gap-4">
 								<h1>Amount:</h1>
 								<h1 className="font-semibold">30000</h1>
 							</div>

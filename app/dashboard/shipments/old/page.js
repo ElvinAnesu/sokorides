@@ -1,28 +1,29 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import { ArrowLeftIcon } from "@radix-ui/react-icons";
 
-export default function ShipmentDetails({ params }) {
-	const router = useRouter();
-	const { _id } = params;
-	const [shipment, setShipment] = useState({});
-	const [customername, setCustomername] = useState();
-	const [purchaseditem, setPurchaseditem] = useState();
-	const [price, setPrice] = useState();
-	const [update, setUpdate] = useState(false);
-	const [shipmentupdate, setShipmentupdate] = useState();
-	const [showupdateinput, setShowupdateinput] = useState(false);
-	const [updates, setUpdates] = useState([]);
-	const [isLoading, setIsloading] = useState(false);
+export default function ShipmentDetails(props) {
+    const params = use(props.params);
+    const router = useRouter();
+    const { _id } = params;
+    const [shipment, setShipment] = useState({});
+    const [customername, setCustomername] = useState();
+    const [purchaseditem, setPurchaseditem] = useState();
+    const [price, setPrice] = useState();
+    const [update, setUpdate] = useState(false);
+    const [shipmentupdate, setShipmentupdate] = useState();
+    const [showupdateinput, setShowupdateinput] = useState(false);
+    const [updates, setUpdates] = useState([]);
+    const [isLoading, setIsloading] = useState(false);
 
-	//update shipment variables
-	const [origin, setOrigin] = useState();
-	const [destination, setDestination] = useState();
-	const [customerphone, setCustomerphone] = useState();
-	const [customeremail, setCustomeremail] = useState();
+    //update shipment variables
+    const [origin, setOrigin] = useState();
+    const [destination, setDestination] = useState();
+    const [customerphone, setCustomerphone] = useState();
+    const [customeremail, setCustomeremail] = useState();
 
-	const getShipmet = async () => {
+    const getShipmet = async () => {
 		setIsloading(true);
 		const response = await fetch(`/api/shipments/${_id}`, {
 			method: "GET",
@@ -47,7 +48,7 @@ export default function ShipmentDetails({ params }) {
 		}
 	};
 
-	const sendShipmentupdate = async (e) => {
+    const sendShipmentupdate = async (e) => {
 		e.preventDefault();
 		const response = await fetch("/api/shipments/tracker", {
 			method: "PUT",
@@ -65,7 +66,7 @@ export default function ShipmentDetails({ params }) {
 		}
 	};
 
-	const updateShipment = async (e) => {
+    const updateShipment = async (e) => {
 		e.preventDefault();
 		setIsloading(true);
 		const response = await fetch(`/api/shipments/${_id}`, {
@@ -92,11 +93,11 @@ export default function ShipmentDetails({ params }) {
 		}
 	};
 
-	useEffect(() => {
+    useEffect(() => {
 		getShipmet();
 	}, []);
 
-	return (
+    return (
 		<div className="w-full h-full flex flex-col  p-4 gap-4 rounded">
 			<div className="flex items-center gap-2">
 				<button

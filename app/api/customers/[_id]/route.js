@@ -28,7 +28,8 @@ export async function GET(request, {params}) {
     }
 }
 
-export async function PUT(request,{params}) {
+export async function PUT(request, props) {
+    const params = await props.params;
     const {_id} = params
     const {surname,firstname,phonenumber,email,address} = await request.json()
     try {
@@ -59,7 +60,8 @@ export async function PUT(request,{params}) {
     }
 }
 
-export async function DELETE(request,{params}) {
+export async function DELETE(request, props) {
+    const params = await props.params;
     const {_id} = params
     try {
         connectdb()

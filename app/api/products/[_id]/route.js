@@ -3,7 +3,8 @@ import { NextResponse } from "next/server"
 import Product from "@/app/models/product"
 
 
-export async function GET(request,{params}) {
+export async function GET(request, props) {
+    const params = await props.params;
     const { _id } = params
     try{
         connectdb()
@@ -28,7 +29,8 @@ export async function GET(request,{params}) {
     }
 }
 
-export async function PUT(request,{params}) {
+export async function PUT(request, props) {
+    const params = await props.params;
     const {_id} = params
     const {
         productname,
@@ -81,7 +83,8 @@ export async function PUT(request,{params}) {
     }
 }
 
-export async function DELETE(request,{params}) {
+export async function DELETE(request, props) {
+    const params = await props.params;
     const {_id} = params
     try{
         connectdb()

@@ -36,7 +36,7 @@ export default function DashBoardLayout({ children }) {
 					>
 						<HamburgerMenuIcon />
 					</button>
-					<div className="flex gap-2 items-center">
+					<div className="flex gap-2 items-center mb-8">
 						<h1 className="text-black font-bold text-sm">{username}</h1>
 						<div className="bg-purple-900 text-white h-8 w-8 rounded-full flex items-center justify-center">
 							<PersonIcon className="h-6 w-6" />

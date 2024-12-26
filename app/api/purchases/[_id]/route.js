@@ -2,9 +2,10 @@ import connectdb from "@/mongodb";
 import { NextResponse } from "next/server";
 import Purchase from "@/app/models/purchase";
 
-export async function GET(request, { params }) {
-	const { _id } = params;
-	try {
+export async function GET(request, props) {
+    const params = await props.params;
+    const { _id } = params;
+    try {
 		connectdb();
 		const purchase = await Purchase.findById(_id);
 		if (!purchase) {
@@ -25,9 +26,10 @@ export async function GET(request, { params }) {
 		});
 	}
 }
-export async function PUT(request, { params }) {
-	const { _id } = params;
-	const {
+export async function PUT(request, props) {
+    const params = await props.params;
+    const { _id } = params;
+    const {
 		customerName,
 		customerId,
 		purchasedItem,
@@ -36,7 +38,7 @@ export async function PUT(request, { params }) {
 		currentPayment,
 		gallery,
 	} = await request.json();
-	try {
+    try {
 		connectdb();
 		const updatePurchase = await Purchase.findByIdAndUpdate(_id, {
 			customerName,
@@ -65,9 +67,10 @@ export async function PUT(request, { params }) {
 		});
 	}
 }
-export async function DELETE(request, { params }) {
-	const { _id } = params;
-	try {
+export async function DELETE(request, props) {
+    const params = await props.params;
+    const { _id } = params;
+    try {
 		connectdb();
 		const deleteRecord = await Purchase.findByIdAndDelete(_id);
 		if (!deleteRecord) {

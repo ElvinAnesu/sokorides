@@ -1,30 +1,31 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { Pencil1Icon, Cross1Icon, ArrowLeftIcon } from "@radix-ui/react-icons";
 import { CldUploadButton, CldImage } from "next-cloudinary";
 import { useRouter } from "next/navigation";
 
-export default function ProductDetails({ params }) {
-	const router = useRouter();
-	const { _id } = params;
-	const [productTitle, setProductTitle] = useState();
-	const [currency, setCurrency] = useState();
-	const [description, setDescription] = useState();
-	const [milage, setMilage] = useState();
-	const [year, setYear] = useState();
-	const [engine, setEngine] = useState();
-	const [transmission, setTransimission] = useState();
-	const [drive, setDrive] = useState();
-	const [price, setPrice] = useState();
-	const [location, setLocation] = useState();
-	const [coverimage, setCoverimage] = useState();
-	const [gallery, setGallery] = useState([]);
-	const [displayimage, setDisplayimage] = useState();
-	const [showeditDialog, setShowwEditDialog] = useState(false);
-	const [fuel, setFuel] = useState();
-	const [isLoading, setIsLoading] = useState(false);
+export default function ProductDetails(props) {
+    const params = use(props.params);
+    const router = useRouter();
+    const { _id } = params;
+    const [productTitle, setProductTitle] = useState();
+    const [currency, setCurrency] = useState();
+    const [description, setDescription] = useState();
+    const [milage, setMilage] = useState();
+    const [year, setYear] = useState();
+    const [engine, setEngine] = useState();
+    const [transmission, setTransimission] = useState();
+    const [drive, setDrive] = useState();
+    const [price, setPrice] = useState();
+    const [location, setLocation] = useState();
+    const [coverimage, setCoverimage] = useState();
+    const [gallery, setGallery] = useState([]);
+    const [displayimage, setDisplayimage] = useState();
+    const [showeditDialog, setShowwEditDialog] = useState(false);
+    const [fuel, setFuel] = useState();
+    const [isLoading, setIsLoading] = useState(false);
 
-	const getProduct = async () => {
+    const getProduct = async () => {
 		setIsLoading(true);
 		const response = await fetch(`/api/products/${_id}`, {
 			method: "GET",
@@ -54,11 +55,11 @@ export default function ProductDetails({ params }) {
 		}
 	};
 
-	useEffect(() => {
+    useEffect(() => {
 		getProduct();
 	}, []);
 
-	return (
+    return (
 		<div className="flex flex-col w-full h-full p-4">
 			{isLoading ? (
 				<div className="w-full flex items-center justify-center md:col-span-4 min-h-96">
