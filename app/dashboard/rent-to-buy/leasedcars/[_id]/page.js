@@ -1,6 +1,7 @@
 "use server"
 import BreadCrumb from "@/app/components/dashboard/common/breadcrumb";
 import { getLeaseById } from "@/lib/server-actions/lease";
+import { ArrowRightIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 
 export default async function LeasedCarDetails({params}) { 
@@ -146,18 +147,20 @@ export default async function LeasedCarDetails({params}) {
 				<div className="w-full flex flex-col gap-4 md:col-span-4">
 					{lease?.documents?.length > 0 &&
 						lease.documents.map((doc, index) => (
-							<input
+							<div
 								key={index}
-								className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
-								placeholder="first name"
-								name="firstname"
-								value={"Document"}
-								disabled
-							/>
+								className="w-full flex items-center justify-between border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
+							>
+								<h1>Document</h1>
+								<Link href={doc} className="flex gap-2 items-center ">
+									View
+									<ArrowRightIcon />
+								</Link>
+							</div>
 						))}
 				</div>
 				<div className="w-full flex flex col gap-4">
-					<Link href={`/dashboard/rent-to-buy/leasedcars/${_id}/payments`} className="bg-purple-900 rounded p-2 text-white">
+					<Link href={`/dashboard/rent-to-buy/leasedcars/${_id}/payments`} className="bg-purple-900 rounded p-2 text-white ">
 						Update Payments
 					</Link>
 				</div>
