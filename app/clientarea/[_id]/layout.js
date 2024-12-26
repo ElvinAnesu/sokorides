@@ -1,8 +1,8 @@
 "use client";
 import { PersonIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
-import ClientSidebar from "../components/clientarea/nav/sidebar";
-import ClientMobileNav from "../components/clientarea/nav/mobilenav";
+import ClientSidebar from "@/app/components/clientarea/nav/sidebar";
+import ClientMobileNav from "@/app/components/clientarea/nav/mobilenav";
 
 export default function ClientAreaLayout({ children }) { 
     return (
