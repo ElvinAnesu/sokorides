@@ -64,7 +64,7 @@ export default function SearchTable({ data, columns, type }) {
 										))
 									) : (
 										<tr>
-											<td colSpan={columns?.length} className="text-center p-2">
+											<td colSpan={columns?.length +1} className="text-center p-2">
 												No data found
 											</td>
 										</tr>

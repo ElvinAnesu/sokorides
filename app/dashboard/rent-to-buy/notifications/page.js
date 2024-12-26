@@ -3,7 +3,7 @@ import Pagination from "@/app/components/dashboard/common/pagination";
 import SearchTable from "@/app/components/tables/searchtable";
 
 const data = [
-	{ _id: "hoyo", notification: "Elvin Kakomo agreement of sale", url: "3000" },
+
 	// Add more data as needed
 ];
 const columns = [{ Header: "Notification", accessor: "notification" }];

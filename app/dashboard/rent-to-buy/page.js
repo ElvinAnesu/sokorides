@@ -12,7 +12,6 @@ export default function RentToBuy() {
 			<PaymentsCard />
 			<TransactionsCard />
 			<NotificationsCard />
-			<DocumnetsCard />
 		</div>
 	);
 }

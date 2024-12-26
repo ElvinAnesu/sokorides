@@ -3,8 +3,7 @@ import Pagination from "@/app/components/dashboard/common/pagination";
 import SearchTable from "@/app/components/tables/searchtable";
 
 const data = [
-	{ _id: 1, transaction: "Monhly payment", customer: "Owner A", amount: 3000 },
-	{ _id: 1, transaction: "Monhly payment", customer: "Owner B", amount: 3000 },
+
 	// Add more data as needed
 ];
 const columns = [
