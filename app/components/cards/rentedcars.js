@@ -20,24 +20,24 @@ export default async function RentedCars() {
 			</div>
 			{leasedCars?.length ? (
 				leasedCars.map((leasedCar, index) => (
-					<div className="p-4" key={index}>
+					<div className="flex flex-col p-4" key={index}>
 						<div className="flex items-center justify-between">
 							<h1 className="font-bold">
 								{leasedCar.clientName} {leasedCar.clientSurname}
 							</h1>
 							<h1 className="font-bold">{leasedCar.leasedCar}</h1>
 						</div>
-						<div className="flex flex-col text-xs border-b pb-2">
+						<div className="flex flex-col text-xs border-b">
 							<h1 className="font-bold">
 								Current Payments:{" "}
 								<span className="text-green-600  text-xl">
-									${leasedCar.downPayment.toFixed(2)}
+									${leasedCar?.downPayment?.toFixed(2)}
 								</span>
 							</h1>
 							<h1 className="font-bold">
 								Outstanding balance:{" "}
 								<span className="text-xl text-amber-600">
-									${(leasedCar.totalPrice - leasedCar.downPayment).toFixed(2)}
+									${(leasedCar.totalPrice - leasedCar.downPayment)?.toFixed(2)}
 								</span>
 							</h1>
 						</div>

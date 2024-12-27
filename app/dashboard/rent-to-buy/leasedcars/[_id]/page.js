@@ -1,5 +1,6 @@
 "use server"
 import BreadCrumb from "@/app/components/dashboard/common/breadcrumb";
+import { DeleteBtn } from "@/app/components/dashboard/common/buttons/buttons";
 import { getLeaseById } from "@/lib/server-actions/lease";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
@@ -7,13 +8,18 @@ import Link from "next/link";
 export default async function LeasedCarDetails({params}) { 
 
 	const { _id } = await params;
-	const lease = await getLeaseById(_id)
+	const lease = await getLeaseById(_id) 
 
-	 
+	// Format the date consistently
+	const formattedDate = new Date("3 Jan 2024").toLocaleDateString();
+	
 	return (
 		<div className="flex flex-col gap-8">
 			<BreadCrumb title={"Leased Vehicle"} />
 			<form className="bg-white rounded shadow grid grid-cols-1 md:grid-cols-4 p-4 gap-4">
+				<div className="flex md:col-span-4 items-center justify-end">
+					<DeleteBtn item={"lease"} _id={_id} />
+				</div>
 				<div className="md:col-span-4">
 					<h1 className="font-semibold text-sm">Customer Details</h1>
 				</div>
@@ -24,7 +30,6 @@ export default async function LeasedCarDetails({params}) {
 						placeholder="first name"
 						name="firstname"
 						defaultValue={lease?.clientName}
-						disabled
 					/>
 				</div>
 				<div className="w-full">
@@ -34,7 +39,6 @@ export default async function LeasedCarDetails({params}) {
 						placeholder="first name"
 						name="firstname"
 						defaultValue={lease?.clientSurname}
-						disabled
 					/>
 				</div>
 				<div className="w-full">
@@ -44,7 +48,6 @@ export default async function LeasedCarDetails({params}) {
 						placeholder="first name"
 						name="firstname"
 						defaultValue={lease?.clientIdNo}
-						disabled
 					/>
 				</div>
 				<div className="w-full">
@@ -54,7 +57,6 @@ export default async function LeasedCarDetails({params}) {
 						placeholder="first name"
 						name="firstname"
 						defaultValue={lease?.clientEmail}
-						disabled
 					/>
 				</div>
 				<div className="w-full">
@@ -64,7 +66,6 @@ export default async function LeasedCarDetails({params}) {
 						placeholder="first name"
 						name="firstname"
 						defaultValue={lease?.clientPhonenumber}
-						disabled
 					/>
 				</div>
 				<div className="w-full">
@@ -74,7 +75,6 @@ export default async function LeasedCarDetails({params}) {
 						placeholder="first name"
 						name="firstname"
 						defaultValue={lease?.clientAddress}
-						disabled
 					/>
 				</div>
 				<div className="md:col-span-4">
@@ -87,17 +87,15 @@ export default async function LeasedCarDetails({params}) {
 						placeholder="first name"
 						name="firstname"
 						defaultValue={lease?.leasedCar}
-						disabled
 					/>
 				</div>
 				<div className="w-full">
 					<h5 className="text-sm">Date of Issue</h5>
 					<input
 						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
-						placeholder="first name"
-						name="firstname"
-						value={"3 Jan 2024"}
-						disabled
+						placeholder="Date of Issue"
+						name="dateOfIssue"
+						defaultValue={formattedDate}
 					/>
 				</div>
 				<div className="w-full">
@@ -107,7 +105,6 @@ export default async function LeasedCarDetails({params}) {
 						placeholder="first name"
 						name="firstname"
 						defaultValue={lease?.monthlyPayments}
-						disabled
 					/>
 				</div>
 
@@ -115,31 +112,25 @@ export default async function LeasedCarDetails({params}) {
 					<h5 className="text-sm">Current Payments</h5>
 					<input
 						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
-						placeholder="first name"
-						name="firstname"
-						defaultValue={lease?.downPayment}
-						disabled
+						placeholder="Current Payments"
+						name="currentPayments"
+						defaultValue={lease?.downPayment || ''}
 					/>
 				</div>
 				<div className="w-full">
 					<h5 className="text-sm">Balance Due</h5>
 					<input
 						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
-						placeholder="first name"
-						name="firstname"
-						value={"USD500"}
-						disabled
+						placeholder="Balance Due"
+						name="balanceDue"
+						defaultValue={lease?.outstandingBalance || ''}
 					/>
-				</div>
-				<div className="w-full">
-					<h5 className="text-sm">Overdue payments</h5>
-					<input
-						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
-						placeholder="first name"
-						name="firstname"
-						value={"USD500"}
-						disabled
-					/>
+				</div> 
+				<div className="md:col-span-4">
+					<button className="rounded bg-purple-900 p-2 text-white px-8"
+						type="button">
+						Update Details
+					</button>
 				</div>
 				<div className="md:col-span-4">
 					<h1 className="font-semibold text-sm">Supporting Documents</h1>
@@ -160,7 +151,10 @@ export default async function LeasedCarDetails({params}) {
 						))}
 				</div>
 				<div className="w-full flex flex col gap-4">
-					<Link href={`/dashboard/rent-to-buy/leasedcars/${_id}/payments`} className="bg-purple-900 rounded p-2 text-white ">
+					<Link
+						href={`/dashboard/rent-to-buy/leasedcars/${_id}/payments`}
+						className="bg-purple-900 rounded p-2 text-white "
+					>
 						Update Payments
 					</Link>
 				</div>
