@@ -9,7 +9,6 @@ export default function RentToBuy() {
 	return (
 		<div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4">
 			<RentedCars />
-			<PaymentsCard />
 			<TransactionsCard />
 			<NotificationsCard />
 		</div>
