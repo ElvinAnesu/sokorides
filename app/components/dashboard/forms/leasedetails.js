@@ -3,6 +3,8 @@ import { DeleteBtn } from "../common/buttons/buttons";
 import Link from "next/link";
 import { updateClientDetails } from "@/lib/server-actions/lease";
 import { useActionState } from "react";
+import { ArrowRightIcon } from "@radix-ui/react-icons";
+import { PlusCircleIcon } from "@heroicons/react/24/outline";
 
 export default function LeaseDetailsForm({ lease, _id }) { 
 
@@ -167,6 +169,15 @@ export default function LeaseDetailsForm({ lease, _id }) {
 							</Link>
 						</div>
 					))}
+				<Link
+					href={
+						`/dashboard/rent-to-buy/leasedcars/createnew/${_id}/documents`
+					}
+					className="text-x text-purple-900 flex items-center "
+				>
+					<PlusCircleIcon width={25} height={25} />
+					new document
+				</Link>
 			</div>
 			<div className="w-full flex flex col gap-4">
 				<Link
