@@ -46,6 +46,7 @@ const leaseSchema = new Schema({
         type:Date
     },
     documents: [{
+       
     }],
 }, { timestamps: true });
 

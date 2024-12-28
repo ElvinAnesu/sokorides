@@ -1,15 +1,18 @@
 "use client";
 import { DeleteBtn } from "../common/buttons/buttons";
 import Link from "next/link";
-import { updateClientDetails } from "@/lib/server-actions/lease";
+import { updateClientDetails, deleteLeaseDocument } from "@/lib/server-actions/lease";
 import { useActionState } from "react";
-import { ArrowRightIcon } from "@radix-ui/react-icons";
+import { ArrowRightIcon, TrashIcon } from "@radix-ui/react-icons";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 
 export default function LeaseDetailsForm({ lease, _id }) { 
 
     const [state, formAction, pending] = useActionState(updateClientDetails, undefined)
-	const formattedDate = new Date("3 Jan 2024").toLocaleDateString();
+	const formattedDate = new Date("3 Jan 2024").toLocaleDateString(); 
+
+	const deleteDoc = async (doc) =>
+		await deleteLeaseDocument(lease._id, doc);
 	return (
 		<form
 			className="bg-white rounded shadow grid grid-cols-1 md:grid-cols-4 p-4 gap-4"
@@ -162,17 +165,27 @@ export default function LeaseDetailsForm({ lease, _id }) {
 							key={index}
 							className="w-full flex items-center justify-between border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
 						>
-							<h1>Document</h1>
-							<Link href={doc} className="flex gap-2 items-center ">
-								View
-								<ArrowRightIcon />
-							</Link>
+							<h1>{doc.type}</h1>
+							<div className="flex items-center gap-16">
+								<button 
+									className="flex gap-2 items-center"
+									type="button"
+									onClick={(e) => {
+										deleteDoc(doc);
+									}}
+								>
+									delete
+									<TrashIcon />
+								</button>
+								<Link href={doc} className="flex gap-2 items-center ">
+									View
+									<ArrowRightIcon />
+								</Link>
+							</div>
 						</div>
 					))}
 				<Link
-					href={
-						`/dashboard/rent-to-buy/leasedcars/createnew/${_id}/documents`
-					}
+					href={`/dashboard/rent-to-buy/leasedcars/createnew/${_id}/documents`}
 					className="text-x text-purple-900 flex items-center "
 				>
 					<PlusCircleIcon width={25} height={25} />

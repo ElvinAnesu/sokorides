@@ -5,30 +5,20 @@ import { use, useState } from "react";
 import { addLeaseDocuments } from "@/lib/server-actions/lease";
 import Link from "next/link";
 
-export default function SupportingDocs({ params }) {
-	const _id = use(params);
+export default function SupportingDocs({ params }) { 
 
-	const [documents, setDocuments] = useState([]);
+	const _id = use(params);
+	const [documentUrl, setDocumentUrl] = useState();
 	const [documentType, setDocumentType] = useState();
 
 	const uploadSuccess = (results, options) => {  
-		pushDocument(results.url)		
+		setDocumentUrl(results.info.url,)   
 	}; 
 
-	const pushDocument = (_url) => {
-		setDocuments((documents) => [
-			...documents,
-			{
-				url: _url,
-				type: documentType,
-			},
-		]);
-	}
-
-	const deleteDocument = (url) => {
-		setDocuments(documents.filter((doc) => doc.url !== url));
+	const _addDocs = async () => {
+		await addLeaseDocuments(_id, documentUrl, documentType);
 	};
-	const _addDocs = async () => await addLeaseDocuments(_id, documents);
+
 	return (
 		<div className="flex flex-col gap-8">
 			<BreadCrumb title={"Lease Vehicle"} />
@@ -39,41 +29,42 @@ export default function SupportingDocs({ params }) {
 						Agreement of Sale, Proof of residence, etc...
 					</p>
 				</div>
-				<div className="mb-4">
-					<h2 className="font-semibold text-sm">Uploaded Documents</h2>
-					{documents.length > 0 ? (
-						<ul className="list-disc pl-5">
-							{documents.map((doc, index) => (
-								<li
-									key={index}
-									className="flex justify-between items-center py-1"
-								>
-									<span>
-										{doc.type}:{" "}
-										<a href={doc.url} className="text-blue-500 hover:underline">
-											{doc.url}
-										</a>
-									</span>
-									<button
-										className="text-red-500 hover:underline"
-										onClick={() => deleteDocument(doc.url)}
-									>
-										Delete
-									</button>
-								</li>
-							))}
-						</ul>
-					) : (
-						<p className="text-gray-500 text-sm">No documents uploaded yet.</p>
+				<div>
+					{documentType && (
+						<div>
+							<h1 className="text-sm font-semibold">
+								Document Type: {documentType}
+							</h1>
+						</div>
+					)}
+					{documentUrl && (
+						<div>
+							<h1 className="text-sm font-semibold">
+								Document Url:{" "}
+								<span className="font-normal text-purple-900">
+									{documentUrl}
+								</span>
+							</h1>
+						</div>
+					)}
+					{documentUrl && documentType && (
+						<div className="mt-4">
+							<button
+								className="bg-purple-900 rounded text-white py-2 px-4"
+								onClick={_addDocs}
+							>
+								Upload Document
+							</button>
+						</div>
 					)}
 				</div>
 				<div className="flex flex-col gap-2">
 					<label htmlFor="documentType" className="text-sm font-semibold">
-						Select Document Type:{documentType}
+						Select Document Type
 					</label>
 					<select
 						id="documentType"
-					
+						value={documentType}
 						onChange={(e) => setDocumentType(e.target.value)}
 						className="border border-gray-300 rounded p-2"
 					>
@@ -82,26 +73,20 @@ export default function SupportingDocs({ params }) {
 						<option value="Proof of Residence">Proof of Residence</option>
 						<option value="ID">ID</option>
 						<option value="POP">POP</option>
-						<option value="POP">Affidafit</option>
+						<option value="Affidavit">Affidavit</option>
 					</select>
 				</div>
 				<CldUploadButton
 					className="border-2 border-dashed border-gray-400 h-16"
 					uploadPreset="sokoimgs"
-					onSuccess={(results, options) => uploadSuccess(results, options)}
+					onSuccess={uploadSuccess}
 				/>
-				<div className="flex items-center justify-between">
-					<button
-						className="w-32 bg-purple-900 rounded text-white p-2"
-						onClick={_addDocs}
-					>
-						Upload
-					</button>
+				<div className="flex items-center justify-end">
 					<Link
 						href={`/dashboard/rent-to-buy/leasedcars/${_id._id}`}
 						className="w-32 bg-purple-900 rounded text-white p-2 flex items-center justify-center"
 					>
-						Finish
+						Skip
 					</Link>
 				</div>
 			</div>
