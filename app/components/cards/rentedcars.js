@@ -1,11 +1,8 @@
-"use server"
-import { getLatestLeases } from "@/lib/server-actions/lease";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 
 
-export default async function RentedCars() { 
-	const leasedCars = await  getLatestLeases()
+export default async function RentedCars({leasedCars}) { 
 	return (
 		<div className="flex flex-col rounded bg-white shadow">
 			<div className="w-full flex bg-purple-900 p-2 rounded-t flex items-center justify-between">
