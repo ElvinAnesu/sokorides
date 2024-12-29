@@ -126,7 +126,15 @@ export default function LeaseDetailsForm({ lease, _id }) {
 					</p>
 				)}
 			</div>
-
+			<div className="w-full">
+				<h5 className="text-sm">Total Price</h5>
+				<input
+					className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
+					placeholder="Current Payments"
+					name="downPayment"
+					defaultValue={lease?.totalPrice || ""}
+				/>
+			</div>
 			<div className="w-full">
 				<h5 className="text-sm">Current Payments</h5>
 				<input
@@ -143,7 +151,7 @@ export default function LeaseDetailsForm({ lease, _id }) {
 					className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
 					placeholder="Balance"
 					name="outStandingBalance"
-					defaultValue={lease?.outstandingBalance || ""}
+					defaultValue={(lease?.totalPrice - lease?.downPayment) || ""}
 					disabled
 				/>
 			</div>
@@ -167,7 +175,7 @@ export default function LeaseDetailsForm({ lease, _id }) {
 						>
 							<h1>{doc.type}</h1>
 							<div className="flex items-center gap-16">
-								<button 
+								<button
 									className="flex gap-2 items-center"
 									type="button"
 									onClick={(e) => {
