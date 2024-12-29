@@ -15,7 +15,8 @@ export default function LeaseCar() {
 	const [car, setCar] = useState() 
 	const [totalPice, setTotalPrice] = useState()
 	const [monthlyPayments, setMonthlyPayments] = useState()
-	const [downPayment, setDownpayment] = useState()
+	const [downPayment, setDownpayment] = useState() 
+	const [dateOfIssue, setDateOfIssue]= useState()
 	const [state, formAction, pending] = useActionState(
 		addClientDetails, 
 		undefined)  
@@ -111,6 +112,16 @@ export default function LeaseCar() {
 					/>
 				</div>
 				<div className="w-full">
+					<h5 className="text-sm">Date of Issue</h5>
+					<input
+						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm"
+						type="date"
+						defaultValue={dateOfIssue}
+						onChange={(e) => setDateOfIssue(e.target.value)}
+						name="dateOfIssue"
+					/>
+				</div>
+				<div className="w-full">
 					<h5 className="text-sm">Total Price</h5>
 					<input
 						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm"
@@ -151,7 +162,7 @@ export default function LeaseCar() {
 						<p className="text-xs text-red-600">{state?.errors.downPayment}</p>
 					)}
 				</div>
-				<div className="hidden md:block md:col-span-2"></div>
+				<div className="hidden md:block"></div>
 				<button className="bg-purple-900 rounded text-white p-2" type="submit">
 					{pending ? "loading" : "Next"}
 				</button>

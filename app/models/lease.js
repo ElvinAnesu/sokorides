@@ -42,6 +42,9 @@ const leaseSchema = new Schema(
 		downPayment: {
 			type: Number,
 			default: 0,
+		}, 
+		dateOfIssue: {
+			type:Date
 		},
 		startDate: {
 			type: Date,

@@ -107,9 +107,9 @@ export default function LeaseDetailsForm({ lease, _id }) {
 				<h5 className="text-sm">Date of Issue</h5>
 				<input
 					className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
-					placeholder="Date of Issue"
+					type="date"
 					name="dateOfIssue"
-					defaultValue={formattedDate}
+					defaultValue={lease?.dateOfIssue}
 				/>
 			</div>
 			<div className="w-full">
@@ -151,7 +151,7 @@ export default function LeaseDetailsForm({ lease, _id }) {
 					className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
 					placeholder="Balance"
 					name="outStandingBalance"
-					defaultValue={(lease?.totalPrice - lease?.downPayment) || ""}
+					defaultValue={lease?.totalPrice - lease?.downPayment || ""}
 					disabled
 				/>
 			</div>
