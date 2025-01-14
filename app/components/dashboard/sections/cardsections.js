@@ -5,16 +5,26 @@ import {
 	getPendingInvoices,
 } from "@/lib/actions";
 import DashboardCard from "../cards/dashboardcard";
+import { Suspense } from 'react';
 
-export const dynamic = "force-dynamic";
+// Create loading cards for Suspense fallback
+function LoadingCards() {
+	return (
+		<div className="w-full grid grid-cols-2 md:grid-cols-4 gap-4">
+			{[...Array(4)].map((_, i) => (
+				<div key={i} className="animate-pulse bg-gray-200 rounded-lg p-6 h-32" />
+			))}
+		</div>
+	);
+}
 
-export default async function CardSection() {
-	const totalCustomers = await getTotalCustomers() || 0;
-	const totalPurchases = await getTotalPurchases() || 0;
-	const totalPayments = await getTotalPayments() || 0;
-	const pendingInvoices = await getPendingInvoices() || 0;
+// Create a separate async component for the cards
+async function Cards() {
+	const totalCustomers = await getTotalCustomers();
+	const totalPurchases = await getTotalPurchases();
+	const totalPayments = await getTotalPayments();
+	const pendingInvoices = await getPendingInvoices();
 
-	// Formatter to add thousand separators
 	const formatNumber = (number) => {
 		return new Intl.NumberFormat("en-US", {
 			minimumFractionDigits: 2,
@@ -26,12 +36,12 @@ export default async function CardSection() {
 		<div className="w-full grid grid-cols-2 md:grid-cols-4 gap-4">
 			<DashboardCard
 				type="totalPayments"
-				value={`$${formatNumber(totalPayments?.toFixed(2))}`}
+				value={`$${formatNumber(totalPayments.toFixed(2))}`}
 				color="text-green-600"
 			/>
 			<DashboardCard
 				type="outstandingInvoices"
-				value={`$${formatNumber(pendingInvoices?.toFixed(2))}`}
+				value={`$${formatNumber(pendingInvoices.toFixed(2))}`}
 				color="text-red-600"
 			/>
 			<DashboardCard
@@ -45,5 +55,14 @@ export default async function CardSection() {
 				color="text-purple-700"
 			/>
 		</div>
+	);
+}
+
+// Main component with Suspense boundary
+export default function CardSection() {
+	return (
+		<Suspense fallback={<LoadingCards />}>
+			<Cards />
+		</Suspense>
 	);
 }
