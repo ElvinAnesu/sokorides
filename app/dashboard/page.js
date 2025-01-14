@@ -7,6 +7,10 @@ import {
 	DashBoardTablesSkeleton,
 } from "../components/skeletons/skeletons";
 
+// Keep the SSR configuration
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function DashBoard() {
 	return (
 		<div className="w-full h-full p-4 gap-4 flex flex-col">
