@@ -6,6 +6,7 @@ import {
 } from "@/lib/actions";
 import DashboardCard from "../cards/dashboardcard";
 import { Suspense } from 'react';
+import { unstable_noStore as noStore } from 'next/cache';
 
 // Create loading cards for Suspense fallback
 function LoadingCards() {
@@ -20,6 +21,9 @@ function LoadingCards() {
 
 // Create a separate async component for the cards
 async function Cards() {
+	// Opt out of caching for this component
+	noStore();
+	
 	const totalCustomers = await getTotalCustomers();
 	const totalPurchases = await getTotalPurchases();
 	const totalPayments = await getTotalPayments();
