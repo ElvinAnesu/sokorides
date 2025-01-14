@@ -207,7 +207,7 @@ export default function LeaseDetailsForm({ lease, _id }) {
 									delete
 									<TrashIcon />
 								</button>
-								<Link href={doc} className="flex gap-2 items-center ">
+								<Link href={doc.url} className="flex gap-2 items-center ">
 									View
 									<ArrowRightIcon />
 								</Link>
