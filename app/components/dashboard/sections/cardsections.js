@@ -9,10 +9,10 @@ import DashboardCard from "../cards/dashboardcard";
 export const dynamic = "force-dynamic";
 
 export default async function CardSection() {
-	const totalCustomers = await getTotalCustomers();
-	const totalPurchases = await getTotalPurchases();
-	const totalPayments = await getTotalPayments();
-	const pendingInvoices = await getPendingInvoices();
+	const totalCustomers = await getTotalCustomers() || 0;
+	const totalPurchases = await getTotalPurchases() || 0;
+	const totalPayments = await getTotalPayments() || 0;
+	const pendingInvoices = await getPendingInvoices() || 0;
 
 	// Formatter to add thousand separators
 	const formatNumber = (number) => {
