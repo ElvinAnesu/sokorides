@@ -52,7 +52,7 @@ export default function SearchTable({ data, columns, type }) {
 														href={
 															type === "documents"
 																? item.url
-																: `/dashboard/rent-to-buy/${type}/${item._id}`
+																: `/dashboard/rent-to-buy/${item._id}`
 														}
 														className=" flex items-center justify-center gap-2"
 													>

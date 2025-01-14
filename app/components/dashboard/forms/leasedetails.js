@@ -4,12 +4,13 @@ import Link from "next/link";
 import { updateClientDetails, deleteLeaseDocument } from "@/lib/server-actions/lease";
 import { useActionState } from "react";
 import { ArrowRightIcon, TrashIcon } from "@radix-ui/react-icons";
-import { PlusCircleIcon } from "@heroicons/react/24/outline";
+import { PencilIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
 
 export default function LeaseDetailsForm({ lease, _id }) { 
 
     const [state, formAction, pending] = useActionState(updateClientDetails, undefined)
-	const formattedDate = new Date("3 Jan 2024").toLocaleDateString(); 
+	const [edit, setEdit] = useState(true)
 
 	const deleteDoc = async (doc) =>
 		await deleteLeaseDocument(lease._id, doc);
@@ -18,7 +19,15 @@ export default function LeaseDetailsForm({ lease, _id }) {
 			className="bg-white rounded shadow grid grid-cols-1 md:grid-cols-4 p-4 gap-4"
 			action={formAction}
 		>
-			<div className="flex md:col-span-4 items-center justify-end">
+			<div className="flex md:col-span-4 items-center justify-end gap-2">
+				<button
+					className="rounded-md border p-2 hover:bg-gray-100"
+					type="button"
+					onClick={() => setEdit(!edit)}
+				>
+					<span className="sr-only">Edit</span>
+					<PencilIcon className="w-4" />
+				</button>
 				<DeleteBtn item={"lease"} _id={lease._id} />
 			</div>
 			<div className="flex md:col-span-4 items-center justify-center">
@@ -38,6 +47,7 @@ export default function LeaseDetailsForm({ lease, _id }) {
 					placeholder="first name"
 					name="clientName"
 					defaultValue={lease?.clientName}
+					disabled={edit}
 				/>
 			</div>
 			<div className="w-full">
@@ -47,6 +57,7 @@ export default function LeaseDetailsForm({ lease, _id }) {
 					placeholder="Surname"
 					name="clientSurname"
 					defaultValue={lease?.clientSurname}
+					disabled={edit}
 				/>
 			</div>
 			<div className="w-full">
@@ -56,6 +67,7 @@ export default function LeaseDetailsForm({ lease, _id }) {
 					placeholder="Id Number"
 					name="clientIdNo"
 					defaultValue={lease?.clientIdNo}
+					disabled={edit}
 				/>
 			</div>
 			<div className="w-full">
@@ -65,6 +77,7 @@ export default function LeaseDetailsForm({ lease, _id }) {
 					placeholder="email"
 					name="clientEmail"
 					defaultValue={lease?.clientEmail}
+					disabled={edit}
 				/>
 			</div>
 			<div className="w-full">
@@ -74,6 +87,7 @@ export default function LeaseDetailsForm({ lease, _id }) {
 					placeholder="Phone number"
 					name="clientPhonenumber"
 					defaultValue={lease?.clientPhonenumber}
+					disabled={edit}
 				/>
 			</div>
 			<div className="w-full">
@@ -83,6 +97,7 @@ export default function LeaseDetailsForm({ lease, _id }) {
 					placeholder="Address"
 					name="clientAddress"
 					defaultValue={lease?.clientAddress}
+					disabled={edit}
 				/>
 			</div>
 			<input
@@ -90,6 +105,7 @@ export default function LeaseDetailsForm({ lease, _id }) {
 				placeholder="_id"
 				name="_id"
 				defaultValue={_id}
+				disabled={edit}
 			/>
 			<div className="md:col-span-4">
 				<h1 className="font-semibold text-sm">Lease Details</h1>
@@ -101,6 +117,7 @@ export default function LeaseDetailsForm({ lease, _id }) {
 					placeholder="car"
 					name="leasedCar"
 					defaultValue={lease?.leasedCar}
+					disabled={edit}
 				/>
 			</div>
 			<div className="w-full">
@@ -110,6 +127,7 @@ export default function LeaseDetailsForm({ lease, _id }) {
 					type="date"
 					name="dateOfIssue"
 					defaultValue={lease?.dateOfIssue}
+					disabled={edit}
 				/>
 			</div>
 			<div className="w-full">
@@ -119,6 +137,7 @@ export default function LeaseDetailsForm({ lease, _id }) {
 					placeholder="first name"
 					name="monthlyPayments"
 					defaultValue={lease?.monthlyPayments}
+					disabled={edit}
 				/>
 				{state?.errors?.monthlyPayments && (
 					<p className="text-center text-green-600 text-sm">
@@ -131,8 +150,9 @@ export default function LeaseDetailsForm({ lease, _id }) {
 				<input
 					className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
 					placeholder="Current Payments"
-					name="downPayment"
+					name="totalPrice"
 					defaultValue={lease?.totalPrice || ""}
+					disabled={edit}
 				/>
 			</div>
 			<div className="w-full">
@@ -140,7 +160,7 @@ export default function LeaseDetailsForm({ lease, _id }) {
 				<input
 					className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm font-semibold"
 					placeholder="Current Payments"
-					name="downPayment"
+					name="currentPayments"
 					defaultValue={lease?.downPayment || ""}
 					disabled
 				/>
@@ -156,12 +176,14 @@ export default function LeaseDetailsForm({ lease, _id }) {
 				/>
 			</div>
 			<div className="md:col-span-4">
-				<button
-					className="rounded bg-purple-900 p-2 text-white px-8"
-					type="submit"
-				>
-					{pending ? "loading..." : "Update Details"}
-				</button>
+				{!edit && (
+					<button
+						className="rounded bg-purple-900 p-2 text-white px-8"
+						type="submit"
+					>
+						{pending ? "loading..." : "Update Details"}
+					</button>
+				)}
 			</div>
 			<div className="md:col-span-4">
 				<h1 className="font-semibold text-sm">Supporting Documents</h1>
@@ -202,7 +224,7 @@ export default function LeaseDetailsForm({ lease, _id }) {
 			</div>
 			<div className="w-full flex flex col gap-4">
 				<Link
-					href={`/dashboard/rent-to-buy/leasedcars/${_id}/payments`}
+					href={`/dashboard/rent-to-buy/${_id}/payments`}
 					className="bg-purple-900 rounded p-2 text-white "
 				>
 					Update Payments
