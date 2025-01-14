@@ -14,6 +14,9 @@ const leaseSchema = new Schema(
 			type: String,
 			required: true,
 		},
+		password: {
+			type: String,
+		},
 		clientEmail: {
 			type: String,
 		},
@@ -42,9 +45,9 @@ const leaseSchema = new Schema(
 		downPayment: {
 			type: Number,
 			default: 0,
-		}, 
+		},
 		dateOfIssue: {
-			type:Date
+			type: Date,
 		},
 		startDate: {
 			type: Date,

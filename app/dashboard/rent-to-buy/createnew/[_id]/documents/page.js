@@ -83,7 +83,7 @@ export default function SupportingDocs({ params }) {
 				/>
 				<div className="flex items-center justify-end">
 					<Link
-						href={`/dashboard/rent-to-buy/leasedcars/${_id._id}`}
+						href={`/dashboard/rent-to-buy/${_id._id}`}
 						className="w-32 bg-purple-900 rounded text-white p-2 flex items-center justify-center"
 					>
 						Skip

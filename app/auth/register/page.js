@@ -1,26 +1,22 @@
+// app/components/clientarea/forms/registerform.js
 "use client";
-import { loginCustomer } from "@/lib/server-actions/customer";
+import { registerCustomer } from "@/lib/server-actions/customer"; // Assuming you have a register function
 import { useActionState } from "react";
-import Link from "next/link";
 
-export default function LoginForm() {
-    const [state, formAction] = useActionState(loginCustomer, null);
+export default function RegisterForm() {
+	const [state, formAction] = useActionState(registerCustomer, null);
 
-    return (
+	return (
+		<div className="w-full h-screen flex flex-col items-center justify-center">
 			<div className="flex flex-col gap-8 bg-white rounded shadow-lg p-10">
-				<h1 className="font-semibold text-2xl text-center">Login</h1>
+				<h1 className="font-semibold text-2xl text-center">Register</h1>
+				<p className=" text-center">Enter your registered phone number</p>
 				<form className="flex flex-col gap-4" action={formAction}>
 					<input
 						className="border rounded h-12 px-3 focus:outline-none focus:ring-2 focus:ring-purple-600"
 						placeholder="Phone Number"
 						type="tel"
 						name="phoneNumber"
-					/>
-					<input
-						className="border rounded h-12 px-3 focus:outline-none focus:ring-2 focus:ring-purple-600"
-						placeholder="Password"
-						type="password"
-						name="password"
 					/>
 					{state?.error && (
 						<p className="text-red-500 text-sm">{state.error}</p>
@@ -29,15 +25,10 @@ export default function LoginForm() {
 						className="bg-purple-900 rounded p-3 flex items-center justify-center text-white hover:bg-purple-700 transition"
 						type="submit"
 					>
-						Login
+						Submit
 					</button>
 				</form>
-				<p className="text-center">
-					First time coming here?{" "}
-					<Link href="/auth/register" className="text-purple-600">
-						Register here
-					</Link>
-				</p>
 			</div>
-		);
+		</div>
+	);
 }

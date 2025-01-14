@@ -215,7 +215,7 @@ export default function LeaseDetailsForm({ lease, _id }) {
 						</div>
 					))}
 				<Link
-					href={`/dashboard/rent-to-buy/leasedcars/createnew/${_id}/documents`}
+					href={`/dashboard/rent-to-buy/createnew/${_id}/documents`}
 					className="text-x text-purple-900 flex items-center "
 				>
 					<PlusCircleIcon width={25} height={25} />
