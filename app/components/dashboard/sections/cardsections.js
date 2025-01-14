@@ -6,6 +6,8 @@ import {
 } from "@/lib/actions";
 import DashboardCard from "../cards/dashboardcard";
 
+export const dynamic = "force-dynamic";
+
 export default async function CardSection() {
 	const totalCustomers = await getTotalCustomers();
 	const totalPurchases = await getTotalPurchases();
