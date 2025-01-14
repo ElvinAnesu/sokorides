@@ -25,19 +25,19 @@ export default async function RecentPayments() {
 						</tr>
 					</thead>
 					<tbody>
-						{latestPayments.map((payment, index) => (
+						{latestPayments?.map((payment, index) => (
 							<tr
 								key={index}
 								className="hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-none"
 							>
 								<td className="p-3 text-gray-500">
-									{trimName(payment.fullname)}
+									{trimName(payment?.fullname)}
 								</td>
-								<td className="p-3 text-gray-500">{`$${payment.amount.toFixed(
+								<td className="p-3 text-gray-500">{`$${payment?.amount?.toFixed(
 									2
 								)}`}</td>
 								<td className="p-3 text-gray-500 hidden md:table-cell">
-									{formatDate(payment.createdAt)}
+									{formatDate(payment?.createdAt)}
 								</td>
 							</tr>
 						))}

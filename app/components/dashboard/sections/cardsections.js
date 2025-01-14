@@ -26,12 +26,12 @@ export default async function CardSection() {
 		<div className="w-full grid grid-cols-2 md:grid-cols-4 gap-4">
 			<DashboardCard
 				type="totalPayments"
-				value={`$${formatNumber(totalPayments.toFixed(2))}`}
+				value={`$${formatNumber(totalPayments?.toFixed(2))}`}
 				color="text-green-600"
 			/>
 			<DashboardCard
 				type="outstandingInvoices"
-				value={`$${formatNumber(pendingInvoices.toFixed(2))}`}
+				value={`$${formatNumber(pendingInvoices?.toFixed(2))}`}
 				color="text-red-600"
 			/>
 			<DashboardCard

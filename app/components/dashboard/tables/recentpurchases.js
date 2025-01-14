@@ -27,7 +27,7 @@ export default async function RecentPurchases() {
 						</tr>
 					</thead>
 					<tbody>
-						{latestPurchases.map((purchase, index) => (
+						{latestPurchases?.map((purchase, index) => (
 							<tr
 								key={index}
 								className="hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-none"
@@ -38,7 +38,7 @@ export default async function RecentPurchases() {
 								<td className="p-3 text-gray-500 hidden md:table-cell">
 									{trimName(purchase.customerName)}
 								</td>
-								<td className="p-3 text-gray-500 hidden md:table-cell">{`$${purchase.totalPrice.toFixed(
+								<td className="p-3 text-gray-500 hidden md:table-cell">{`$${purchase?.totalPrice?.toFixed(
 									2
 								)}`}</td>
 							</tr>
