@@ -24,10 +24,10 @@ async function Cards() {
 	// Opt out of caching for this component
 	noStore();
 	
-	const totalCustomers = await getTotalCustomers();
-	const totalPurchases = await getTotalPurchases();
-	const totalPayments = await getTotalPayments();
-	const pendingInvoices = await getPendingInvoices();
+	const totalCustomers = await getTotalCustomers() || 0;
+	const totalPurchases = await getTotalPurchases() || 0;
+	const totalPayments = await getTotalPayments() || 0;
+	const pendingInvoices = await getPendingInvoices() || 0;
 
 	const formatNumber = (number) => {
 		return new Intl.NumberFormat("en-US", {
