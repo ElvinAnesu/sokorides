@@ -1,6 +1,7 @@
 import connectdb from "@/mongodb"
 import { NextResponse } from "next/server"
 import Customer from "@/app/models/customer"
+import User from "@/app/models/user"
 
 
 export async function POST(request) {
@@ -86,5 +87,24 @@ export async function GET(request,{params}) {
             success:false,
             message:"Error while fetching customers"
         })
+    }
+}
+
+export async function GET_ALL() {
+    try {
+        await connectdb();
+        const customers = await User.find({ role: 'customer' })
+            .select('firstname surname idNumber phonenumber address _id');
+        
+        // Convert _id to string for each customer
+        const _customers = customers.map(customer => ({
+            ...customer.toObject(),
+            _id: customer._id.toString()
+        }));
+
+        return NextResponse.json({ customers: _customers });
+    } catch (error) {
+        console.error('Error fetching customers:', error);
+        return NextResponse.json({ error: 'Failed to fetch customers' }, { status: 500 });
     }
 }

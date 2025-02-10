@@ -2,31 +2,10 @@ import mongoose, { Schema } from "mongoose";
 
 const leaseSchema = new Schema(
 	{
-		clientName: {
-			type: String,
-			required: true,
-		},
-		clientSurname: {
-			type: String,
-			required: true,
-		},
-		clientIdNo: {
-			type: String,
-			required: true,
-		},
-		password: {
-			type: String,
-		},
-		clientEmail: {
-			type: String,
-		},
-		clientPhonenumber: {
-			type: String,
-			required: true,
-		},
-		clientAddress: {
-			type: String,
-			required: true,
+		client: {
+			type: Schema.Types.ObjectId, // Reference to User model
+			ref: "User", // Specify the model to reference
+			required: true, // Make this field required
 		},
 		leasedCar: {
 			type: String,

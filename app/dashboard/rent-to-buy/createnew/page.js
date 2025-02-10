@@ -1,26 +1,52 @@
 "use client"
 import BreadCrumb from "@/app/components/dashboard/common/breadcrumb";
 import { addClientDetails } from "@/lib/server-actions/lease";
-import { useActionState, useState } from "react";
+import { useActionState } from "react";
+import { useState, useEffect } from "react";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
+export default function LeaseCar() {
+	const [car, setCar] = useState();
+	const [totalPice, setTotalPrice] = useState();
+	const [monthlyPayments, setMonthlyPayments] = useState();
+	const [downPayment, setDownpayment] = useState();
+	const [dateOfIssue, setDateOfIssue] = useState();
+	const [customers, setCustomers] = useState([]);
+	const [selectedCustomer, setSelectedCustomer] = useState(null);
+	const [searchQuery, setSearchQuery] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
+	const [state, formAction, pending] = useActionState(addClientDetails, undefined);
 
-export default function LeaseCar() {  
+	// Fetch customers with search
+	const fetchCustomers = async (query = '') => {
+		setIsLoading(true);
+		try {
+			const response = await fetch(`/api/customers/all?search=${query}`);
+			const data = await response.json();
+			if (data.customers) {
+				setCustomers(data.customers);
+			}
+		} catch (error) {
+			console.error('Error fetching customers:', error);
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
-	const [firstName, setFirstName] = useState()
-	const [surname, setSurname] = useState()
-	const [idNumber, setIdNumber] = useState()
-	const [email, setEmail] = useState()
-	const [phoneNumber, setPhoneNumber] = useState()
-	const [address, setAddress] = useState()
-	const [car, setCar] = useState() 
-	const [totalPice, setTotalPrice] = useState()
-	const [monthlyPayments, setMonthlyPayments] = useState()
-	const [downPayment, setDownpayment] = useState() 
-	const [dateOfIssue, setDateOfIssue]= useState()
-	const [state, formAction, pending] = useActionState(
-		addClientDetails, 
-		undefined)  
-	
+	// Debounce search
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			fetchCustomers(searchQuery);
+		}, 500); // Wait 500ms after last keystroke before searching
+
+		return () => clearTimeout(timer);
+	}, [searchQuery]);
+
+	const handleCustomerSelect = (e) => {
+		const customer = customers.find(c => c._id === e.target.value);
+		setSelectedCustomer(customer);
+	};
+
 	return (
 		<div className="flex flex-col gap-8">
 			<BreadCrumb title={"Lease Vehicle"} />
@@ -31,76 +57,100 @@ export default function LeaseCar() {
 				<div className="md:col-span-3">
 					<h1 className="font-semibold text-sm">Customer Details</h1>
 				</div>
-				<div className="w-full">
-					<h5 className="text-sm">First name(s)</h5>
-					<input
-						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm"
-						placeholder="first name"
-						name="clientName"
-						defaultValue={firstName}
-						onChange={(e) => setFirstName(e.target.value)}
-						required
-					/>
+				
+				{/* Search and Customer Selection */}
+				<div className="md:col-span-3 space-y-4">
+					{/* Search Input */}
+					<div className="relative">
+						<input
+							type="text"
+							placeholder="Search customers..."
+							className="w-full border border-gray-300 rounded h-10 pl-10 pr-4 bg-gray-300 text-sm"
+							value={searchQuery}
+							onChange={(e) => setSearchQuery(e.target.value)}
+						/>
+						<MagnifyingGlassIcon className="absolute left-3 top-2.5 h-5 w-5 text-gray-500" />
+					</div>
+
+					{/* Customer Dropdown */}
+					<div>
+						<h5 className="text-sm mb-2">Select Customer</h5>
+						<select
+							className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm"
+							onChange={handleCustomerSelect}
+							required
+							disabled={isLoading}
+						>
+							<option value="">
+								{isLoading ? "Loading..." : "Select a customer"}
+							</option>
+							{customers.map((customer) => (
+								<option key={customer._id} value={customer._id}>
+									{customer.firstname} {customer.surname} - {customer.idNumber}
+								</option>
+							))}
+						</select>
+					</div>
 				</div>
-				<div className="w-full">
-					<h5 className="text-sm">Surname</h5>
-					<input
-						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm"
-						placeholder="Surname"
-						name="clientSurname"
-						defaultValue={surname}
-						onChange={(e) => setSurname(e.target.value)}
-						required
-					/>
-				</div>
-				<div className="w-full">
-					<h5 className="text-sm">Id Number</h5>
-					<input
-						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm"
-						placeholder="Id Number"
-						name="clientIdNo"
-						defaultValue={idNumber}
-						onChange={(e) => setIdNumber(e.target.value)}
-						required
-					/>
-				</div>
-				<div className="w-full">
-					<h5 className="text-sm">Email</h5>
-					<input
-						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm"
-						placeholder="email"
-						name="clientEmail"
-						type="email"
-						defaultValue={email}
-						onChange={(e) => setEmail(e.target.value)}
-						required
-					/>
-				</div>
-				<div className="w-full">
-					<h5 className="text-sm">Phone Number</h5>
-					<input
-						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm"
-						placeholder="Phone number"
-						name="clientPhonenumber"
-						defaultValue={phoneNumber}
-						onChange={(e) => setPhoneNumber(e.target.value)}
-						required
-					/>
-				</div>
-				<div className="w-full">
-					<h5 className="text-sm">Physical Address</h5>
-					<input
-						className="w-full border border-gray-300 rounded h-10 bg-gray-300 px-2 text-sm"
-						placeholder="Address"
-						name="clientAddress"
-						defaultValue={address}
-						onChange={(e) => setAddress(e.target.value)}
-						required
-					/>
-				</div>
+
+				{/* Hidden input for customer ID */}
+				<input
+					type="hidden"
+					name="clientId"
+					value={selectedCustomer?._id || ''}
+				/>
+
+				{/* Display selected customer details */}
+				{selectedCustomer && (
+					<>
+						<div className="w-full">
+							<h5 className="text-sm">First Name</h5>
+							<input
+								className="w-full border border-gray-300 rounded h-10 bg-gray-100 px-2 text-sm"
+								value={selectedCustomer.firstname || ''}
+								disabled
+							/>
+						</div>
+						<div className="w-full">
+							<h5 className="text-sm">Surname</h5>
+							<input
+								className="w-full border border-gray-300 rounded h-10 bg-gray-100 px-2 text-sm"
+								value={selectedCustomer.surname || ''}
+								disabled
+							/>
+						</div>
+						<div className="w-full">
+							<h5 className="text-sm">ID Number</h5>
+							<input
+								className="w-full border border-gray-300 rounded h-10 bg-gray-100 px-2 text-sm"
+								value={selectedCustomer.idNumber || ''}
+								disabled
+							/>
+						</div>
+						<div className="w-full">
+							<h5 className="text-sm">Phone Number</h5>
+							<input
+								className="w-full border border-gray-300 rounded h-10 bg-gray-100 px-2 text-sm"
+								value={selectedCustomer.phonenumber || ''}
+								disabled
+							/>
+						</div>
+						<div className="w-full">
+							<h5 className="text-sm">Address</h5>
+							<input
+								className="w-full border border-gray-300 rounded h-10 bg-gray-100 px-2 text-sm"
+								value={selectedCustomer.address || ''}
+								disabled
+							/>
+						</div>
+					</>
+				)}
+
 				<div className="md:col-span-3">
 					<h1 className="font-semibold text-sm">Lease Details</h1>
 				</div>
+
+				{/* Rest of your existing form fields */}
 				<div className="w-full">
 					<h5 className="text-sm">Car</h5>
 					<input
@@ -163,7 +213,11 @@ export default function LeaseCar() {
 					)}
 				</div>
 				<div className="hidden md:block"></div>
-				<button className="bg-purple-900 rounded text-white p-2" type="submit">
+				<button 
+					className="bg-purple-900 rounded text-white p-2" 
+					type="submit"
+					disabled={!selectedCustomer}
+				>
 					{pending ? "loading" : "Next"}
 				</button>
 			</form>

@@ -10,7 +10,7 @@ export const maxDuration = 60;
 
 const greeting = "Hello there 👋.\nWelcome to SOKO WA platform.\n\n";
 const mainmenu =
-	"👉 Select an option below to get started\n\n1. 🚖🚘 View cars for sale\n2. 💸 My Purchases\n3. 🚢 Track Shipment\n4. 🧾 Invoices";
+	"👉 Select an option below to get started\n\n\n1. 🚖🚘 View cars for sale\n2. 💸 My Purchases\n3. 🚢 Track Shipment\n4. 🧾 Invoices";
 const viewcars =
 	"To visit cars for sale, please visit our website\n\nhttps://www.sokocars.com/";
 const requestphone =
