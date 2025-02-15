@@ -61,7 +61,7 @@ export default function CreatePurchaseForm({ customers }) {
 								className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
 								onChange={(e) => setSelectedCustomer(e.target.value)}
 							>
-								<option value="">Select Purchase</option>
+								<option value="">Select Customer</option>
 								{customers.map((customer, index) => (
 									<option
 										value={index}
@@ -111,7 +111,7 @@ export default function CreatePurchaseForm({ customers }) {
 						</div>
 					</div>
 					<div>
-						<h1 className="text-xs font-semibold">Select Customer</h1>
+						<h1 className="text-xs font-semibold">Select Status</h1>
 						<div className="relative">
 							<select
 								className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
